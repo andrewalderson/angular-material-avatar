@@ -198,6 +198,27 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   --mat-mdc-focus-indicator-display: block;
 }
 
+.matx-avatar.mat-unthemed {
+  color: var(--matx-avatar-color, rgba(0, 0, 0, 0.54));
+  background-color: var(--matx-avatar-background-color, #fafafa);
+  border-color: var(--matx-avatar-border-color, rgba(0, 0, 0, 0.54));
+}
+.matx-avatar.mat-primary {
+  color: white;
+  background-color: #3f51b5;
+  border-color: white;
+}
+.matx-avatar.mat-accent {
+  color: white;
+  background-color: #ff4081;
+  border-color: white;
+}
+.matx-avatar.mat-warn {
+  color: white;
+  background-color: #f44336;
+  border-color: white;
+}
+
 html,
 body {
   height: 100%;
@@ -206,4 +227,8 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.matx-avatar {
+  --matx-avatar-size: 100px;
 }
