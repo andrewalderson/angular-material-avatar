@@ -1,7 +1,48 @@
 @use '@angular/material' as mat;
+@use 'sass:map';
 
 @mixin color($config-or-theme) {
   $config: mat.get-color-config($config-or-theme);
+  $foreground: map.get($config, 'foreground');
+  $background: map.get($config, 'background');
+  $primary: map.get($config, primary);
+  $accent: map.get($config, accent);
+  $warn: map.get($config, warn);
+
+  .matx-avatar {
+    &.mat-unthemed {
+      color: var(
+        --matx-avatar-color,
+        mat.get-color-from-palette($foreground, 'icon')
+      );
+      background-color: var(
+        --matx-avatar-background-color,
+        mat.get-color-from-palette($background, 'background')
+      );
+      border-color: var(
+        --matx-avatar-border-color,
+        mat.get-color-from-palette($foreground, 'icon')
+      );
+    }
+
+    &.mat-primary {
+      color: mat.get-color-from-palette($primary, 'default-contrast');
+      background-color: mat.get-color-from-palette($primary, 'default');
+      border-color: mat.get-color-from-palette($primary, 'default-contrast');
+    }
+
+    &.mat-accent {
+      color: mat.get-color-from-palette($accent, 'default-contrast');
+      background-color: mat.get-color-from-palette($accent, 'default');
+      border-color: mat.get-color-from-palette($accent, 'default-contrast');
+    }
+
+    &.mat-warn {
+      color: mat.get-color-from-palette($warn, 'default-contrast');
+      background-color: mat.get-color-from-palette($warn, 'default');
+      border-color: mat.get-color-from-palette($warn, 'default-contrast');
+    }
+  }
 }
 
 @mixin density($config-or-theme) {
