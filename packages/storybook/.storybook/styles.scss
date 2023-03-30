@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use '../../material/avatar/src/lib/avatar-theme' as avatar;
 
 @include mat.core();
 
@@ -17,6 +18,8 @@ $light-theme: mat.define-light-theme(
     density: 0,
   )
 );
+
+@include avatar.theme($light-theme);
 
 html,
 body {
