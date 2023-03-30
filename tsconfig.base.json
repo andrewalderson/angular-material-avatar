@@ -15,8 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "material/avatar": ["packages/material/avatar/src/index.ts"],
-      "storybook": ["packages/storybook/src/index.ts"]
+      "material/avatar": ["packages/material/avatar/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
