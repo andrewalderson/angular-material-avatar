@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ContentChild,
+  Directive,
   ElementRef,
   HostBinding,
   ViewEncapsulation,
@@ -15,6 +17,12 @@ export const _AvatarMixin = mixinColor(
     constructor(public _elementRef: ElementRef) {}
   }
 );
+
+@Directive({
+  selector: '[matxAvatarIcon]',
+  standalone: true,
+})
+export class MatxAvatarIconDirective {}
 
 @Component({
   selector: 'matx-avatar',
@@ -35,6 +43,8 @@ export class AvatarComponent extends _AvatarMixin implements CanColor {
   }
 
   protected _mode: AvatarMode = 'icon';
+
+  @ContentChild(MatxAvatarIconDirective) _customIcon?: MatxAvatarIconDirective;
 
   constructor(elementRef: ElementRef<HTMLElement>) {
     super(elementRef);
