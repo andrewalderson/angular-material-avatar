@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { MatxAvatarImageDirective } from './avatar-image.directive';
 import { AvatarComponent, MatxAvatarIconDirective } from './avatar.component';
 
 @Component({
@@ -39,7 +40,11 @@ export default {
   component: AvatarComponent,
   decorators: [
     moduleMetadata({
-      imports: [AvatarCustomIconComponent, MatxAvatarIconDirective],
+      imports: [
+        AvatarCustomIconComponent,
+        MatxAvatarIconDirective,
+        MatxAvatarImageDirective,
+      ],
     }),
   ],
   parameters: {
@@ -57,17 +62,22 @@ export default {
     },
     content: {
       table: {
-        disable: true,
+        disable: true, // don't show this in the Controls table as it is not configurable by the user
       },
     },
   },
 } as Meta<AvatarComponent>;
 
-type StoryArgTypes = AvatarComponent & {
-  useThemeColor: boolean;
-  content: string;
-};
+type StoryArgTypes = AvatarComponent &
+  HTMLImageElement & {
+    useThemeColor: boolean;
+    content: string;
+  };
 
+/**
+ * Ensures that the color Input is reset to an empty state when the 'useThemeColor'
+ * property is toggled from 'true' back to 'false'
+ */
 const ensureColorInputReset = (args: StoryArgTypes) => {
   return {
     ...args,
@@ -91,4 +101,13 @@ WithCustomIcon.args = {
   useThemeColor: false,
   color: 'primary',
   content: '<matx-avatar-custom-icon matxAvatarIcon/>',
+};
+
+export const WithImage = Template.bind({});
+WithImage.args = {
+  src: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/170.jpg',
+  content: `<img
+      matxAvatarImage
+      [src]="src"
+  />`,
 };
