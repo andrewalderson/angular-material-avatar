@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { MatxAvatarImageDirective } from './avatar-image.directive';
+import { MatxAvatarInitialsComponent } from './avatar-initials.component';
 import { AvatarComponent, MatxAvatarIconDirective } from './avatar.component';
 
 @Component({
@@ -44,6 +45,7 @@ export default {
         AvatarCustomIconComponent,
         MatxAvatarIconDirective,
         MatxAvatarImageDirective,
+        MatxAvatarInitialsComponent,
       ],
     }),
   ],
@@ -69,7 +71,8 @@ export default {
 } as Meta<AvatarComponent>;
 
 type StoryArgTypes = AvatarComponent &
-  HTMLImageElement & {
+  HTMLImageElement &
+  MatxAvatarInitialsComponent & {
     useThemeColor: boolean;
     content: string;
   };
@@ -110,4 +113,15 @@ WithImage.args = {
       matxAvatarImage
       [src]="src"
   />`,
+};
+
+export const WithInitials = Template.bind({});
+WithInitials.args = {
+  initialsName: 'William Wallace',
+  colorName: 'william.wallace@outlook.com',
+  fontSizeRatio: 0.45,
+  useThemeColor: false,
+  color: 'primary',
+  content:
+    '<matx-avatar-initials matxAvatarIcon [initialsName]="initialsName" [colorName]="colorName" [fontSizeRatio]="fontSizeRatio"/>',
 };
