@@ -3,12 +3,12 @@ import { CdkImageLoadedDirective } from 'cdk/image';
 import { AvatarComponent } from './avatar.component';
 
 @Directive({
-  selector: 'img[matxAvatarImage]',
+  selector: 'img[matAvatarImage]',
   standalone: true,
   hostDirectives: [CdkImageLoadedDirective],
 })
-export class MatxAvatarImageDirective implements OnInit {
-  @HostBinding('class') readonly _hostClasses = 'matx-avatar__image';
+export class MatAvatarImageDirective implements OnInit {
+  @HostBinding('class') readonly _hostClasses = 'mat-avatar__image';
 
   readonly loaded = inject(CdkImageLoadedDirective, { self: true }).loaded;
 

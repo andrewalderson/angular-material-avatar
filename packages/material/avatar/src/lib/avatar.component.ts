@@ -28,13 +28,13 @@ export const _AvatarMixin = mixinColor(
 );
 
 @Directive({
-  selector: '[matxAvatarIcon]',
+  selector: '[matAvatarIcon]',
   standalone: true,
 })
-export class MatxAvatarIconDirective {}
+export class MatAvatarIconDirective {}
 
 @Component({
-  selector: 'matx-avatar',
+  selector: 'mat-avatar',
   standalone: true,
   imports: [CommonModule],
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
@@ -45,7 +45,7 @@ export class MatxAvatarIconDirective {}
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarComponent extends _AvatarMixin implements CanColor {
-  @HostBinding('class') readonly _hostClasses = 'matx-avatar';
+  @HostBinding('class') readonly _hostClasses = 'mat-avatar';
 
   @HostBinding('class.mat-unthemed') get unthemedClass() {
     return !this.color;
@@ -55,7 +55,7 @@ export class AvatarComponent extends _AvatarMixin implements CanColor {
 
   protected _mode: AvatarMode = 'icon';
 
-  @ContentChild(MatxAvatarIconDirective) _customIcon?: MatxAvatarIconDirective;
+  @ContentChild(MatAvatarIconDirective) _customIcon?: MatAvatarIconDirective;
 
   @Input()
   get showIconUntilImageLoads() {

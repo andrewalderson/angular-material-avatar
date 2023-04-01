@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
-import { MatxAvatarImageDirective } from './avatar-image.directive';
-import { MatxAvatarInitialsComponent } from './avatar-initials.component';
-import { AvatarComponent, MatxAvatarIconDirective } from './avatar.component';
+import { MatAvatarImageDirective } from './avatar-image.directive';
+import { MatAvatarInitialsComponent } from './avatar-initials.component';
+import { AvatarComponent, MatAvatarIconDirective } from './avatar.component';
 
 @Component({
-  selector: 'matx-avatar-custom-icon[matxAvatarIcon]',
+  selector: 'mat-avatar-custom-icon[matAvatarIcon]',
   standalone: true,
   template: ` <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -43,9 +43,9 @@ export default {
     moduleMetadata({
       imports: [
         AvatarCustomIconComponent,
-        MatxAvatarIconDirective,
-        MatxAvatarImageDirective,
-        MatxAvatarInitialsComponent,
+        MatAvatarIconDirective,
+        MatAvatarImageDirective,
+        MatAvatarInitialsComponent,
       ],
     }),
   ],
@@ -72,7 +72,7 @@ export default {
 
 type StoryArgTypes = AvatarComponent &
   HTMLImageElement &
-  MatxAvatarInitialsComponent & {
+  MatAvatarInitialsComponent & {
     useThemeColor: boolean;
     content: string;
   };
@@ -90,7 +90,7 @@ const ensureColorInputReset = (args: StoryArgTypes) => {
 
 const Template: Story<StoryArgTypes> = (args: StoryArgTypes) => ({
   props: ensureColorInputReset(args),
-  template: `<matx-avatar [color]="color">${args.content || ''}</matx-avatar>`,
+  template: `<mat-avatar [color]="color">${args.content || ''}</mat-avatar>`,
 });
 
 export const WithDefaultIcon = Template.bind({});
@@ -103,14 +103,14 @@ export const WithCustomIcon = Template.bind({});
 WithCustomIcon.args = {
   useThemeColor: false,
   color: 'primary',
-  content: '<matx-avatar-custom-icon matxAvatarIcon/>',
+  content: '<mat-avatar-custom-icon matAvatarIcon/>',
 };
 
 export const WithImage = Template.bind({});
 WithImage.args = {
   src: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/170.jpg',
   content: `<img
-      matxAvatarImage
+      matAvatarImage
       [src]="src"
   />`,
 };
@@ -123,5 +123,5 @@ WithInitials.args = {
   useThemeColor: false,
   color: 'primary',
   content:
-    '<matx-avatar-initials matxAvatarIcon [initialsName]="initialsName" [colorName]="colorName" [fontSizeRatio]="fontSizeRatio"/>',
+    '<mat-avatar-initials matAvatarIcon [initialsName]="initialsName" [colorName]="colorName" [fontSizeRatio]="fontSizeRatio"/>',
 };

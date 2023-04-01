@@ -9,18 +9,18 @@
   $accent: map.get($config, accent);
   $warn: map.get($config, warn);
 
-  .matx-avatar {
+  .mat-avatar {
     &.mat-unthemed {
       color: var(
-        --matx-avatar-color,
+        --mat-avatar-color,
         mat.get-color-from-palette($foreground, 'icon')
       );
       background-color: var(
-        --matx-avatar-background-color,
+        --mat-avatar-background-color,
         mat.get-color-from-palette($background, 'background')
       );
       border-color: var(
-        --matx-avatar-border-color,
+        --mat-avatar-border-color,
         mat.get-color-from-palette($foreground, 'icon')
       );
     }

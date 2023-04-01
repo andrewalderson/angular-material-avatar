@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "packages/material/avatar/src",
-  "prefix": "matx",
+  "prefix": "mat",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",

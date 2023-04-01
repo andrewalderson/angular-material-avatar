@@ -25,7 +25,7 @@ import { clampNumber, isNumber } from './utils';
  * to display a persons initials
  */
 @Component({
-  selector: 'matx-avatar-initials[matxAvatarIcon]',
+  selector: 'mat-avatar-initials[matAvatarIcon]',
   standalone: true,
   template: `<span>{{ initials }}</span> `,
   styles: [
@@ -40,7 +40,7 @@ import { clampNumber, isNumber } from './utils';
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatxAvatarInitialsComponent implements AfterViewInit, OnChanges {
+export class MatAvatarInitialsComponent implements AfterViewInit, OnChanges {
   #elementRef = inject(ElementRef<HTMLElement>);
   #changeDetectorRef = inject(ChangeDetectorRef);
   #avatar = inject(AvatarComponent);
@@ -131,10 +131,10 @@ export class MatxAvatarInitialsComponent implements AfterViewInit, OnChanges {
     if (element.classList.contains('mat-unthemed')) {
       const colors = this.#colorsFn(name);
       element.style.setProperty(
-        '--matx-avatar-background-color',
+        '--mat-avatar-background-color',
         colors.background
       );
-      element.style.setProperty('--matx-avatar-color', colors.foreground);
+      element.style.setProperty('--mat-avatar-color', colors.foreground);
     }
   }
 }

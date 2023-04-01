@@ -1,4 +1,4 @@
-<div class="matx-avatar__icon" *ngIf="_mode === 'icon'">
+<div class="mat-avatar__icon" *ngIf="_mode === 'icon'">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 128 128"
@@ -14,7 +14,7 @@
       d="M63.9961647,24 C51.2938136,24 41,34.2938136 41,46.9961647 C41,59.7061864 51.2938136,70 63.9961647,70 C76.6985159,70 87,59.7061864 87,46.9961647 C87,34.2938136 76.6985159,24 63.9961647,24"
     />
   </svg>
-  <ng-content select="[matxAvatarIcon]"></ng-content>
+  <ng-content select="[matAvatarIcon]"></ng-content>
 </div>
-<ng-content *ngIf="_mode === 'image'" select="img[matxAvatarImage]"></ng-content
+<ng-content *ngIf="_mode === 'image'" select="img[matAvatarImage]"></ng-content
 >`
