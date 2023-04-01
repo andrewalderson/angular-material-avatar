@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "cdk/image": ["packages/cdk/image/src/index.ts"],
       "material/avatar": ["packages/material/avatar/src/index.ts"]
     }
   },
