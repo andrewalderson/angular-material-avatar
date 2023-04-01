@@ -21,7 +21,7 @@ export interface AvatarImage {
   loaded: Observable<void>;
 }
 
-export const _AvatarMixin = mixinColor(
+export const _MatAvatarMixin = mixinColor(
   class {
     constructor(public _elementRef: ElementRef) {}
   }
@@ -44,7 +44,7 @@ export class MatAvatarIconDirective {}
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AvatarComponent extends _AvatarMixin implements CanColor {
+export class MatAvatarComponent extends _MatAvatarMixin implements CanColor {
   @HostBinding('class') readonly _hostClasses = 'mat-avatar';
 
   @HostBinding('class.mat-unthemed') get unthemedClass() {

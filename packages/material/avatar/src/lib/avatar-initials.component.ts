@@ -16,8 +16,11 @@ import {
   OnChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { AvatarComponent } from './avatar.component';
-import { AVATAR_COLORS_FUNCTION, AVATAR_INITIALS_FUNCTION } from './tokens';
+import { MatAvatarComponent } from './avatar.component';
+import {
+  MAT_AVATAR_COLORS_FUNCTION,
+  MAT_AVATAR_INITIALS_FUNCTION,
+} from './tokens';
 import { clampNumber, isNumber } from './utils';
 
 /**
@@ -43,9 +46,9 @@ import { clampNumber, isNumber } from './utils';
 export class MatAvatarInitialsComponent implements AfterViewInit, OnChanges {
   #elementRef = inject(ElementRef<HTMLElement>);
   #changeDetectorRef = inject(ChangeDetectorRef);
-  #avatar = inject(AvatarComponent);
-  #initialsFn = inject(AVATAR_INITIALS_FUNCTION);
-  #colorsFn = inject(AVATAR_COLORS_FUNCTION);
+  #avatar = inject(MatAvatarComponent);
+  #initialsFn = inject(MAT_AVATAR_INITIALS_FUNCTION);
+  #colorsFn = inject(MAT_AVATAR_COLORS_FUNCTION);
 
   get initials() {
     return this.#initials;

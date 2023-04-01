@@ -14,7 +14,7 @@ export const defaultInitialsFunction = (name: string) => {
   return initials;
 };
 
-type AvatarColors = (name?: string) => {
+type MatAvatarColors = (name?: string) => {
   background: string;
   foreground: string;
 };
@@ -65,14 +65,14 @@ export const defaultColorsFunction = (name?: string) => {
   };
 };
 
-export const AVATAR_INITIALS_FUNCTION = new InjectionToken<
+export const MAT_AVATAR_INITIALS_FUNCTION = new InjectionToken<
   (name: string) => string
->('avatarInitialsFunction', {
+>('matAvatarInitialsFunction', {
   providedIn: 'root',
   factory: () => defaultInitialsFunction,
 });
 
-export const AVATAR_COLORS_FUNCTION = new InjectionToken<AvatarColors>(
-  'avatarColorsFunction',
+export const MAT_AVATAR_COLORS_FUNCTION = new InjectionToken<MatAvatarColors>(
+  'matAvatarColorsFunction',
   { providedIn: 'root', factory: () => defaultColorsFunction }
 );

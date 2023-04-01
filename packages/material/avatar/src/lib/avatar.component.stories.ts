@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { MatAvatarImageDirective } from './avatar-image.directive';
 import { MatAvatarInitialsComponent } from './avatar-initials.component';
-import { AvatarComponent, MatAvatarIconDirective } from './avatar.component';
+import { MatAvatarComponent, MatAvatarIconDirective } from './avatar.component';
 
 @Component({
   selector: 'mat-avatar-custom-icon[matAvatarIcon]',
@@ -34,15 +34,15 @@ import { AvatarComponent, MatAvatarIconDirective } from './avatar.component';
   ],
   encapsulation: ViewEncapsulation.ShadowDom,
 })
-class AvatarCustomIconComponent {}
+class MatAvatarCustomIconComponent {}
 
 export default {
   title: 'Components/Avatar',
-  component: AvatarComponent,
+  component: MatAvatarComponent,
   decorators: [
     moduleMetadata({
       imports: [
-        AvatarCustomIconComponent,
+        MatAvatarCustomIconComponent,
         MatAvatarIconDirective,
         MatAvatarImageDirective,
         MatAvatarInitialsComponent,
@@ -68,9 +68,9 @@ export default {
       },
     },
   },
-} as Meta<AvatarComponent>;
+} as Meta<MatAvatarComponent>;
 
-type StoryArgTypes = AvatarComponent &
+type StoryArgTypes = MatAvatarComponent &
   HTMLImageElement &
   MatAvatarInitialsComponent & {
     useThemeColor: boolean;

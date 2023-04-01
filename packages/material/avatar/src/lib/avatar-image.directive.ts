@@ -1,6 +1,6 @@
 import { Directive, HostBinding, OnInit, inject } from '@angular/core';
 import { CdkImageLoadedDirective } from 'cdk/image';
-import { AvatarComponent } from './avatar.component';
+import { MatAvatarComponent } from './avatar.component';
 
 @Directive({
   selector: 'img[matAvatarImage]',
@@ -12,7 +12,7 @@ export class MatAvatarImageDirective implements OnInit {
 
   readonly loaded = inject(CdkImageLoadedDirective, { self: true }).loaded;
 
-  #avatar = inject(AvatarComponent);
+  #avatar = inject(MatAvatarComponent);
 
   ngOnInit(): void {
     this.#avatar._registerImage(this);
