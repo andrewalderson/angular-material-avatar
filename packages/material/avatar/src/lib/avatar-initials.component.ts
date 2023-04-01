@@ -137,6 +137,7 @@ export class MatAvatarInitialsComponent implements AfterViewInit, OnChanges {
         '--mat-avatar-background-color',
         colors.background
       );
+      element.style.setProperty('--mat-avatar-border-color', colors.foreground);
       element.style.setProperty('--mat-avatar-color', colors.foreground);
     }
   }
