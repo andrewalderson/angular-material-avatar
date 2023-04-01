@@ -75,6 +75,7 @@ type StoryArgTypes = MatAvatarComponent &
   MatAvatarInitialsComponent & {
     useThemeColor: boolean;
     content: string;
+    borderWidth: number;
   };
 
 /**
@@ -88,15 +89,26 @@ const ensureColorInputReset = (args: StoryArgTypes) => {
   };
 };
 
+const calculateStyles = (args: StoryArgTypes) => {
+  let style = '';
+  if (args.borderWidth) {
+    style += `--mat-avatar-border-width: ${args.borderWidth}px`;
+  }
+  return style;
+};
+
 const Template: Story<StoryArgTypes> = (args: StoryArgTypes) => ({
   props: ensureColorInputReset(args),
-  template: `<mat-avatar [color]="color">${args.content || ''}</mat-avatar>`,
+  template: `<mat-avatar style="${calculateStyles(args)}" [color]="color">${
+    args.content || ''
+  }</mat-avatar>`,
 });
 
 export const WithDefaultIcon = Template.bind({});
 WithDefaultIcon.args = {
   useThemeColor: false,
   color: 'primary',
+  borderWidth: 0,
 };
 
 export const WithCustomIcon = Template.bind({});
@@ -104,6 +116,7 @@ WithCustomIcon.args = {
   useThemeColor: false,
   color: 'primary',
   content: '<mat-avatar-custom-icon matAvatarIcon/>',
+  borderWidth: 0,
 };
 
 export const WithImage = Template.bind({});
@@ -113,6 +126,7 @@ WithImage.args = {
       matAvatarImage
       [src]="src"
   />`,
+  borderWidth: 0,
 };
 
 export const WithInitials = Template.bind({});
@@ -124,4 +138,5 @@ WithInitials.args = {
   color: 'primary',
   content:
     '<mat-avatar-initials matAvatarIcon [initialsName]="initialsName" [colorName]="colorName" [fontSizeRatio]="fontSizeRatio"/>',
+  borderWidth: 0,
 };
