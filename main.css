@@ -198,22 +198,22 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   --mat-mdc-focus-indicator-display: block;
 }
 
-.mat-avatar.mat-unthemed {
+mat-avatar.mat-unthemed {
   color: var(--mat-avatar-color, rgba(0, 0, 0, 0.54));
   background-color: var(--mat-avatar-background-color, #fafafa);
   border-color: var(--mat-avatar-border-color, rgba(0, 0, 0, 0.54));
 }
-.mat-avatar.mat-primary {
+mat-avatar.mat-primary {
   color: white;
   background-color: #3f51b5;
   border-color: white;
 }
-.mat-avatar.mat-accent {
+mat-avatar.mat-accent {
   color: white;
   background-color: #ff4081;
   border-color: white;
 }
-.mat-avatar.mat-warn {
+mat-avatar.mat-warn {
   color: white;
   background-color: #f44336;
   border-color: white;
@@ -229,6 +229,6 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.mat-avatar {
+mat-avatar {
   --mat-avatar-size: 100px;
 }
