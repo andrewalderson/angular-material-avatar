@@ -9,7 +9,7 @@
   $accent: map.get($config, accent);
   $warn: map.get($config, warn);
 
-  .mat-avatar {
+  mat-avatar {
     &.mat-unthemed {
       color: var(
         --mat-avatar-color,

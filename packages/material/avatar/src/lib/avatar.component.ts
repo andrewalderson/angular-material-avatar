@@ -45,8 +45,6 @@ export class MatAvatarIconDirective {}
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatAvatarComponent extends _MatAvatarMixin implements CanColor {
-  @HostBinding('class') readonly _hostClasses = 'mat-avatar';
-
   @HostBinding('class.mat-unthemed') get unthemedClass() {
     return !this.color;
   }
