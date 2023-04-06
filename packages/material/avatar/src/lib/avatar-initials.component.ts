@@ -128,17 +128,8 @@ export class MatAvatarInitialsComponent implements AfterViewInit, OnChanges {
     if (!name) {
       return;
     }
-    const element = coerceElement(this.#avatar._elementRef) as HTMLElement;
-    // only do this if the avatar is unthemed
-    // if it has a color theme set these properties won't do anything
-    if (element.classList.contains('mat-unthemed')) {
-      const colors = this.#colorsFn(name);
-      element.style.setProperty(
-        '--mat-avatar-background-color',
-        colors.background
-      );
-      element.style.setProperty('--mat-avatar-border-color', colors.foreground);
-      element.style.setProperty('--mat-avatar-color', colors.foreground);
-    }
+
+    const colors = this.#colorsFn(name);
+    this.#avatar._setAvatarColors(colors);
   }
 }

@@ -10,37 +10,64 @@
   $warn: map.get($config, warn);
 
   mat-avatar {
-    &.mat-unthemed {
-      color: var(
-        --mat-avatar-color,
-        mat.get-color-from-palette($foreground, 'icon')
-      );
-      background-color: var(
-        --mat-avatar-background-color,
-        mat.get-color-from-palette($background, 'background')
-      );
-      border-color: var(
-        --mat-avatar-border-color,
-        mat.get-color-from-palette($foreground, 'icon')
-      );
-    }
+    --mat-avatar-color: #{mat.get-color-from-palette($foreground, 'icon')};
+
+    --mat-avatar-background-color: #{mat.get-color-from-palette(
+        $background,
+        'background'
+      )};
+
+    --mat-avatar-border-color: #{mat.get-color-from-palette($foreground, 'icon')};
 
     &.mat-primary {
-      color: mat.get-color-from-palette($primary, 'default-contrast');
-      background-color: mat.get-color-from-palette($primary, 'default');
-      border-color: mat.get-color-from-palette($primary, 'default-contrast');
+      --mat-avatar-color: #{mat.get-color-from-palette(
+          $primary,
+          'default-contrast'
+        )};
+
+      --mat-avatar-background-color: #{mat.get-color-from-palette(
+          $primary,
+          'default'
+        )};
+
+      --mat-avatar-border-color: #{mat.get-color-from-palette(
+          $primary,
+          'default-contrast'
+        )};
     }
 
     &.mat-accent {
-      color: mat.get-color-from-palette($accent, 'default-contrast');
-      background-color: mat.get-color-from-palette($accent, 'default');
-      border-color: mat.get-color-from-palette($accent, 'default-contrast');
+      --mat-avatar-color: #{mat.get-color-from-palette(
+          $accent,
+          'default-contrast'
+        )};
+
+      --mat-avatar-background-color: #{mat.get-color-from-palette(
+          $accent,
+          'default'
+        )};
+
+      --mat-avatar-border-color: #{mat.get-color-from-palette(
+          $accent,
+          'default-contrast'
+        )};
     }
 
     &.mat-warn {
-      color: mat.get-color-from-palette($warn, 'default-contrast');
-      background-color: mat.get-color-from-palette($warn, 'default');
-      border-color: mat.get-color-from-palette($warn, 'default-contrast');
+      --mat-avatar-color: #{mat.get-color-from-palette(
+          $warn,
+          'default-contrast'
+        )};
+
+      --mat-avatar-background-color: #{mat.get-color-from-palette(
+          $warn,
+          'default'
+        )};
+
+      --mat-avatar-border-color: #{mat.get-color-from-palette(
+          $warn,
+          'default-contrast'
+        )};
     }
   }
 }

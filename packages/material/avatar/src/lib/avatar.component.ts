@@ -1,4 +1,8 @@
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import {
+  BooleanInput,
+  coerceBooleanProperty,
+  coerceElement,
+} from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -9,6 +13,8 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  OnChanges,
+  SimpleChanges,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
@@ -20,6 +26,12 @@ type AvatarMode = 'icon' | 'image';
 export interface AvatarImage {
   loaded: Observable<void>;
 }
+
+export type AvatarColors = {
+  foreground: string;
+  background: string;
+  border?: string; // uses foreground if not set
+};
 
 export const _MatAvatarMixin = mixinColor(
   class {
@@ -44,7 +56,10 @@ export class MatAvatarIconDirective {}
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatAvatarComponent extends _MatAvatarMixin implements CanColor {
+export class MatAvatarComponent
+  extends _MatAvatarMixin
+  implements CanColor, OnChanges
+{
   @HostBinding('class.mat-unthemed') get unthemedClass() {
     return !this.color;
   }
@@ -52,6 +67,8 @@ export class MatAvatarComponent extends _MatAvatarMixin implements CanColor {
   #changeDetectorRef = inject(ChangeDetectorRef);
 
   protected _mode: AvatarMode = 'icon';
+
+  #customColors?: AvatarColors;
 
   @ContentChild(MatAvatarIconDirective) _customIcon?: MatAvatarIconDirective;
 
@@ -66,6 +83,17 @@ export class MatAvatarComponent extends _MatAvatarMixin implements CanColor {
 
   constructor(elementRef: ElementRef<HTMLElement>) {
     super(elementRef);
+  }
+
+  ngOnChanges(simpleChanges: SimpleChanges) {
+    const color = simpleChanges['color'];
+    if (color) {
+      if (color.currentValue) {
+        this._clearAvatarColors();
+      } else if (this.#customColors) {
+        this._setAvatarColors(this.#customColors);
+      }
+    }
   }
 
   _registerImage(image: AvatarImage) {
@@ -84,5 +112,33 @@ export class MatAvatarComponent extends _MatAvatarMixin implements CanColor {
       this._mode = mode;
       this.#changeDetectorRef.markForCheck();
     });
+  }
+
+  /**
+   * Used for custom theming when adding a custom icon. See the AvatarInitialsComponent.
+   * @param colors
+   */
+  _setAvatarColors(colors: AvatarColors) {
+    this.#customColors = colors;
+    const element = coerceElement(this._elementRef) as HTMLElement;
+    // only do this if the avatar is unthemed
+    if (!this.color) {
+      element.style.setProperty(
+        '--mat-avatar-background-color',
+        colors.background
+      );
+      element.style.setProperty(
+        '--mat-avatar-border-color',
+        colors.border ?? colors.foreground
+      );
+      element.style.setProperty('--mat-avatar-color', colors.foreground);
+    }
+  }
+
+  _clearAvatarColors() {
+    const element = coerceElement(this._elementRef) as HTMLElement;
+    element.style.removeProperty('--mat-avatar-background-color');
+    element.style.removeProperty('--mat-avatar-border-color');
+    element.style.removeProperty('--mat-avatar-color');
   }
 }

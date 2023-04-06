@@ -11,6 +11,9 @@
   border-radius: var(--mat-avatar-border-radius, 50%);
   border-width: var(--mat-avatar-border-width, 0);
   border-style: var(--mat-avatar-border-style, solid);
+  border-color: var(--mat-avatar-border-color);
+  background-color: var(--mat-avatar-background-color);
+  color: var(--mat-avatar-color);
 }
 
 img {
