@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  contain: strict;
   overflow: hidden;
   box-sizing: border-box;
   width: var(--mat-avatar-size, 100%);
