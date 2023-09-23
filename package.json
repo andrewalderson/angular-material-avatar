@@ -9,6 +9,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
+    "@nrwl/angular": "^15.9.7",
     "husky": "^8.0.3",
     "nx": "15.9.7"
   },
