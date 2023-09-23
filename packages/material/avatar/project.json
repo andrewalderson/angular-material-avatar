@@ -1,0 +1,50 @@
+{
+  "name": "material-avatar",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/material/avatar/src",
+  "prefix": "matx",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:ng-packagr-lite",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "packages/material/avatar/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "packages/material/avatar/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "packages/material/avatar/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/material/avatar/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/material/avatar/**/*.ts",
+          "packages/material/avatar/**/*.html"
+        ]
+      }
+    }
+  }
+}
