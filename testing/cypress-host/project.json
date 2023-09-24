@@ -4,6 +4,7 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "testing/cypress-host/src",
+  "implicitDependencies": ["material-avatar"],
   "tags": [],
   "targets": {
     "build": {
