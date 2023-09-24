@@ -6,13 +6,18 @@
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bullseye",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		// add linux packages for Cypress to work
+		"ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+		  "packages": "libgtk2.0-0,libgtk-3-0,libgbm-dev,libnotify-dev,libgconf-2-4,libnss3,libxss1,libasound2,libxtst6,xauth,xvfb"
+		}
+	  },
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npm install",
+	"postCreateCommand": "npm install && npx cypress install",
 
 	// Configure tool-specific properties.
 	"customizations": {
