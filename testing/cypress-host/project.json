@@ -1,0 +1,53 @@
+{
+  "name": "testing-cypress-host",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "testing/cypress-host/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/testing/cypress-host",
+        "index": "testing/cypress-host/src/index.html",
+        "main": "testing/cypress-host/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "testing/cypress-host/tsconfig.app.json",
+        "assets": [
+          "testing/cypress-host/src/favicon.ico",
+          "testing/cypress-host/src/assets"
+        ],
+        "styles": ["testing/cypress-host/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}
