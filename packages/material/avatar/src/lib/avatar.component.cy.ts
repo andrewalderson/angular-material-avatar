@@ -18,4 +18,25 @@ describe(MatxAvatarComponent.name, () => {
       includeShadowDom: true,
     }).should('exist');
   });
+
+  it("should have the class 'mat-unthemed' when no color is set", () => {
+    cy.mount(`<matx-avatar />`, {
+      imports: [MatxAvatarComponent],
+    });
+
+    cy.get('matx-avatar').should('have.class', `mat-unthemed`);
+  });
+
+  ['primary', 'accent', 'warn'].forEach((color) => {
+    it(`should have the class 'mat-${color}' when the color imput is set to '${color}'`, () => {
+      cy.mount(`<matx-avatar [color]="color"/>`, {
+        imports: [MatxAvatarComponent],
+        componentProperties: {
+          color,
+        },
+      });
+
+      cy.get('matx-avatar').should('have.class', `mat-${color}`);
+    });
+  });
 });

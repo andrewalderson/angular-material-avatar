@@ -5,6 +5,9 @@
   $config: mat.get-color-config($config-or-theme);
   $foreground: map.get($config, 'foreground');
   $background: map.get($config, 'background');
+  $primary: map.get($config, primary);
+  $accent: map.get($config, accent);
+  $warn: map.get($config, warn);
 
   :root {
     --matx-avatar-color: #{mat.get-color-from-palette($foreground, 'icon')};
@@ -17,6 +20,59 @@
         $foreground,
         'icon'
       )};
+  }
+
+  matx-avatar {
+    &.mat-primary {
+      --matx-avatar-color: #{mat.get-color-from-palette(
+          $primary,
+          'default-contrast'
+        )};
+
+      --matx-avatar-background-color: #{mat.get-color-from-palette(
+          $primary,
+          'default'
+        )};
+
+      --matx-avatar-border-color: #{mat.get-color-from-palette(
+          $primary,
+          'default-contrast'
+        )};
+    }
+
+    &.mat-accent {
+      --matx-avatar-color: #{mat.get-color-from-palette(
+          $accent,
+          'default-contrast'
+        )};
+
+      --matx-avatar-background-color: #{mat.get-color-from-palette(
+          $accent,
+          'default'
+        )};
+
+      --matx-avatar-border-color: #{mat.get-color-from-palette(
+          $accent,
+          'default-contrast'
+        )};
+    }
+
+    &.mat-warn {
+      --matx-avatar-color: #{mat.get-color-from-palette(
+          $warn,
+          'default-contrast'
+        )};
+
+      --matx-avatar-background-color: #{mat.get-color-from-palette(
+          $warn,
+          'default'
+        )};
+
+      --matx-avatar-border-color: #{mat.get-color-from-palette(
+          $warn,
+          'default-contrast'
+        )};
+    }
   }
 }
 
