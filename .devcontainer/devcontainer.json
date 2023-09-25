@@ -20,13 +20,24 @@
 	"postCreateCommand": "npm install && npx cypress install",
 
 	// Configure tool-specific properties.
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"nrwl.angular-console"
-			]
-		}
+  "customizations": {
+	"vscode": {
+	  "extensions": [
+		"angular.ng-template",
+		"nrwl.angular-console",
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+		"firsttris.vscode-jest-runner"
+	  ],
+	  "settings": {
+		"editor.codeActionsOnSave": {
+		  "source.organizeImports": true,
+		  "source.fixAll": true
+		},
+		"editor.formatOnSave": true
+	  }
 	}
+  }
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
