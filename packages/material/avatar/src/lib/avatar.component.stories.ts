@@ -6,7 +6,7 @@ export default {
   component: MatxAvatarComponent,
 } as Meta<MatxAvatarComponent>;
 
-export const Primary = {
+export const WithDefaultFallback = {
   render: (args: MatxAvatarComponent) => ({
     props: args,
   }),

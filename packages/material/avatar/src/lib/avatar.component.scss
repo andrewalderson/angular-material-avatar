@@ -1,3 +1,11 @@
 :host {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  contain: strict;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: var(--matx-avatar-size, 100%);
+  height: var(--matx-avatar-size, 100%);
 }
