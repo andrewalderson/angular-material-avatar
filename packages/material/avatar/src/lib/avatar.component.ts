@@ -3,11 +3,19 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ContentChild,
+  Directive,
   ElementRef,
   HostBinding,
   ViewEncapsulation,
 } from '@angular/core';
 import { CanColor, mixinColor } from '@angular/material/core';
+
+@Directive({
+  selector: '[matxAvatarFallback]',
+  standalone: true,
+})
+export class MatxAvatarFallbackDirective {}
 
 export const _MatxAvatarMixin = mixinColor(
   class {
@@ -29,6 +37,9 @@ export class MatxAvatarComponent extends _MatxAvatarMixin implements CanColor {
   @HostBinding('class.mat-unthemed') get unthemedClass() {
     return !this.color;
   }
+
+  @ContentChild(MatxAvatarFallbackDirective)
+  _customFallback?: MatxAvatarFallbackDirective;
 
   constructor(elementRef: ElementRef<HTMLElement>) {
     super(elementRef);
