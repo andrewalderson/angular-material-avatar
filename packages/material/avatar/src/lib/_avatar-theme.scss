@@ -12,6 +12,11 @@
         $background,
         'background'
       )};
+
+    --matx-avatar-border-color: #{mat.get-color-from-palette(
+        $foreground,
+        'icon'
+      )};
   }
 }
 
