@@ -2,6 +2,7 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 // Plus imports for other components in your app.
+@use '../../../packages/material/avatar/src/lib/avatar-theme' as avatar;
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -39,6 +40,8 @@ $testing-cypress-host-theme: mat.define-light-theme(
 // that you are using.
 @include mat.all-component-themes($testing-cypress-host-theme);
 
+@include avatar.theme($testing-cypress-host-theme);
+
 /* You can add global styles to this file, and also import other style files */
 
 html,
@@ -50,6 +53,6 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-html {
+:root {
   --matx-avatar-size: 96px;
 }

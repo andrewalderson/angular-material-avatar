@@ -1,0 +1,23 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+@mixin color($config-or-theme) {
+  $config: mat.get-color-config($config-or-theme);
+  $foreground: map.get($config, 'foreground');
+  $background: map.get($config, 'background');
+
+  :root {
+    --matx-avatar-color: #{mat.get-color-from-palette($foreground, 'icon')};
+    --matx-avatar-background-color: #{mat.get-color-from-palette(
+        $background,
+        'background'
+      )};
+  }
+}
+
+@mixin theme($theme) {
+  $color: mat.get-color-config($theme);
+  @if $color != null {
+    @include color($theme);
+  }
+}
