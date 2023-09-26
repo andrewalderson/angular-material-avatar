@@ -1,13 +1,15 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { MatxAvatarImageDirective } from './avatar-image.directive';
+import { MatxAvatarInitialsFallbackComponent } from './avatar-initials-fallback.component';
 import {
   MatxAvatarComponent,
   MatxAvatarFallbackDirective,
 } from './avatar.component';
 
 type StoryArgTypes = MatxAvatarComponent &
-  HTMLImageElement & {
+  HTMLImageElement &
+  MatxAvatarInitialsFallbackComponent & {
     borderWidth: number;
     useThemeColor: boolean;
     content: string;
@@ -54,6 +56,7 @@ export default {
         MatxAvatarCustomIconComponent,
         MatxAvatarFallbackDirective,
         MatxAvatarImageDirective,
+        MatxAvatarInitialsFallbackComponent,
       ],
     }),
   ],
@@ -117,6 +120,17 @@ WithCustomFallback.args = {
   color: 'primary',
   borderWidth: 0,
   content: '<matx-avatar-custom-fallback matxAvatarFallback/>',
+};
+
+export const WithInitialsFallback = Template.bind(this);
+WithInitialsFallback.args = {
+  initialsName: 'William Wallace',
+  colorsName: 'william.wallace@outlook.com',
+  useThemeColor: false,
+  color: 'primary',
+  borderWidth: 0,
+  content:
+    '<matx-avatar-initials-fallback matxAvatarFallback [initialsName]="initialsName" [colorsName]="colorsName"/>',
 };
 
 export const WithImage = Template.bind(this);

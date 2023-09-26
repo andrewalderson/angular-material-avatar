@@ -1,4 +1,5 @@
 /* eslint-disable @angular-eslint/no-inputs-metadata-property */
+import { coerceElement } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -8,7 +9,9 @@ import {
   Directive,
   ElementRef,
   HostBinding,
+  OnChanges,
   OnDestroy,
+  SimpleChanges,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
@@ -18,6 +21,12 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 export interface AvatarImage {
   ready: Observable<boolean>;
 }
+
+export type AvatarColors = {
+  foreground: string;
+  background: string;
+  border?: string; // uses foreground if not set
+};
 
 @Directive({
   selector: '[matxAvatarFallback]',
@@ -43,9 +52,10 @@ export const _MatxAvatarMixin = mixinColor(
 })
 export class MatxAvatarComponent
   extends _MatxAvatarMixin
-  implements CanColor, OnDestroy
+  implements CanColor, OnChanges, OnDestroy
 {
   #changeDetectorRef = inject(ChangeDetectorRef);
+  #elementRef: ElementRef<HTMLElement> = inject(ElementRef);
 
   @HostBinding('class.mat-unthemed') get unthemedClass() {
     return !this.color;
@@ -59,10 +69,28 @@ export class MatxAvatarComponent
   }
   #useFallback = true;
 
+  #customColors: AvatarColors | null = null;
+
   #destroyed = new Subject<void>();
 
   constructor(elementRef: ElementRef<HTMLElement>) {
     super(elementRef);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const color = changes['color'];
+    if (color) {
+      if (color.currentValue) {
+        this._removeCustomColors();
+      } else if (this.#customColors) {
+        this._setCustomAvatarColors(this.#customColors);
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.#destroyed.next();
+    this.#destroyed.complete();
   }
 
   _registerImage(image: AvatarImage) {
@@ -72,8 +100,27 @@ export class MatxAvatarComponent
     });
   }
 
-  ngOnDestroy(): void {
-    this.#destroyed.next();
-    this.#destroyed.complete();
+  _setCustomAvatarColors(colors: AvatarColors) {
+    this.#customColors = colors;
+    // only do this if the avatar is unthemed
+    if (!this.color) {
+      const style = coerceElement(this.#elementRef).style;
+      style.setProperty('--matx-avatar-color', colors.foreground);
+      style.setProperty('--matx-avatar-background-color', colors.background);
+      style.setProperty(
+        '--matx-avatar-border-color',
+        colors.border ?? colors.foreground
+      );
+    }
+  }
+
+  _removeCustomColors(reset = false) {
+    const style = coerceElement(this.#elementRef).style;
+    style.removeProperty('--matx-avatar-color');
+    style.removeProperty('--matx-avatar-background-color');
+    style.removeProperty('--matx-avatar-border-color');
+    if (reset) {
+      this.#customColors = null;
+    }
   }
 }

@@ -4,6 +4,11 @@ import { faker } from '@faker-js/faker';
 import { MountResponse } from 'cypress/angular';
 import { MatxAvatarImageDirective } from './avatar-image.directive';
 import {
+  MATX_AVATAR_INITIALS_COLORS_FUNCTION,
+  MATX_AVATAR_INITIALS_INITIALS_FUNCTION,
+  MatxAvatarInitialsFallbackComponent,
+} from './avatar-initials-fallback.component';
+import {
   MatxAvatarComponent,
   MatxAvatarFallbackDirective,
 } from './avatar.component';
@@ -226,6 +231,132 @@ describe(MatxAvatarComponent.name, () => {
       cy.get('matx-avatar')
         .find('img[matxAvatarImage]', { includeShadowDom: true })
         .should('exist');
+    });
+  });
+
+  context('given initials fallback is used', () => {
+    it('should render the initials fallback', () => {
+      cy.mount(
+        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback data-testid="initials-fallback"/></matx-avatar>`,
+        {
+          imports: [
+            MatxAvatarComponent,
+            MatxAvatarFallbackDirective,
+            MatxAvatarInitialsFallbackComponent,
+          ],
+        }
+      );
+
+      cy.get('matx-avatar')
+        .find('[data-testid="initials-fallback"]', { includeShadowDom: true })
+        .should('exist');
+    });
+    it('should not render the default fallback', () => {
+      cy.mount(
+        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback data-testid="initials-fallback"/></matx-avatar>`,
+        {
+          imports: [
+            MatxAvatarComponent,
+            MatxAvatarFallbackDirective,
+            MatxAvatarInitialsFallbackComponent,
+          ],
+        }
+      );
+
+      cy.get('matx-avatar')
+        .find('[data-testid="default-fallback"]', { includeShadowDom: true })
+        .should('not.exist');
+    });
+    it('should render the initials from the initialsName', () => {
+      const expectedInitials = 'AD';
+      cy.mount(
+        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback data-testid="initials-fallback" [initialsName]="initialsName"/></matx-avatar>`,
+        {
+          imports: [
+            MatxAvatarComponent,
+            MatxAvatarFallbackDirective,
+            MatxAvatarInitialsFallbackComponent,
+          ],
+          componentProperties: {
+            initialsName: faker.person.fullName(),
+          },
+          providers: [
+            {
+              provide: MATX_AVATAR_INITIALS_INITIALS_FUNCTION,
+              useValue: () => expectedInitials,
+            },
+          ],
+        }
+      );
+
+      cy.get('matx-avatar')
+        .find('[data-testid="initials-text"]', { includeShadowDom: true })
+        .should('have.text', expectedInitials);
+    });
+
+    it('should set the custom colors on the avatar when color is not set', () => {
+      const expectedColors = {
+        foreground: faker.color.rgb({ format: 'css' }),
+        background: faker.color.rgb({ format: 'css' }),
+        border: faker.color.rgb({ format: 'css' }),
+      };
+      cy.mount(
+        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback [colorsName]="colorsName" /></matx-avatar>`,
+        {
+          imports: [
+            MatxAvatarComponent,
+            MatxAvatarFallbackDirective,
+            MatxAvatarInitialsFallbackComponent,
+          ],
+          componentProperties: {
+            colorsName: faker.person.fullName(),
+          },
+          providers: [
+            {
+              provide: MATX_AVATAR_INITIALS_COLORS_FUNCTION,
+              useValue: () => expectedColors,
+            },
+          ],
+        }
+      );
+
+      cy.get('matx-avatar')
+        .should('have.css', 'color', expectedColors.foreground)
+        .and('have.css', 'background-color', expectedColors.background)
+        .and('have.css', 'border-color', expectedColors.border);
+    });
+
+    it('should not set the custom colors on the avatar when color is set', () => {
+      const expectedColors = {
+        foreground: faker.color.rgb({ format: 'css' }),
+        background: faker.color.rgb({ format: 'css' }),
+        border: faker.color.rgb({ format: 'css' }),
+      };
+      cy.mount(
+        `<matx-avatar [color]="color"><matx-avatar-initials-fallback matxAvatarFallback [colorsName]="colorsName" /></matx-avatar>`,
+        {
+          imports: [
+            MatxAvatarComponent,
+            MatxAvatarFallbackDirective,
+            MatxAvatarInitialsFallbackComponent,
+          ],
+          componentProperties: {
+            colorsName: faker.person.fullName(),
+            color: 'primary',
+          },
+          providers: [
+            {
+              provide: MATX_AVATAR_INITIALS_COLORS_FUNCTION,
+              useValue: () => expectedColors,
+            },
+          ],
+        }
+      );
+
+      cy.get('matx-avatar')
+        .should('not.have.css', 'color', expectedColors.foreground)
+        .and('not.have.css', 'background-color', expectedColors.background)
+        .and('not.have.css', 'border-color', expectedColors.border);
     });
   });
 });
