@@ -3,7 +3,6 @@ import { coerceElement } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ContentChild,
   Directive,
@@ -14,6 +13,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
 import { CanColor, mixinColor } from '@angular/material/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -54,7 +54,6 @@ export class MatxAvatarComponent
   extends _MatxAvatarMixin
   implements CanColor, OnChanges, OnDestroy
 {
-  #changeDetectorRef = inject(ChangeDetectorRef);
   #elementRef: ElementRef<HTMLElement> = inject(ElementRef);
 
   @HostBinding('class.mat-unthemed') get unthemedClass() {
@@ -64,10 +63,7 @@ export class MatxAvatarComponent
   @ContentChild(MatxAvatarFallbackDirective)
   _customFallback?: MatxAvatarFallbackDirective;
 
-  get useFallback() {
-    return this.#useFallback;
-  }
-  #useFallback = true;
+  protected readonly useFallback = signal<boolean>(true);
 
   #customColors: AvatarColors | null = null;
 
@@ -95,8 +91,7 @@ export class MatxAvatarComponent
 
   _registerImage(image: AvatarImage) {
     image.ready.pipe(takeUntil(this.#destroyed)).subscribe((ready) => {
-      this.#useFallback = !ready;
-      this.#changeDetectorRef.markForCheck();
+      this.useFallback.set(!ready);
     });
   }
 

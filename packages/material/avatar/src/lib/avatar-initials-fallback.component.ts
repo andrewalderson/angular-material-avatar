@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   InjectionToken,
   Input,
@@ -11,6 +10,7 @@ import {
   ViewEncapsulation,
   inject,
   isDevMode,
+  signal,
 } from '@angular/core';
 import { AvatarColors, MatxAvatarComponent } from './avatar.component';
 
@@ -97,7 +97,7 @@ export const MATX_AVATAR_INITIALS_COLORS_FUNCTION =
   selector: 'matx-avatar-initials-fallback[matxAvatarFallback]',
   standalone: true,
   imports: [CommonModule],
-  template: `<span data-testid="initials-text">{{ initials }}</span> `,
+  template: `<span data-testid="initials-text">{{ initials() }}</span> `,
   styles: [
     `
       :host {
@@ -118,14 +118,10 @@ export class MatxAvatarInitialsFallbackComponent
   implements OnChanges, OnDestroy
 {
   #avatar = inject(MatxAvatarComponent);
-  #changeDetectorRef = inject(ChangeDetectorRef);
   #initialsFn = inject(MATX_AVATAR_INITIALS_INITIALS_FUNCTION);
   #colorsFn = inject(MATX_AVATAR_INITIALS_COLORS_FUNCTION);
 
-  get initials() {
-    return this.#initials;
-  }
-  #initials?: string;
+  protected readonly initials = signal<string>('');
   /**
    * Name (usually persons email address) used to render the colors
    * If not set the colors will be rendered from the initialsName
@@ -135,7 +131,7 @@ export class MatxAvatarInitialsFallbackComponent
   /**
    * Name (usually persons first and last name) used to render the initials
    */
-  @Input() initialsName?: string;
+  @Input({ required: true }) initialsName!: string;
 
   ngOnChanges(changes: SimpleChanges): void {
     const initialsName = changes['initialsName'];
@@ -156,8 +152,7 @@ export class MatxAvatarInitialsFallbackComponent
     if (isDevMode() && !this.#initialsFn) {
       throw new Error('An initials function must be provided');
     }
-    this.#initials = this.#initialsFn(name);
-    this.#changeDetectorRef.markForCheck();
+    this.initials.set(this.#initialsFn(name));
   }
 
   #setAvatarColors(name?: string) {

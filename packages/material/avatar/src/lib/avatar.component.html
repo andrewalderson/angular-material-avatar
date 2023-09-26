@@ -1,4 +1,4 @@
-<ng-container *ngIf="!useFallback else fallback">
+<ng-container *ngIf="!useFallback() else fallback">
     <ng-content select="img[matxAvatarImage]" />
 </ng-container>
 <ng-template #fallback>
