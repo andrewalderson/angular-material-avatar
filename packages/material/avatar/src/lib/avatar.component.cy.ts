@@ -1,5 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { faker } from '@faker-js/faker';
+import { MountResponse } from 'cypress/angular';
+import { MatxAvatarImageDirective } from './avatar-image.directive';
 import {
   MatxAvatarComponent,
   MatxAvatarFallbackDirective,
@@ -68,7 +71,180 @@ describe(MatxAvatarComponent.name, () => {
       cy.get('matx-avatar').should('have.class', `mat-${color}`);
     });
   });
+
+  context('given an image is added', () => {
+    context('when the image loads successfully', () => {
+      beforeEach(() => {
+        cy.intercept(
+          { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+          {
+            fixture: 'avatar.jpg',
+            headers: { 'cache-control': 'no-store' },
+          }
+        ).as('imageRequest');
+
+        cy.mount(MatxAvatarImageHostComponent, {
+          componentProperties: {
+            src: faker.image.url(),
+          },
+        });
+
+        cy.wait('@imageRequest');
+      });
+
+      it('should render the image', () => {
+        cy.get('matx-avatar')
+          .find('img[matxAvatarImage]', { includeShadowDom: true })
+          .should('exist');
+      });
+
+      it('should not render the fallback', () => {
+        cy.get('matx-avatar')
+          .find('[data-testid="default-fallback"]', { includeShadowDom: true })
+          .should('not.exist');
+      });
+    });
+    context('when the image fails to load', () => {
+      beforeEach(() => {
+        cy.intercept(
+          { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+          {
+            statusCode: 404,
+          }
+        ).as('imageRequest');
+
+        cy.mount(MatxAvatarImageHostComponent, {
+          componentProperties: {
+            src: faker.image.url(),
+          },
+        });
+
+        cy.wait('@imageRequest');
+      });
+
+      it('should not render the image', () => {
+        cy.get('matx-avatar')
+          .find('img[matxAvatarImage]', { includeShadowDom: true })
+          .should('not.be.visible');
+        /* IMPORTANT: This test should test for non-exisitence of the image but
+              there is currently a bug in Angular @see https://github.com/angular/angular/issues/51882
+              When that bug is fixed this test will fail and needs to be changed back to 'should('not.exist')'
+          */
+      });
+
+      it('should render the fallback', () => {
+        cy.get('matx-avatar')
+          .find('[data-testid="default-fallback"]', { includeShadowDom: true })
+          .should('exist');
+      });
+    });
+
+    it('should be able to update the image src even after error', () => {
+      cy.intercept(
+        { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+        {
+          fixture: 'avatar.jpg',
+          headers: { 'cache-control': 'no-store' },
+        }
+      ).as('firstImageRequest');
+
+      cy.mount(MatxAvatarImageHostComponent).then((wrapper) => {
+        return cy.wrap(wrapper).as('wrapper');
+      });
+
+      cy.get('@wrapper').then((w) => {
+        const wrapper =
+          w as unknown as MountResponse<MatxAvatarImageHostComponent>;
+        wrapper.component.src = faker.image.url();
+        wrapper.fixture.detectChanges();
+      });
+
+      cy.wait('@firstImageRequest');
+
+      cy.get('matx-avatar')
+        .find('img[matxAvatarImage]', { includeShadowDom: true })
+        .should('exist');
+
+      cy.intercept(
+        { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+        {
+          statusCode: 404,
+        }
+      ).as('secondImageRequest');
+
+      cy.get('@wrapper').then((w) => {
+        const wrapper =
+          w as unknown as MountResponse<MatxAvatarImageHostComponent>;
+        wrapper.component.src = faker.image.url();
+        wrapper.fixture.detectChanges();
+      });
+
+      cy.wait('@secondImageRequest');
+
+      cy.get('matx-avatar')
+        .find('img[matxAvatarImage]', { includeShadowDom: true })
+        .should('not.exist');
+
+      cy.intercept(
+        { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+        {
+          fixture: 'avatar.jpg',
+          headers: { 'cache-control': 'no-store' },
+        }
+      ).as('thirdImageRequest');
+
+      cy.get('@wrapper').then((w) => {
+        const wrapper =
+          w as unknown as MountResponse<MatxAvatarImageHostComponent>;
+        wrapper.component.src = faker.image.url();
+        wrapper.fixture.detectChanges();
+      });
+
+      cy.wait('@thirdImageRequest');
+
+      cy.get('matx-avatar')
+        .find('img[matxAvatarImage]', { includeShadowDom: true })
+        .should('exist');
+
+      cy.intercept(
+        { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+        {
+          fixture: 'avatar.jpg',
+          headers: { 'cache-control': 'no-store' },
+        }
+      ).as('fourthImageRequest');
+
+      cy.get('@wrapper').then((w) => {
+        const wrapper =
+          w as unknown as MountResponse<MatxAvatarImageHostComponent>;
+        wrapper.component.src = faker.image.url();
+        wrapper.fixture.detectChanges();
+      });
+
+      cy.wait('@fourthImageRequest');
+
+      cy.get('matx-avatar')
+        .find('img[matxAvatarImage]', { includeShadowDom: true })
+        .should('exist');
+    });
+  });
 });
+
+@Component({
+  selector: 'matx-avatar-host',
+  standalone: true,
+  imports: [MatxAvatarComponent, MatxAvatarImageDirective],
+  template: `<matx-avatar><img matxAvatarImage [src]="src" /></matx-avatar>`,
+})
+class MatxAvatarImageHostComponent {
+  get src() {
+    return this.#src;
+  }
+  set src(value: string | undefined) {
+    this.#src = value;
+  }
+  #src?: string;
+}
 
 @Component({
   selector: 'matx-avatar-custom-fallback',

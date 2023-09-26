@@ -1,15 +1,17 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { MatxAvatarImageDirective } from './avatar-image.directive';
 import {
   MatxAvatarComponent,
   MatxAvatarFallbackDirective,
 } from './avatar.component';
 
-type StoryArgTypes = MatxAvatarComponent & {
-  borderWidth: number;
-  useThemeColor: boolean;
-  content: string;
-};
+type StoryArgTypes = MatxAvatarComponent &
+  HTMLImageElement & {
+    borderWidth: number;
+    useThemeColor: boolean;
+    content: string;
+  };
 
 @Component({
   selector: 'matx-avatar-custom-fallback[matxAvatarFallback]',
@@ -48,7 +50,11 @@ export default {
   component: MatxAvatarComponent,
   decorators: [
     moduleMetadata({
-      imports: [MatxAvatarCustomIconComponent, MatxAvatarFallbackDirective],
+      imports: [
+        MatxAvatarCustomIconComponent,
+        MatxAvatarFallbackDirective,
+        MatxAvatarImageDirective,
+      ],
     }),
   ],
   parameters: {
@@ -111,4 +117,11 @@ WithCustomFallback.args = {
   color: 'primary',
   borderWidth: 0,
   content: '<matx-avatar-custom-fallback matxAvatarFallback/>',
+};
+
+export const WithImage = Template.bind(this);
+WithImage.args = {
+  src: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/170.jpg', // don't use faker here or it will be bundled when we publish storybook
+  content: '<img matxAvatarImage [src]="src"/>',
+  borderWidth: 0,
 };
