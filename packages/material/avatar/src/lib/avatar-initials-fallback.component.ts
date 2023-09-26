@@ -97,26 +97,17 @@ export const MATX_AVATAR_INITIALS_COLORS_FUNCTION =
   selector: 'matx-avatar-initials-fallback[matxAvatarFallback]',
   standalone: true,
   imports: [CommonModule],
-  template: `<span
-    class="matx-avatar-initials-text"
-    data-testid="initials-text"
-    >{{ initials }}</span
-  > `,
+  template: `<span data-testid="initials-text">{{ initials }}</span> `,
   styles: [
     `
       :host {
-        --matx-avatar-initials-font-size: 45cqw;
-        --matx-avatar-initials-font-weight: 300;
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100%;
         width: 100%;
-        container-type: size;
-      }
-      .matx-avatar-initials-text {
-        font-size: var(--matx-avatar-initials-font-size);
-        font-weight: var(--matx-avatar-initials-font-weight);
+        font-size: var(--matx-avatar-font-size);
+        font-weight: var(--matx-avatar-font-weight);
       }
     `,
   ],
