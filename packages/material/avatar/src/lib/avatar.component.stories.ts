@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { MatxAvatarImageDirective } from './avatar-image.directive';
 import { MatxAvatarInitialsFallbackComponent } from './avatar-initials-fallback.component';
 import {
@@ -14,6 +14,8 @@ type StoryArgTypes = MatxAvatarComponent &
     useThemeColor: boolean;
     content: string;
   };
+
+type Story = StoryObj<StoryArgTypes>;
 
 @Component({
   selector: 'matx-avatar-custom-fallback[matxAvatarFallback]',
@@ -47,7 +49,7 @@ type StoryArgTypes = MatxAvatarComponent &
 })
 class MatxAvatarCustomIconComponent {}
 
-export default {
+const meta: Meta<StoryArgTypes> = {
   title: 'Components/Avatar',
   component: MatxAvatarComponent,
   decorators: [
@@ -79,7 +81,9 @@ export default {
       },
     },
   },
-} as Meta<StoryArgTypes>;
+};
+
+export default meta;
 
 const calculateStyles = (args: StoryArgTypes) => {
   let style = '';
@@ -100,42 +104,52 @@ const ensureColorInputReset = (args: StoryArgTypes) => {
   };
 };
 
-const Template: Story<StoryArgTypes> = (args: StoryArgTypes) => ({
-  props: ensureColorInputReset(args),
-  template: `<matx-avatar style="${calculateStyles(args)}" [color]="color">${
-    args.content || ''
-  }</matx-avatar>`,
-});
-
-export const WithDefaultFallback = Template.bind(this);
-WithDefaultFallback.args = {
-  useThemeColor: false,
-  color: 'primary',
-  borderWidth: 0,
+const Template: Story = {
+  render: (args) => ({
+    props: ensureColorInputReset(args),
+    template: `<matx-avatar style="${calculateStyles(args)}" [color]="color">${
+      args.content || ''
+    }</matx-avatar>`,
+  }),
 };
 
-export const WithCustomFallback = Template.bind(this);
-WithCustomFallback.args = {
-  useThemeColor: false,
-  color: 'primary',
-  borderWidth: 0,
-  content: '<matx-avatar-custom-fallback matxAvatarFallback/>',
+export const WithDefaultFallback: Story = {
+  ...Template,
+  args: {
+    useThemeColor: false,
+    color: 'primary',
+    borderWidth: 0,
+  },
 };
 
-export const WithInitialsFallback = Template.bind(this);
-WithInitialsFallback.args = {
-  initialsName: 'William Wallace',
-  colorsName: 'william.wallace@outlook.com',
-  useThemeColor: false,
-  color: 'primary',
-  borderWidth: 0,
-  content:
-    '<matx-avatar-initials-fallback matxAvatarFallback [initialsName]="initialsName" [colorsName]="colorsName"/>',
+export const WithCustomFallback: Story = {
+  ...Template,
+  args: {
+    useThemeColor: false,
+    color: 'primary',
+    borderWidth: 0,
+    content: '<matx-avatar-custom-fallback matxAvatarFallback/>',
+  },
 };
 
-export const WithImage = Template.bind(this);
-WithImage.args = {
-  src: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/170.jpg', // don't use faker here or it will be bundled when we publish storybook
-  content: '<img matxAvatarImage [src]="src"/>',
-  borderWidth: 0,
+export const WithInitialsFallback: Story = {
+  ...Template,
+  args: {
+    initialsName: 'William Wallace',
+    colorsName: 'william.wallace@outlook.com',
+    useThemeColor: false,
+    color: 'primary',
+    borderWidth: 0,
+    content:
+      '<matx-avatar-initials-fallback matxAvatarFallback [initialsName]="initialsName" [colorsName]="colorsName"/>',
+  },
+};
+
+export const WithImage: Story = {
+  ...Template,
+  args: {
+    src: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/170.jpg', // don't use faker here or it will be bundled when we publish storybook
+    content: '<img matxAvatarImage [src]="src"/>',
+    borderWidth: 0,
+  },
 };
