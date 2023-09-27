@@ -16,7 +16,7 @@ import {
   signal,
 } from '@angular/core';
 import { CanColor, mixinColor } from '@angular/material/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 export interface AvatarImage {
   ready: Observable<boolean>;
@@ -67,7 +67,7 @@ export class MatxAvatarComponent
 
   #customColors: AvatarColors | null = null;
 
-  #destroyed = new Subject<void>();
+  #imageSubscription?: Subscription;
 
   constructor(elementRef: ElementRef<HTMLElement>) {
     super(elementRef);
@@ -85,12 +85,13 @@ export class MatxAvatarComponent
   }
 
   ngOnDestroy(): void {
-    this.#destroyed.next();
-    this.#destroyed.complete();
+    this.#imageSubscription?.unsubscribe();
   }
 
   _registerImage(image: AvatarImage) {
-    image.ready.pipe(takeUntil(this.#destroyed)).subscribe((ready) => {
+    this.#imageSubscription?.unsubscribe();
+
+    this.#imageSubscription = image.ready.subscribe((ready) => {
       this.useFallback.set(!ready);
     });
   }
