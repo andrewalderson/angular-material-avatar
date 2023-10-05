@@ -53,7 +53,7 @@
         "cypressConfig": "packages/material/avatar/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
-        "devServerTarget": "testing-cypress-host:build"
+        "devServerTarget": "component-host:build"
       }
     }
   }

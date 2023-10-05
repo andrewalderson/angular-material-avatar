@@ -1,9 +1,9 @@
 {
-  "name": "testing-cypress-host",
+  "name": "component-host",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "testing/cypress-host/src",
+  "sourceRoot": "testing/component-host/src",
   "implicitDependencies": ["material-avatar"],
   "tags": [],
   "targets": {
@@ -11,16 +11,16 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/testing/cypress-host",
-        "index": "testing/cypress-host/src/index.html",
-        "main": "testing/cypress-host/src/main.ts",
+        "outputPath": "dist/testing/component-host",
+        "index": "testing/component-host/src/index.html",
+        "main": "testing/component-host/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "testing/cypress-host/tsconfig.app.json",
+        "tsConfig": "testing/component-host/tsconfig.app.json",
         "assets": [
-          "testing/cypress-host/src/favicon.ico",
-          "testing/cypress-host/src/assets"
+          "testing/component-host/src/favicon.ico",
+          "testing/component-host/src/assets"
         ],
-        "styles": ["testing/cypress-host/src/styles.scss"],
+        "styles": ["testing/component-host/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
