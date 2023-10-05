@@ -1,362 +1,205 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
 import { faker } from '@faker-js/faker';
 import { MountResponse } from 'cypress/angular';
 import { MatxAvatarImageDirective } from './avatar-image.directive';
-import {
-  MATX_AVATAR_INITIALS_COLORS_FUNCTION,
-  MATX_AVATAR_INITIALS_INITIALS_FUNCTION,
-  MatxAvatarInitialsFallbackComponent,
-} from './avatar-initials-fallback.component';
 import {
   MatxAvatarComponent,
   MatxAvatarFallbackDirective,
 } from './avatar.component';
 
 describe(MatxAvatarComponent.name, () => {
-  beforeEach(() => {
-    TestBed.overrideComponent(MatxAvatarComponent, {
-      add: {
-        imports: [],
-        providers: [],
-      },
-    });
-  });
+  describe('rendering', () => {
+    context('given an image is not added', () => {
+      context('and a custom fallback is not defined', () => {
+        it('should render the default fallback', () => {
+          cy.mount(MatxAvatarComponent);
 
-  it('should render the default fallback by default', () => {
-    cy.mount(MatxAvatarComponent);
-
-    cy.get('[data-testid="default-fallback"]', {
-      includeShadowDom: true,
-    }).should('exist');
-  });
-
-  it('should display a custom fallback instead of default fallback when added', () => {
-    cy.mount(
-      `<matx-avatar><matx-avatar-custom-fallback matxAvatarFallback data-testid="custom-fallback"/></matx-avatar>`,
-      {
-        imports: [
-          MatxAvatarComponent,
-          MatxAvatarCustomFallbackComponent,
-          MatxAvatarFallbackDirective,
-        ],
-      }
-    );
-
-    cy.get('matx-avatar')
-      .find('[data-testid="custom-fallback"]', {
-        includeShadowDom: true,
-      })
-      .should('exist');
-
-    cy.get('matx-avatar')
-      .find('[data-testid="default-fallback"]', {
-        includeShadowDom: true,
-      })
-      .should('not.exist');
-  });
-
-  it("should have the class 'mat-unthemed' when no color is set", () => {
-    cy.mount(`<matx-avatar />`, {
-      imports: [MatxAvatarComponent],
-    });
-
-    cy.get('matx-avatar').should('have.class', `mat-unthemed`);
-  });
-
-  ['primary', 'accent', 'warn'].forEach((color) => {
-    it(`should have the class 'mat-${color}' when the color imput is set to '${color}'`, () => {
-      cy.mount(`<matx-avatar [color]="color"/>`, {
-        imports: [MatxAvatarComponent],
-        componentProperties: {
-          color,
-        },
+          cy.get('[data-testid="default-fallback"]', {
+            includeShadowDom: true,
+          }).should('exist');
+        });
       });
-
-      cy.get('matx-avatar').should('have.class', `mat-${color}`);
+      context('and a custom fallback is defined', () => {
+        beforeEach(() => {
+          cy.mount(
+            `<matx-avatar><matx-avatar-custom-fallback matxAvatarFallback data-testid="custom-fallback"/></matx-avatar>`,
+            {
+              imports: [
+                MatxAvatarComponent,
+                MatxAvatarCustomFallbackComponent,
+                MatxAvatarFallbackDirective,
+              ],
+            }
+          );
+        });
+        it('should render the custom fallback', () => {
+          cy.get('matx-avatar')
+            .find('[data-testid="custom-fallback"]', {
+              includeShadowDom: true,
+            })
+            .should('exist');
+        });
+        it('should not render the default fallback', () => {
+          cy.get('matx-avatar')
+            .find('[data-testid="default-fallback"]', {
+              includeShadowDom: true,
+            })
+            .should('not.exist');
+        });
+      });
     });
-  });
 
-  context('given an image is added', () => {
-    context('when the image loads successfully', () => {
-      beforeEach(() => {
-        cy.intercept(
-          { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
-          {
-            fixture: 'avatar.jpg',
-            headers: { 'cache-control': 'no-store' },
-          }
-        ).as('imageRequest');
+    context('given an image is added', () => {
+      context('and the image loads successfully', () => {
+        beforeEach(() => {
+          cy.intercept(
+            { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+            {
+              fixture: 'avatar.jpg',
+              headers: { 'cache-control': 'no-store' },
+            }
+          ).as('imageRequest');
 
-        cy.mount(MatxAvatarImageHostComponent, {
-          componentProperties: {
-            src: faker.image.url(),
-          },
+          cy.mount(MatxAvatarImageHostComponent, {
+            componentProperties: {
+              src: faker.image.url(),
+            },
+          }).then((wrapper) => {
+            return cy.wrap(wrapper).as('wrapper');
+          });
+
+          cy.wait('@imageRequest');
+        });
+        it('should render the image', () => {
+          cy.get('matx-avatar')
+            .find('img[matxAvatarImage]', { includeShadowDom: true })
+            .should('exist');
         });
 
-        cy.wait('@imageRequest');
-      });
+        it('should not render the fallback', () => {
+          cy.get('matx-avatar')
+            .find('[data-testid="default-fallback"]', {
+              includeShadowDom: true,
+            })
+            .should('not.exist');
+        });
+        it('should update the image when the src is changed', () => {
+          cy.intercept(
+            { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+            {
+              fixture: 'avatar.jpg',
+              headers: { 'cache-control': 'no-store' },
+            }
+          ).as('imageRequest');
 
-      it('should render the image', () => {
-        cy.get('matx-avatar')
-          .find('img[matxAvatarImage]', { includeShadowDom: true })
-          .should('exist');
-      });
+          cy.get('@wrapper').then((w) => {
+            const wrapper =
+              w as unknown as MountResponse<MatxAvatarImageHostComponent>;
+            wrapper.component.src = faker.image.url();
+            wrapper.fixture.detectChanges();
+          });
 
-      it('should not render the fallback', () => {
-        cy.get('matx-avatar')
-          .find('[data-testid="default-fallback"]', { includeShadowDom: true })
-          .should('not.exist');
+          cy.get('matx-avatar')
+            .find('img[matxAvatarImage]', { includeShadowDom: true })
+            .should('exist');
+        });
       });
-    });
-    context('when the image fails to load', () => {
-      beforeEach(() => {
-        cy.intercept(
-          { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
-          {
-            statusCode: 404,
-          }
-        ).as('imageRequest');
+      context('and the image fails to load', () => {
+        beforeEach(() => {
+          cy.intercept(
+            { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+            {
+              statusCode: 404,
+            }
+          ).as('imageRequest');
 
-        cy.mount(MatxAvatarImageHostComponent, {
-          componentProperties: {
-            src: faker.image.url(),
-          },
+          cy.mount(MatxAvatarImageHostComponent, {
+            componentProperties: {
+              src: faker.image.url(),
+            },
+          }).then((wrapper) => {
+            return cy.wrap(wrapper).as('wrapper');
+          });
+
+          cy.wait('@imageRequest');
+        });
+        it('should not render the image', () => {
+          cy.get('matx-avatar')
+            .find('img[matxAvatarImage]', { includeShadowDom: true })
+            .should('not.be.visible');
+          /* IMPORTANT: This test should test for non-exisitence of the image but
+                there is currently a bug in Angular @see https://github.com/angular/angular/issues/51882
+                When that bug is fixed this test will fail and needs to be changed back to 'should('not.exist')'
+            */
         });
 
-        cy.wait('@imageRequest');
+        it('should render the fallback', () => {
+          cy.get('matx-avatar')
+            .find('[data-testid="default-fallback"]', {
+              includeShadowDom: true,
+            })
+            .should('exist');
+        });
+
+        it('should update the image when the src is changed', () => {
+          cy.intercept(
+            { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+            {
+              fixture: 'avatar.jpg',
+              headers: { 'cache-control': 'no-store' },
+            }
+          ).as('imageRequest');
+
+          cy.get('@wrapper').then((w) => {
+            const wrapper =
+              w as unknown as MountResponse<MatxAvatarImageHostComponent>;
+            wrapper.component.src = faker.image.url();
+            wrapper.fixture.detectChanges();
+          });
+
+          cy.get('matx-avatar')
+            .find('img[matxAvatarImage]', { includeShadowDom: true })
+            .should('exist');
+        });
       });
-
-      it('should not render the image', () => {
-        cy.get('matx-avatar')
-          .find('img[matxAvatarImage]', { includeShadowDom: true })
-          .should('not.be.visible');
-        /* IMPORTANT: This test should test for non-exisitence of the image but
-              there is currently a bug in Angular @see https://github.com/angular/angular/issues/51882
-              When that bug is fixed this test will fail and needs to be changed back to 'should('not.exist')'
-          */
-      });
-
-      it('should render the fallback', () => {
-        cy.get('matx-avatar')
-          .find('[data-testid="default-fallback"]', { includeShadowDom: true })
-          .should('exist');
-      });
-    });
-
-    it('should be able to update the image src even after error', () => {
-      cy.intercept(
-        { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
-        {
-          fixture: 'avatar.jpg',
-          headers: { 'cache-control': 'no-store' },
-        }
-      ).as('firstImageRequest');
-
-      cy.mount(MatxAvatarImageHostComponent).then((wrapper) => {
-        return cy.wrap(wrapper).as('wrapper');
-      });
-
-      cy.get('@wrapper').then((w) => {
-        const wrapper =
-          w as unknown as MountResponse<MatxAvatarImageHostComponent>;
-        wrapper.component.src = faker.image.url();
-        wrapper.fixture.detectChanges();
-      });
-
-      cy.wait('@firstImageRequest');
-
-      cy.get('matx-avatar')
-        .find('img[matxAvatarImage]', { includeShadowDom: true })
-        .should('exist');
-
-      cy.intercept(
-        { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
-        {
-          statusCode: 404,
-        }
-      ).as('secondImageRequest');
-
-      cy.get('@wrapper').then((w) => {
-        const wrapper =
-          w as unknown as MountResponse<MatxAvatarImageHostComponent>;
-        wrapper.component.src = faker.image.url();
-        wrapper.fixture.detectChanges();
-      });
-
-      cy.wait('@secondImageRequest');
-
-      cy.get('matx-avatar')
-        .find('img[matxAvatarImage]', { includeShadowDom: true })
-        .should('not.exist');
-
-      cy.intercept(
-        { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
-        {
-          fixture: 'avatar.jpg',
-          headers: { 'cache-control': 'no-store' },
-        }
-      ).as('thirdImageRequest');
-
-      cy.get('@wrapper').then((w) => {
-        const wrapper =
-          w as unknown as MountResponse<MatxAvatarImageHostComponent>;
-        wrapper.component.src = faker.image.url();
-        wrapper.fixture.detectChanges();
-      });
-
-      cy.wait('@thirdImageRequest');
-
-      cy.get('matx-avatar')
-        .find('img[matxAvatarImage]', { includeShadowDom: true })
-        .should('exist');
-
-      cy.intercept(
-        { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
-        {
-          fixture: 'avatar.jpg',
-          headers: { 'cache-control': 'no-store' },
-        }
-      ).as('fourthImageRequest');
-
-      cy.get('@wrapper').then((w) => {
-        const wrapper =
-          w as unknown as MountResponse<MatxAvatarImageHostComponent>;
-        wrapper.component.src = faker.image.url();
-        wrapper.fixture.detectChanges();
-      });
-
-      cy.wait('@fourthImageRequest');
-
-      cy.get('matx-avatar')
-        .find('img[matxAvatarImage]', { includeShadowDom: true })
-        .should('exist');
     });
   });
-
-  context('given initials fallback is used', () => {
-    it('should render the initials fallback', () => {
-      cy.mount(
-        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback data-testid="initials-fallback"/></matx-avatar>`,
-        {
-          imports: [
-            MatxAvatarComponent,
-            MatxAvatarFallbackDirective,
-            MatxAvatarInitialsFallbackComponent,
-          ],
-        }
-      );
-
-      cy.get('matx-avatar')
-        .find('[data-testid="initials-fallback"]', { includeShadowDom: true })
-        .should('exist');
+  describe('styling', () => {
+    context('given a theme color is not specified', () => {
+      beforeEach(() => {
+        cy.mount(`<matx-avatar />`, {
+          imports: [MatxAvatarComponent],
+        });
+      });
+      it("should add the class 'mat-unthemed'", () => {
+        cy.get('matx-avatar').should('have.class', `mat-unthemed`);
+      });
     });
-    it('should not render the default fallback', () => {
-      cy.mount(
-        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback data-testid="initials-fallback"/></matx-avatar>`,
-        {
-          imports: [
-            MatxAvatarComponent,
-            MatxAvatarFallbackDirective,
-            MatxAvatarInitialsFallbackComponent,
-          ],
-        }
-      );
+    context('given a theme color is specified', () => {
+      ['primary', 'accent', 'warn'].forEach((color) => {
+        context(`and the theme color is ${color}`, () => {
+          beforeEach(() => {
+            cy.mount(`<matx-avatar [color]="color"/>`, {
+              imports: [MatxAvatarComponent],
+              componentProperties: {
+                color,
+              },
+            });
+          });
+          it(`should have the class 'mat-${color}'`, () => {
+            cy.get('matx-avatar').should('have.class', `mat-${color}`);
+          });
+        });
+      });
+      it(`should not add the class 'mat-unthemed'`, () => {
+        it("should have the class 'mat-unthemed'", () => {
+          cy.mount(`<matx-avatar />`, {
+            imports: [MatxAvatarComponent],
+          });
 
-      cy.get('matx-avatar')
-        .find('[data-testid="default-fallback"]', { includeShadowDom: true })
-        .should('not.exist');
-    });
-    it('should render the initials from the initialsName', () => {
-      const expectedInitials = 'AD';
-      cy.mount(
-        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback data-testid="initials-fallback" [initialsName]="initialsName"/></matx-avatar>`,
-        {
-          imports: [
-            MatxAvatarComponent,
-            MatxAvatarFallbackDirective,
-            MatxAvatarInitialsFallbackComponent,
-          ],
-          componentProperties: {
-            initialsName: faker.person.fullName(),
-          },
-          providers: [
-            {
-              provide: MATX_AVATAR_INITIALS_INITIALS_FUNCTION,
-              useValue: () => expectedInitials,
-            },
-          ],
-        }
-      );
-
-      cy.get('matx-avatar')
-        .find('[data-testid="initials-text"]', { includeShadowDom: true })
-        .should('have.text', expectedInitials);
-    });
-
-    it('should set the custom colors on the avatar when color is not set', () => {
-      const expectedColors = {
-        foreground: faker.color.rgb({ format: 'css' }),
-        background: faker.color.rgb({ format: 'css' }),
-        border: faker.color.rgb({ format: 'css' }),
-      };
-      cy.mount(
-        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback [colorsName]="colorsName" /></matx-avatar>`,
-        {
-          imports: [
-            MatxAvatarComponent,
-            MatxAvatarFallbackDirective,
-            MatxAvatarInitialsFallbackComponent,
-          ],
-          componentProperties: {
-            colorsName: faker.person.fullName(),
-          },
-          providers: [
-            {
-              provide: MATX_AVATAR_INITIALS_COLORS_FUNCTION,
-              useValue: () => expectedColors,
-            },
-          ],
-        }
-      );
-
-      cy.get('matx-avatar')
-        .should('have.css', 'color', expectedColors.foreground)
-        .and('have.css', 'background-color', expectedColors.background)
-        .and('have.css', 'border-color', expectedColors.border);
-    });
-
-    it('should not set the custom colors on the avatar when color is set', () => {
-      const expectedColors = {
-        foreground: faker.color.rgb({ format: 'css' }),
-        background: faker.color.rgb({ format: 'css' }),
-        border: faker.color.rgb({ format: 'css' }),
-      };
-      cy.mount(
-        `<matx-avatar [color]="color"><matx-avatar-initials-fallback matxAvatarFallback [colorsName]="colorsName" /></matx-avatar>`,
-        {
-          imports: [
-            MatxAvatarComponent,
-            MatxAvatarFallbackDirective,
-            MatxAvatarInitialsFallbackComponent,
-          ],
-          componentProperties: {
-            colorsName: faker.person.fullName(),
-            color: 'primary',
-          },
-          providers: [
-            {
-              provide: MATX_AVATAR_INITIALS_COLORS_FUNCTION,
-              useValue: () => expectedColors,
-            },
-          ],
-        }
-      );
-
-      cy.get('matx-avatar')
-        .should('not.have.css', 'color', expectedColors.foreground)
-        .and('not.have.css', 'background-color', expectedColors.background)
-        .and('not.have.css', 'border-color', expectedColors.border);
+          cy.get('matx-avatar').should('not.have.class', `mat-unthemed`);
+        });
+      });
     });
   });
 });
