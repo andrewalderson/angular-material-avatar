@@ -2,6 +2,7 @@
 import { coerceElement } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import {
+  Attribute,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
@@ -69,8 +70,15 @@ export class MatxAvatarComponent
 
   #imageSubscription?: Subscription;
 
-  constructor(elementRef: ElementRef<HTMLElement>) {
+  constructor(
+    elementRef: ElementRef<HTMLElement>,
+    @Attribute('aria-hidden') ariaHidden: string
+  ) {
     super(elementRef);
+
+    if (!ariaHidden) {
+      coerceElement(this.#elementRef).setAttribute('aria-hidden', 'true');
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -202,6 +202,26 @@ describe(MatxAvatarComponent.name, () => {
       });
     });
   });
+  describe('accessibility', () => {
+    context('given an aria-hidden attribute is not defined', () => {
+      it(`should add an aria-hidden attribute with a value of 'true'`, () => {
+        cy.mount(`<matx-avatar />`, {
+          imports: [MatxAvatarComponent],
+        });
+
+        cy.get('matx-avatar').should('have.attr', 'aria-hidden', 'true');
+      });
+    });
+    context('given an aria-hidden attribute is defined', () => {
+      it('should not override the existing value', () => {
+        cy.mount(`<matx-avatar aria-hidden="false"/>`, {
+          imports: [MatxAvatarComponent],
+        });
+
+        cy.get('matx-avatar').should('have.attr', 'aria-hidden', 'false');
+      });
+    });
+  });
 });
 
 @Component({
