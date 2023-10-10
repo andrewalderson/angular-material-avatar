@@ -14,7 +14,7 @@ describe(MatxAvatarInitialsFallbackComponent.name, () => {
     it('should render the initials from the initialsName', () => {
       const expectedInitials = 'AD';
       cy.mount(
-        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback data-testid="initials-fallback" [initialsName]="initialsName"/></matx-avatar>`,
+        `<matx-avatar><matx-avatar-initials-fallback matxAvatarFallback [initialsName]="initialsName"/></matx-avatar>`,
         {
           imports: [
             MatxAvatarComponent,
