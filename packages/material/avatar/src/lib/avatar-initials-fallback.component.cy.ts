@@ -34,8 +34,8 @@ describe(MatxAvatarInitialsFallbackComponent.name, () => {
       );
 
       cy.get('matx-avatar')
-        .find('[data-testid="initials-text"]', { includeShadowDom: true })
-        .should('have.text', expectedInitials);
+        .contains(expectedInitials, { includeShadowDom: true })
+        .should('exist');
     });
   });
   describe('styling', () => {

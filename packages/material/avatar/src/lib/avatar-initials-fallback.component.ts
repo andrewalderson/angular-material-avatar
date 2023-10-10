@@ -97,7 +97,7 @@ export const MATX_AVATAR_INITIALS_COLORS_FUNCTION =
   selector: 'matx-avatar-initials-fallback[matxAvatarFallback]',
   standalone: true,
   imports: [CommonModule],
-  template: `<span data-testid="initials-text">{{ initials() }}</span> `,
+  template: `<span>{{ initials() }}</span> `,
   styles: [
     `
       :host {
