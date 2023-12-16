@@ -6,7 +6,7 @@
   contain: strict;
   overflow: hidden;
   box-sizing: border-box;
-  container-type: size;
+  container-type: size; // need this so we can use container units for font size
   width: var(--matx-avatar-size, 100%);
   height: var(--matx-avatar-size, 100%);
   border-radius: var(--matx-avatar-border-radius, 50%);
