@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
+import { Meta, moduleMetadata, type StoryObj } from '@storybook/angular';
 import { MatxAvatarImageDirective } from './avatar-image.directive';
 import { MatxAvatarInitialsFallbackComponent } from './avatar-initials-fallback.component';
 import {
@@ -11,7 +11,6 @@ type StoryArgTypes = MatxAvatarComponent &
   HTMLImageElement &
   MatxAvatarInitialsFallbackComponent & {
     borderWidth: number;
-    useThemeColor: boolean;
     content: string;
   };
 
@@ -49,7 +48,7 @@ type Story = StoryObj<StoryArgTypes>;
 })
 class MatxAvatarCustomIconComponent {}
 
-const meta: Meta<StoryArgTypes> = {
+const meta: Meta = {
   title: 'Components/Avatar',
   component: MatxAvatarComponent,
   decorators: [
@@ -64,22 +63,35 @@ const meta: Meta<StoryArgTypes> = {
   ],
   parameters: {
     layout: 'centered',
+    viewport: {
+      disable: true,
+    },
   },
   argTypes: {
-    useThemeColor: {
-      control: 'boolean',
-      if: { arg: 'useThemeColor', exists: true },
-    },
     color: {
-      control: 'radio',
-      options: ['primary', 'accent', 'warn'],
-      if: { arg: 'useThemeColor' },
+      name: 'Theme Palette (color)',
+      control: 'select',
+      options: ['None', 'Primary', 'Accent', 'Warn'],
+      mapping: {
+        None: undefined,
+        Primary: 'primary',
+        Accent: 'accent',
+        Warn: 'warn',
+      },
+    },
+    borderWidth: {
+      name: 'Border Width',
+      control: { type: 'number', min: 0 },
     },
     content: {
       table: {
-        disable: true, // don't show this in the Controls table as it is not configurable by the user
+        disable: true,
       },
     },
+  },
+  args: {
+    color: 'None',
+    borderWidth: 0,
   },
 };
 
@@ -93,42 +105,23 @@ const calculateStyles = (args: StoryArgTypes) => {
   return style;
 };
 
-/**
- * Ensures that the color Input is reset to an empty state when the 'useThemeColor'
- * property is toggled from 'true' back to 'false'
- */
-const ensureColorInputReset = (args: StoryArgTypes) => {
-  return {
-    ...args,
-    color: args.useThemeColor ? args.color : null,
-  };
-};
-
 const Template: Story = {
   render: (args) => ({
-    props: ensureColorInputReset(args),
-    template: `<matx-avatar style="${calculateStyles(args)}" [color]="color">${
-      args.content || ''
-    }</matx-avatar>`,
+    props: args,
+    template: `<matx-avatar style="${calculateStyles(args)}" 
+    ${args.color ? '[color]="color"' : ''}>${args.content || ''}</matx-avatar>`,
   }),
 };
 
 export const WithDefaultFallback: Story = {
   ...Template,
-  args: {
-    useThemeColor: false,
-    color: 'primary',
-    borderWidth: 0,
-  },
 };
 
 export const WithCustomFallback: Story = {
   ...Template,
   args: {
-    useThemeColor: false,
-    color: 'primary',
-    borderWidth: 0,
-    content: '<matx-avatar-custom-fallback matxAvatarFallback/>',
+    content:
+      '<matx-avatar-custom-fallback data-testid="custom-fallback" matxAvatarFallback/>',
   },
 };
 
@@ -137,9 +130,6 @@ export const WithInitialsFallback: Story = {
   args: {
     initialsName: 'William Wallace',
     colorsName: 'william.wallace@outlook.com',
-    useThemeColor: false,
-    color: 'primary',
-    borderWidth: 0,
     content:
       '<matx-avatar-initials-fallback matxAvatarFallback [initialsName]="initialsName" [colorsName]="colorsName"/>',
   },
@@ -150,6 +140,5 @@ export const WithImage: Story = {
   args: {
     src: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/170.jpg', // don't use faker here or it will be bundled when we publish storybook
     content: '<img matxAvatarImage [src]="src"/>',
-    borderWidth: 0,
   },
 };
