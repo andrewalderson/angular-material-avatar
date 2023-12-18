@@ -48,7 +48,7 @@ type Story = StoryObj<StoryArgTypes>;
 })
 class MatxAvatarCustomIconComponent {}
 
-const meta: Meta = {
+const meta: Meta<StoryArgTypes> = {
   title: 'Components/Avatar',
   component: MatxAvatarComponent,
   decorators: [
