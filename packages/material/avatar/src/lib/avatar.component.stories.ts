@@ -70,14 +70,16 @@ const meta: Meta = {
   argTypes: {
     color: {
       name: 'Theme Palette (color)',
-      control: 'select',
-      options: ['None', 'Primary', 'Accent', 'Warn'],
-      mapping: {
-        None: undefined,
-        Primary: 'primary',
-        Accent: 'accent',
-        Warn: 'warn',
+      control: {
+        type: 'select',
+        labels: {
+          undefined: 'None',
+          primary: 'Primary',
+          accent: 'Accent',
+          warn: 'warn',
+        },
       },
+      options: [undefined, 'primary', 'accent', 'warn'],
     },
     borderWidth: {
       name: 'Border Width',
@@ -90,7 +92,7 @@ const meta: Meta = {
     },
   },
   args: {
-    color: 'None',
+    color: undefined,
     borderWidth: 0,
   },
 };
