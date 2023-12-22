@@ -104,13 +104,13 @@ const calculateStyles = (args: StoryArgTypes) => {
   if (args.borderWidth) {
     style += `--matx-avatar-border-width: ${args.borderWidth}px`;
   }
-  return style;
+  return style ? `style="${style}"` : '';
 };
 
 const Template: Story = {
   render: (args) => ({
     props: args,
-    template: `<matx-avatar style="${calculateStyles(args)}" 
+    template: `<matx-avatar ${calculateStyles(args)} 
     ${args.color ? '[color]="color"' : ''}>${args.content || ''}</matx-avatar>`,
   }),
 };
