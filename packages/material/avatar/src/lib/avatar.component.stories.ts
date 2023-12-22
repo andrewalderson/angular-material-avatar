@@ -77,7 +77,8 @@ const meta: Meta<StoryArgTypes> = {
   },
   argTypes: {
     color: {
-      name: 'Theme Palette (color)',
+      name: 'color (Material Theme Palette)',
+      description: 'Sets the background, border and font colors where used',
       control: {
         type: 'select',
         labels: {
@@ -90,13 +91,32 @@ const meta: Meta<StoryArgTypes> = {
       options: [undefined, 'primary', 'accent', 'warn'],
     },
     borderWidth: {
-      name: 'Border Width',
+      name: '--matx-avatar-border-width',
       control: { type: 'number', min: 0 },
+      table: {
+        category: 'CSS',
+        defaultValue: 0,
+        type: { summary: 'number' },
+      },
     },
     content: {
       table: {
         disable: true,
       },
+    },
+    initialsName: {
+      description: 'The string (usually full name) to extract initials from',
+      if: { arg: 'initialsName', exists: true },
+    },
+    colorsName: {
+      description:
+        'The string (usually username) to create avatar color from - falls back to initialsName if undefined',
+      if: { arg: 'colorsName', exists: true },
+    },
+    src: {
+      description: 'The url of the image to display (should be a square image)',
+      control: { type: 'file', accept: 'image/*' },
+      if: { arg: 'src', exists: true },
     },
   },
   args: {
