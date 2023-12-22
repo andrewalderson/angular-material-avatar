@@ -7,7 +7,7 @@ import {
   MatxAvatarFallbackDirective,
 } from './avatar.component';
 
-type StoryArgTypes = MatxAvatarComponent &
+export type StoryArgTypes = MatxAvatarComponent &
   HTMLImageElement &
   MatxAvatarInitialsFallbackComponent & {
     borderWidth: number;

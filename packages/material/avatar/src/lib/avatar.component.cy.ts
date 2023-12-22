@@ -2,9 +2,12 @@ import { ThemePalette } from '@angular/material/core';
 import { composeStories, createMountable } from '@storybook/testing-angular';
 import { MatxAvatarComponent } from './avatar.component';
 import * as stories from './avatar.component.stories';
+import { StoryArgTypes } from './avatar.component.stories';
 
-const { WithDefaultFallback, WithCustomFallback, WithImage } =
-  composeStories(stories);
+const { WithDefaultFallback, WithCustomFallback, WithImage } = composeStories<
+  StoryArgTypes,
+  typeof stories
+>(stories);
 
 describe(MatxAvatarComponent.name, () => {
   describe('rendering', () => {
