@@ -102,11 +102,12 @@ const meta: Meta<StoryArgTypes> = {
   args: {
     color: undefined,
     borderWidth: 0,
+    content: '',
   },
   render: (args) => ({
     props: args,
     template: `<matx-avatar ${calculateStyles(args)} 
-    ${args.color ? '[color]="color"' : ''}>${args.content || ''}</matx-avatar>`,
+    ${args.color ? '[color]="color"' : ''}>${args.content}</matx-avatar>`,
   }),
 };
 
