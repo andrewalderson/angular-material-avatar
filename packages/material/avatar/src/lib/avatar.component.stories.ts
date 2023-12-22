@@ -133,6 +133,13 @@ const meta: Meta<StoryArgTypes> = {
 
 export default meta;
 
+export const WithImage: Story = {
+  args: {
+    src: '160.jpg',
+    content: '<img matxAvatarImage [src]="src"/>',
+  },
+};
+
 export const WithDefaultFallback: Story = {
   args: {},
 };
@@ -150,12 +157,5 @@ export const WithInitialsFallback: Story = {
     colorsName: 'william.wallace@outlook.com',
     content:
       '<matx-avatar-initials-fallback matxAvatarFallback [initialsName]="initialsName" [colorsName]="colorsName"/>',
-  },
-};
-
-export const WithImage: Story = {
-  args: {
-    src: '160.jpg',
-    content: '<img matxAvatarImage [src]="src"/>',
   },
 };
