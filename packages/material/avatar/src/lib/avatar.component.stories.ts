@@ -16,6 +16,14 @@ type StoryArgTypes = MatxAvatarComponent &
 
 type Story = StoryObj<StoryArgTypes>;
 
+const calculateStyles = (args: StoryArgTypes) => {
+  let style = '';
+  if (args.borderWidth) {
+    style += `--matx-avatar-border-width: ${args.borderWidth}px`;
+  }
+  return style ? `style="${style}"` : '';
+};
+
 @Component({
   selector: 'matx-avatar-custom-fallback[matxAvatarFallback]',
   standalone: true,
@@ -95,19 +103,6 @@ const meta: Meta<StoryArgTypes> = {
     color: undefined,
     borderWidth: 0,
   },
-};
-
-export default meta;
-
-const calculateStyles = (args: StoryArgTypes) => {
-  let style = '';
-  if (args.borderWidth) {
-    style += `--matx-avatar-border-width: ${args.borderWidth}px`;
-  }
-  return style ? `style="${style}"` : '';
-};
-
-const Template: Story = {
   render: (args) => ({
     props: args,
     template: `<matx-avatar ${calculateStyles(args)} 
@@ -115,12 +110,13 @@ const Template: Story = {
   }),
 };
 
+export default meta;
+
 export const WithDefaultFallback: Story = {
-  ...Template,
+  args: {},
 };
 
 export const WithCustomFallback: Story = {
-  ...Template,
   args: {
     content:
       '<matx-avatar-custom-fallback data-testid="custom-fallback" matxAvatarFallback/>',
@@ -128,7 +124,6 @@ export const WithCustomFallback: Story = {
 };
 
 export const WithInitialsFallback: Story = {
-  ...Template,
   args: {
     initialsName: 'William Wallace',
     colorsName: 'william.wallace@outlook.com',
@@ -138,7 +133,6 @@ export const WithInitialsFallback: Story = {
 };
 
 export const WithImage: Story = {
-  ...Template,
   args: {
     src: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/170.jpg', // don't use faker here or it will be bundled when we publish storybook
     content: '<img matxAvatarImage [src]="src"/>',
