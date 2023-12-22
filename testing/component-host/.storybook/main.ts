@@ -1,5 +1,5 @@
-import { dirname, join } from 'path';
 import type { StorybookConfig } from '@storybook/angular';
+import { dirname, join } from 'path';
 
 const config: StorybookConfig = {
   core: {},
@@ -14,6 +14,8 @@ const config: StorybookConfig = {
   docs: {
     autodocs: true,
   },
+
+  staticDirs: ['../src/assets'],
 };
 
 module.exports = config;

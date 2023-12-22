@@ -135,7 +135,7 @@ export const WithInitialsFallback: Story = {
 
 export const WithImage: Story = {
   args: {
-    src: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/170.jpg', // don't use faker here or it will be bundled when we publish storybook
+    src: '160.jpg',
     content: '<img matxAvatarImage [src]="src"/>',
   },
 };
