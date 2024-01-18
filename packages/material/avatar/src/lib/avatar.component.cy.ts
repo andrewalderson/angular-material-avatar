@@ -49,10 +49,11 @@ describe(MatxAvatarComponent.name, () => {
     });
 
     context('given an image is added', () => {
+      const src = 'https://some/image-url';
       context('and the image loads successfully', () => {
         beforeEach(() => {
           cy.intercept(
-            { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+            { method: 'GET', url: src, times: 1 },
             {
               fixture: 'avatar.jpg',
               headers: { 'cache-control': 'no-store' },
@@ -60,7 +61,7 @@ describe(MatxAvatarComponent.name, () => {
           ).as('imageRequest');
 
           const { component, applicationConfig } = createMountable(
-            WithImage({}),
+            WithImage({ src }),
           );
           cy.mount(component, applicationConfig);
 
@@ -70,7 +71,7 @@ describe(MatxAvatarComponent.name, () => {
           cy.get('matx-avatar')
             .find('img[matxAvatarImage]', { includeShadowDom: true })
             .should('exist')
-            .and('have.attr', 'src', WithImage.args.src);
+            .and('have.attr', 'src', src);
         });
 
         it('should not render the fallback', () => {
@@ -84,14 +85,14 @@ describe(MatxAvatarComponent.name, () => {
       context('and the image fails to load', () => {
         beforeEach(() => {
           cy.intercept(
-            { method: 'GET', url: /^https?:\/\/(.+)$/, times: 1 },
+            { method: 'GET', url: src, times: 1 },
             {
               statusCode: 404,
             },
           ).as('imageRequest');
 
           const { component, applicationConfig } = createMountable(
-            WithImage({}),
+            WithImage({ src }),
           );
           cy.mount(component, applicationConfig);
 
