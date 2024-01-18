@@ -5,7 +5,7 @@ import * as stories from './avatar.component.stories';
 import { StoryArgTypes } from './avatar.component.stories';
 
 const {
-  WithDefaultFallback,
+  WithIconFallback,
   WithCustomFallback,
   WithImage,
   WithInitialsFallback,
@@ -14,10 +14,10 @@ const {
 describe(MatxAvatarComponent.name, () => {
   describe('rendering', () => {
     context('given an image is not added', () => {
-      context('and a custom fallback is not defined', () => {
-        it('should render the default fallback', () => {
+      context('and an icon fallback is defined', () => {
+        it('should render the icon fallback', () => {
           const { component, applicationConfig } = createMountable(
-            WithDefaultFallback({}),
+            WithIconFallback({}),
           );
           cy.mount(component, applicationConfig);
 
@@ -174,7 +174,7 @@ describe(MatxAvatarComponent.name, () => {
     context('given a theme color is not specified', () => {
       beforeEach(() => {
         const { component, applicationConfig } = createMountable(
-          WithDefaultFallback({}),
+          WithIconFallback({}),
         );
         cy.mount(component, applicationConfig);
       });
@@ -188,7 +188,7 @@ describe(MatxAvatarComponent.name, () => {
         context(`and the theme color is ${color}`, () => {
           beforeEach(() => {
             const { component, applicationConfig } = createMountable(
-              WithDefaultFallback({
+              WithIconFallback({
                 color,
               }),
             );

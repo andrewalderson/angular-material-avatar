@@ -142,7 +142,7 @@ export const WithImage: Story = {
   },
 };
 
-export const WithDefaultFallback: Story = {
+export const WithIconFallback: Story = {
   args: {
     content: `<matx-avatar-icon-fallback>
     <svg
