@@ -4,10 +4,12 @@ import { MatxAvatarComponent } from './avatar.component';
 import * as stories from './avatar.component.stories';
 import { StoryArgTypes } from './avatar.component.stories';
 
-const { WithDefaultFallback, WithCustomFallback, WithImage } = composeStories<
-  StoryArgTypes,
-  typeof stories
->(stories);
+const {
+  WithDefaultFallback,
+  WithCustomFallback,
+  WithImage,
+  WithInitialsFallback,
+} = composeStories<StoryArgTypes, typeof stories>(stories);
 
 describe(MatxAvatarComponent.name, () => {
   describe('rendering', () => {
@@ -22,6 +24,21 @@ describe(MatxAvatarComponent.name, () => {
           cy.get('matx-avatar-icon-fallback', {
             includeShadowDom: true,
           }).should('exist');
+        });
+      });
+      context('and an initials fallback is defined', () => {
+        beforeEach(() => {
+          const { component, applicationConfig } = createMountable(
+            WithInitialsFallback({}),
+          );
+          cy.mount(component, applicationConfig);
+        });
+        it('should render the initials fallback', () => {
+          cy.get('matx-avatar')
+            .find('matx-avatar-initials-fallback', {
+              includeShadowDom: true,
+            })
+            .should('exist');
         });
       });
       context('and a custom fallback is defined', () => {

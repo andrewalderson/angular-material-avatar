@@ -81,7 +81,7 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
     {
       providedIn: 'root',
       factory: MATX_AVATAR_INITIALS_INITIALS_FUNCTION_FACTORY,
-    }
+    },
   );
 
 export const MATX_AVATAR_INITIALS_COLORS_FUNCTION =
@@ -90,11 +90,11 @@ export const MATX_AVATAR_INITIALS_COLORS_FUNCTION =
     {
       providedIn: 'root',
       factory: MATX_AVATAR_INITIALS_COLORS_FUNCTION_FACTORY,
-    }
+    },
   );
 
 @Component({
-  selector: 'matx-avatar-initials-fallback[matxAvatarFallback]',
+  selector: 'matx-avatar-initials-fallback',
   standalone: true,
   imports: [CommonModule],
   template: `<span>{{ initials() }}</span> `,

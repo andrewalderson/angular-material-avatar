@@ -176,6 +176,6 @@ export const WithInitialsFallback: Story = {
     initialsName: 'William Wallace',
     colorsName: 'william.wallace@outlook.com',
     content:
-      '<matx-avatar-initials-fallback matxAvatarFallback [initialsName]="initialsName" [colorsName]="colorsName"/>',
+      '<matx-avatar-initials-fallback [initialsName]="initialsName" [colorsName]="colorsName"/>',
   },
 };

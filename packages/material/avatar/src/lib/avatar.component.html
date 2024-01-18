@@ -1,5 +1,7 @@
 @if (!useFallback()) {
   <ng-content select="img[matxAvatarImage]" />
 } @else {
-  <ng-content select="[matxAvatarFallback], matx-avatar-icon-fallback" />
+  <ng-content
+    select="[matxAvatarFallback], matx-avatar-icon-fallback, matx-avatar-initials-fallback"
+  />
 }
