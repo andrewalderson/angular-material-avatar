@@ -10,7 +10,16 @@ import {
   standalone: true,
   imports: [CommonModule],
   template: `<ng-content />`,
-  styles: ``,
+  styles: [
+    `
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+    `,
+  ],
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
