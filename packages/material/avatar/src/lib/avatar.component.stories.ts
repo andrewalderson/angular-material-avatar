@@ -166,8 +166,7 @@ export const WithDefaultFallback: Story = {
 
 export const WithCustomFallback: Story = {
   args: {
-    content:
-      '<matx-avatar-custom-fallback data-testid="custom-fallback" matxAvatarFallback/>',
+    content: '<matx-avatar-custom-fallback matxAvatarFallback/>',
   },
 };
 

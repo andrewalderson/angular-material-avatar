@@ -50,7 +50,7 @@ describe(MatxAvatarComponent.name, () => {
         });
         it('should render the custom fallback', () => {
           cy.get('matx-avatar')
-            .find('[data-testid="custom-fallback"]', {
+            .find('[matxAvatarFallback]', {
               includeShadowDom: true,
             })
             .should('exist');
