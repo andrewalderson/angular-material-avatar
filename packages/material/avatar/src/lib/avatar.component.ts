@@ -12,7 +12,6 @@ import {
   OnDestroy,
   SimpleChanges,
   ViewEncapsulation,
-  inject,
   signal,
 } from '@angular/core';
 import { CanColor, mixinColor } from '@angular/material/core';
@@ -54,8 +53,6 @@ export class MatxAvatarComponent
   extends _MatxAvatarMixin
   implements CanColor, OnChanges, OnDestroy
 {
-  #elementRef: ElementRef<HTMLElement> = inject(ElementRef);
-
   @HostBinding('class.mat-unthemed') get unthemedClass() {
     return !this.color;
   }
@@ -73,7 +70,7 @@ export class MatxAvatarComponent
     super(elementRef);
 
     if (!ariaHidden) {
-      coerceElement(this.#elementRef).setAttribute('aria-hidden', 'true');
+      coerceElement(this._elementRef).setAttribute('aria-hidden', 'true');
     }
   }
 
@@ -104,7 +101,7 @@ export class MatxAvatarComponent
     this.#customColors = colors;
     // only do this if the avatar is unthemed
     if (!this.color) {
-      const style = coerceElement(this.#elementRef).style;
+      const style = coerceElement(this._elementRef).style;
       style.setProperty('--matx-avatar-color', colors.foreground);
       style.setProperty('--matx-avatar-background-color', colors.background);
       style.setProperty(
@@ -115,7 +112,7 @@ export class MatxAvatarComponent
   }
 
   _removeCustomColors(reset = false) {
-    const style = coerceElement(this.#elementRef).style;
+    const style = coerceElement(this._elementRef).style;
     style.removeProperty('--matx-avatar-color');
     style.removeProperty('--matx-avatar-background-color');
     style.removeProperty('--matx-avatar-border-color');
