@@ -5,7 +5,6 @@ import {
   Attribute,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   Directive,
   ElementRef,
   HostBinding,
@@ -38,7 +37,7 @@ export class MatxAvatarFallbackDirective {}
 export const _MatxAvatarMixin = mixinColor(
   class {
     constructor(public _elementRef: ElementRef) {}
-  }
+  },
 );
 
 @Component({
@@ -61,9 +60,6 @@ export class MatxAvatarComponent
     return !this.color;
   }
 
-  @ContentChild(MatxAvatarFallbackDirective)
-  _customFallback?: MatxAvatarFallbackDirective;
-
   protected readonly useFallback = signal<boolean>(true);
 
   #customColors: AvatarColors | null = null;
@@ -72,7 +68,7 @@ export class MatxAvatarComponent
 
   constructor(
     elementRef: ElementRef<HTMLElement>,
-    @Attribute('aria-hidden') ariaHidden: string
+    @Attribute('aria-hidden') ariaHidden: string,
   ) {
     super(elementRef);
 
@@ -113,7 +109,7 @@ export class MatxAvatarComponent
       style.setProperty('--matx-avatar-background-color', colors.background);
       style.setProperty(
         '--matx-avatar-border-color',
-        colors.border ?? colors.foreground
+        colors.border ?? colors.foreground,
       );
     }
   }
