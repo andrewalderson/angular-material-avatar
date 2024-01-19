@@ -8,13 +8,14 @@ import {
   Directive,
   ElementRef,
   HostBinding,
+  Input,
   OnChanges,
   OnDestroy,
   SimpleChanges,
   ViewEncapsulation,
   signal,
 } from '@angular/core';
-import { CanColor, mixinColor } from '@angular/material/core';
+import { ThemePalette } from '@angular/material/core';
 import { Observable, Subscription } from 'rxjs';
 
 export interface AvatarImage {
@@ -33,12 +34,6 @@ export type AvatarColors = {
 })
 export class MatxAvatarFallbackDirective {}
 
-export const _MatxAvatarMixin = mixinColor(
-  class {
-    constructor(public _elementRef: ElementRef) {}
-  },
-);
-
 @Component({
   selector: 'matx-avatar',
   standalone: true,
@@ -47,15 +42,13 @@ export const _MatxAvatarMixin = mixinColor(
   styleUrls: ['./avatar.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  inputs: ['color'],
 })
-export class MatxAvatarComponent
-  extends _MatxAvatarMixin
-  implements CanColor, OnChanges, OnDestroy
-{
-  @HostBinding('class.mat-unthemed') get unthemedClass() {
-    return !this.color;
+export class MatxAvatarComponent implements OnChanges, OnDestroy {
+  @HostBinding('class') get themeClass() {
+    return this.color ? `mat-${this.color}` : 'mat-unthemed';
   }
+
+  @Input() color?: ThemePalette;
 
   protected readonly useFallback = signal<boolean>(true);
 
@@ -64,11 +57,9 @@ export class MatxAvatarComponent
   #imageSubscription?: Subscription;
 
   constructor(
-    elementRef: ElementRef<HTMLElement>,
+    public _elementRef: ElementRef<HTMLElement>,
     @Attribute('aria-hidden') ariaHidden: string,
   ) {
-    super(elementRef);
-
     if (!ariaHidden) {
       coerceElement(this._elementRef).setAttribute('aria-hidden', 'true');
     }
