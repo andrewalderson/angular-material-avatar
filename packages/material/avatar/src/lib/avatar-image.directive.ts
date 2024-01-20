@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
+  HostBinding,
   Input,
   OnChanges,
   Renderer2,
@@ -19,6 +20,9 @@ export class MatxAvatarImageDirective implements AfterViewInit, OnChanges {
   #avatar = inject(MatxAvatarComponent);
   #element: HTMLImageElement = inject(ElementRef).nativeElement;
   #renderer = inject(Renderer2);
+
+  @HostBinding('style') style =
+    `position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;`;
 
   @Input({ required: true, transform: unwrapSafeUrl }) src!: string;
 
