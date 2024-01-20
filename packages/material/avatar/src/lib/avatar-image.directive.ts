@@ -5,9 +5,11 @@ import {
   HostBinding,
   Input,
   OnChanges,
+  OnInit,
   Renderer2,
   SimpleChanges,
   inject,
+  isDevMode,
   ɵunwrapSafeValue as unwrapSafeUrl,
 } from '@angular/core';
 import { MatxAvatarComponent } from './avatar.component';
@@ -16,7 +18,9 @@ import { MatxAvatarComponent } from './avatar.component';
   selector: 'img[matxAvatarImage]',
   standalone: true,
 })
-export class MatxAvatarImageDirective implements AfterViewInit, OnChanges {
+export class MatxAvatarImageDirective
+  implements AfterViewInit, OnChanges, OnInit
+{
   #avatar = inject(MatxAvatarComponent);
   #element: HTMLImageElement = inject(ElementRef).nativeElement;
   #renderer = inject(Renderer2);
@@ -27,6 +31,16 @@ export class MatxAvatarImageDirective implements AfterViewInit, OnChanges {
   @Input({ required: true, transform: unwrapSafeUrl }) src!: string;
 
   @Input() srcset?: string;
+
+  @Input() width?: string;
+
+  @Input() height?: string;
+
+  ngOnInit(): void {
+    if (isDevMode()) {
+      assertEmptyWidthAndHeight(this);
+    }
+  }
 
   ngAfterViewInit(): void {
     this.#avatar._setUseImage(true);
@@ -64,6 +78,14 @@ export class MatxAvatarImageDirective implements AfterViewInit, OnChanges {
         unlistenLoadFn();
         unlistenErrorFn();
       },
+    );
+  }
+}
+
+function assertEmptyWidthAndHeight(dir: MatxAvatarImageDirective) {
+  if (dir.width || dir.height) {
+    throw new Error(
+      `the attributes \`height\` and/or \`width\` are present and should not be. The image directive will handle setting its dimensions`,
     );
   }
 }
