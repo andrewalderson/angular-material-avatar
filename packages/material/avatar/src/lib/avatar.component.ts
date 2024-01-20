@@ -10,17 +10,12 @@ import {
   HostBinding,
   Input,
   OnChanges,
-  OnDestroy,
   SimpleChanges,
   ViewEncapsulation,
+  computed,
   signal,
 } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
-import { Observable, Subscription } from 'rxjs';
-
-export interface AvatarImage {
-  ready: Observable<boolean>;
-}
 
 export type AvatarColors = {
   foreground: string;
@@ -43,18 +38,18 @@ export class MatxAvatarFallbackDirective {}
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatxAvatarComponent implements OnChanges, OnDestroy {
+export class MatxAvatarComponent implements OnChanges {
   @HostBinding('class') get themeClass() {
     return this.color ? `mat-${this.color}` : 'mat-unthemed';
   }
 
   @Input() color?: ThemePalette;
 
-  protected readonly useFallback = signal<boolean>(true);
+  protected readonly useImage = computed(() => this.#useImage() === true);
 
   #customColors: AvatarColors | null = null;
 
-  #imageSubscription?: Subscription;
+  #useImage = signal(false);
 
   constructor(
     public _elementRef: ElementRef<HTMLElement>,
@@ -76,16 +71,8 @@ export class MatxAvatarComponent implements OnChanges, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.#imageSubscription?.unsubscribe();
-  }
-
-  _registerImage(image: AvatarImage) {
-    this.#imageSubscription?.unsubscribe();
-
-    this.#imageSubscription = image.ready.subscribe((ready) => {
-      this.useFallback.set(!ready);
-    });
+  _setUseImage(value: boolean) {
+    this.#useImage.set(value);
   }
 
   _setCustomAvatarColors(colors: AvatarColors) {

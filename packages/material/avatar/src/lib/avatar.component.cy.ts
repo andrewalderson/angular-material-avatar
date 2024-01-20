@@ -151,13 +151,7 @@ describe(MatxAvatarComponent.name, () => {
         it('should not render the image', () => {
           cy.get('matx-avatar')
             .find('img[matxAvatarImage]', { includeShadowDom: true })
-            .should('not.be.visible');
-          /*
-            IMPORTANT: 
-              This test should test for non-exisitence of the image but
-              there is currently a bug in Angular @see https://github.com/angular/angular/issues/51882
-              When that bug is fixed this test will fail and needs to be changed back to 'should('not.exist')'
-          */
+            .should('not.exist');
         });
 
         it('should render the fallback', () => {

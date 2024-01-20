@@ -1,37 +1,65 @@
 import {
+  AfterViewInit,
   Directive,
-  HostListener,
-  OnDestroy,
-  OnInit,
+  ElementRef,
+  Input,
+  OnChanges,
+  Renderer2,
+  SimpleChanges,
   inject,
+  ɵunwrapSafeValue as unwrapSafeUrl,
 } from '@angular/core';
-import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { MatxAvatarComponent } from './avatar.component';
 
 @Directive({
   selector: 'img[matxAvatarImage]',
   standalone: true,
 })
-export class MatxAvatarImageDirective implements OnInit, OnDestroy {
+export class MatxAvatarImageDirective implements AfterViewInit, OnChanges {
   #avatar = inject(MatxAvatarComponent);
+  #element: HTMLImageElement = inject(ElementRef).nativeElement;
+  #renderer = inject(Renderer2);
 
-  #ready = new BehaviorSubject<boolean>(false);
-  readonly ready = this.#ready.asObservable().pipe(distinctUntilChanged());
+  @Input({ required: true, transform: unwrapSafeUrl }) src!: string;
 
-  @HostListener('load') loadHandler() {
-    this.#ready.next(true);
+  @Input() srcset?: string;
+
+  ngAfterViewInit(): void {
+    this.#avatar._setUseImage(true);
   }
 
-  @HostListener('error') errorHandler() {
-    this.#ready.next(false);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['src']) {
+      this.#listenForImageEvents();
+      this.#updateSrcAndSrcSet();
+    }
   }
 
-  ngOnInit(): void {
-    this.#avatar._registerImage(this);
+  #setHostAttribute(name: string, value: string): void {
+    this.#renderer.setAttribute(this.#element, name, value);
   }
 
-  ngOnDestroy(): void {
-    this.#ready.next(false);
-    this.#ready.complete();
+  #updateSrcAndSrcSet() {
+    this.#setHostAttribute('src', this.src);
+    if (this.srcset) {
+      this.#setHostAttribute('srcset', this.srcset);
+    }
+  }
+
+  #listenForImageEvents() {
+    const unlistenLoadFn = this.#renderer.listen(this.#element, 'load', () => {
+      this.#avatar._setUseImage(true);
+      unlistenLoadFn();
+      unlistenErrorFn();
+    });
+    const unlistenErrorFn = this.#renderer.listen(
+      this.#element,
+      'error',
+      () => {
+        this.#avatar._setUseImage(false);
+        unlistenLoadFn();
+        unlistenErrorFn();
+      },
+    );
   }
 }
