@@ -26,7 +26,7 @@ export class MatxAvatarImageDirective
   #renderer = inject(Renderer2);
 
   @HostBinding('style') style =
-    `position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;`;
+    `position: absolute; display: block; inset: 0; width: 100%; height: 100%; object-fit: cover;`;
 
   @Input({ required: true, transform: unwrapSafeUrl }) src!: string;
 
