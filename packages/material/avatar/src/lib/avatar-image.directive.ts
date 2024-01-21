@@ -30,8 +30,6 @@ export class MatxAvatarImageDirective
 
   @Input({ required: true, transform: unwrapSafeUrl }) src!: string;
 
-  @Input() srcset?: string;
-
   @Input() width?: string;
 
   @Input() height?: string;
@@ -49,7 +47,7 @@ export class MatxAvatarImageDirective
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['src']) {
       this.#listenForImageEvents();
-      this.#updateSrcAndSrcSet();
+      this.#updateSrc();
     }
   }
 
@@ -57,11 +55,8 @@ export class MatxAvatarImageDirective
     this.#renderer.setAttribute(this.#element, name, value);
   }
 
-  #updateSrcAndSrcSet() {
+  #updateSrc() {
     this.#setHostAttribute('src', this.src);
-    if (this.srcset) {
-      this.#setHostAttribute('srcset', this.srcset);
-    }
   }
 
   #listenForImageEvents() {
