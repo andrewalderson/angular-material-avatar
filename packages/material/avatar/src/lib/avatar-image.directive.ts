@@ -10,7 +10,6 @@ import {
   SimpleChanges,
   inject,
   isDevMode,
-  ɵunwrapSafeValue as unwrapSafeUrl,
 } from '@angular/core';
 import { MatxAvatarComponent } from './avatar.component';
 
@@ -28,7 +27,7 @@ export class MatxAvatarImageDirective
   @HostBinding('style') style =
     `position: absolute; display: block; inset: 0; width: 100%; height: 100%; object-fit: cover;`;
 
-  @Input({ required: true, transform: unwrapSafeUrl }) src!: string;
+  @Input({ required: true }) src!: string;
 
   @Input() width?: string;
 
