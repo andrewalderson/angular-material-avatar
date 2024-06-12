@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Meta, moduleMetadata, type StoryObj } from '@storybook/angular';
+import { MatxAvatarDynamicColorsDirective } from './avatar-dynamic-colors.directive';
 import { MatxAvatarIconFallbackComponent } from './avatar-icon-fallback.component';
 import { MatxAvatarImageDirective } from './avatar-image.directive';
 import { MatxAvatarInitialsFallbackComponent } from './avatar-initials-fallback.component';
@@ -10,7 +11,8 @@ import {
 
 export type StoryArgTypes = MatxAvatarComponent &
   HTMLImageElement &
-  MatxAvatarInitialsFallbackComponent & {
+  MatxAvatarInitialsFallbackComponent &
+  MatxAvatarDynamicColorsDirective & {
     borderWidth: number;
     content: string;
   };
@@ -68,6 +70,7 @@ const meta: Meta<StoryArgTypes> = {
         MatxAvatarImageDirective,
         MatxAvatarInitialsFallbackComponent,
         MatxAvatarIconFallbackComponent,
+        MatxAvatarDynamicColorsDirective,
       ],
     }),
   ],
@@ -161,6 +164,6 @@ export const WithInitialsFallback: Story = {
     initialsName: 'William Wallace',
     colorsName: 'william.wallace@outlook.com',
     content:
-      '<matx-avatar-initials-fallback [initialsName]="initialsName" [colorsName]="colorsName"/>',
+      '<matx-avatar-initials-fallback matxAvatarDynamicColors [initialsName]="initialsName" [colorsName]="colorsName"/>',
   },
 };

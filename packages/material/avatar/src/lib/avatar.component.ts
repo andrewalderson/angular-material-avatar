@@ -12,12 +12,6 @@ import {
   signal,
 } from '@angular/core';
 
-export type AvatarColors = {
-  foreground: string;
-  background: string;
-  border?: string; // uses foreground if not set
-};
-
 @Directive({
   selector: '[matxAvatarFallback]',
   standalone: true,
@@ -49,22 +43,5 @@ export class MatxAvatarComponent {
 
   _setUseImage(value: boolean) {
     this.#useImage.set(value);
-  }
-
-  _setCustomAvatarColors(colors: AvatarColors) {
-    const style = coerceElement(this._elementRef).style;
-    style.setProperty('--matx-avatar-color', colors.foreground);
-    style.setProperty('--matx-avatar-background-color', colors.background);
-    style.setProperty(
-      '--matx-avatar-border-color',
-      colors.border ?? colors.foreground,
-    );
-  }
-
-  _removeCustomColors() {
-    const style = coerceElement(this._elementRef).style;
-    style.removeProperty('--matx-avatar-color');
-    style.removeProperty('--matx-avatar-background-color');
-    style.removeProperty('--matx-avatar-border-color');
   }
 }

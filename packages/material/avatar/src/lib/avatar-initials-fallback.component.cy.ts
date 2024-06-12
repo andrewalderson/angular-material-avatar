@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { moduleMetadata } from '@storybook/angular';
 import { composeStory, createMountable } from '@storybook/testing-angular';
+import { MATX_AVATAR_DYNAMIC_COLORS_FUNCTION } from './avatar-dynamic-colors.directive';
 import {
-  MATX_AVATAR_INITIALS_COLORS_FUNCTION,
   MATX_AVATAR_INITIALS_INITIALS_FUNCTION,
   MatxAvatarInitialsFallbackComponent,
 } from './avatar-initials-fallback.component';
@@ -24,7 +24,7 @@ const initialsStory = composeStory(WithInitialsFallback, meta, {
           useValue: () => expectedInitials,
         },
         {
-          provide: MATX_AVATAR_INITIALS_COLORS_FUNCTION,
+          provide: MATX_AVATAR_DYNAMIC_COLORS_FUNCTION,
           useValue: () => expectedColors,
         },
       ],
