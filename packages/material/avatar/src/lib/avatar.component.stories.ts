@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { Meta, moduleMetadata, type StoryObj } from '@storybook/angular';
 import { MatxAvatarDynamicColorsDirective } from './avatar-dynamic-colors.directive';
 import { MatxAvatarIconFallbackComponent } from './avatar-icon-fallback.component';
@@ -55,7 +55,6 @@ const calculateStyles = (args: any) => {
       }
     `,
   ],
-  encapsulation: ViewEncapsulation.ShadowDom,
 })
 class MatxAvatarCustomIconComponent {}
 

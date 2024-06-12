@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
-  ViewEncapsulation,
   inject,
   isDevMode,
   signal,
@@ -54,7 +53,6 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
       }
     `,
   ],
-  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatxAvatarInitialsFallbackComponent implements OnChanges {

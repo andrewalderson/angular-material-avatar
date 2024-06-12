@@ -41,9 +41,7 @@ describe(MatxAvatarInitialsFallbackComponent.name, () => {
       cy.mount(component, applicationConfig);
     });
     it('should render the initials from the initialsName', () => {
-      cy.get('matx-avatar')
-        .contains(expectedInitials, { includeShadowDom: true })
-        .should('exist');
+      cy.get('matx-avatar').contains(expectedInitials).should('exist');
     });
   });
   describe('styling', () => {

@@ -6,7 +6,6 @@ import {
   Component,
   Directive,
   ElementRef,
-  ViewEncapsulation,
   computed,
   signal,
 } from '@angular/core';
@@ -23,7 +22,6 @@ export class MatxAvatarFallbackDirective {}
   imports: [],
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatxAvatarComponent {

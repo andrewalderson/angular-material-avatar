@@ -20,9 +20,7 @@ describe(MatxAvatarComponent.name, () => {
           );
           cy.mount(component, applicationConfig);
 
-          cy.get('matx-avatar-icon-fallback', {
-            includeShadowDom: true,
-          }).should('exist');
+          cy.get('matx-avatar-icon-fallback').should('exist');
         });
       });
       context('and an initials fallback is defined', () => {
@@ -34,9 +32,7 @@ describe(MatxAvatarComponent.name, () => {
         });
         it('should render the initials fallback', () => {
           cy.get('matx-avatar')
-            .find('matx-avatar-initials-fallback', {
-              includeShadowDom: true,
-            })
+            .find('matx-avatar-initials-fallback')
             .should('exist');
         });
       });
@@ -48,11 +44,7 @@ describe(MatxAvatarComponent.name, () => {
           cy.mount(component, applicationConfig);
         });
         it('should render the custom fallback', () => {
-          cy.get('matx-avatar')
-            .find('[matxAvatarFallback]', {
-              includeShadowDom: true,
-            })
-            .should('exist');
+          cy.get('matx-avatar').find('[matxAvatarFallback]').should('exist');
         });
       });
     });
@@ -98,16 +90,14 @@ describe(MatxAvatarComponent.name, () => {
         });
         it('should render the image', () => {
           cy.get('matx-avatar')
-            .find('img[matxAvatarImage]', { includeShadowDom: true })
+            .find('img[matxAvatarImage]')
             .should('exist')
             .and('have.attr', 'src', src);
         });
 
         it('should not render the fallback', () => {
           cy.get('matx-avatar')
-            .find('matx-avatar-icon-fallback', {
-              includeShadowDom: true,
-            })
+            .find('matx-avatar-icon-fallback')
             .should('not.exist');
         });
       });
@@ -149,15 +139,13 @@ describe(MatxAvatarComponent.name, () => {
         });
         it('should not render the image', () => {
           cy.get('matx-avatar')
-            .find('img[matxAvatarImage]', { includeShadowDom: true })
+            .find('img[matxAvatarImage]')
             .should('not.exist');
         });
 
         it('should render the fallback', () => {
           cy.get('matx-avatar')
-            .find('matx-avatar-icon-fallback', {
-              includeShadowDom: true,
-            })
+            .find('matx-avatar-icon-fallback')
             .should('exist');
         });
       });
