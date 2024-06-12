@@ -1,6 +1,5 @@
 /* eslint-disable @angular-eslint/no-inputs-metadata-property */
 import { coerceElement } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
 import {
   Attribute,
   ChangeDetectionStrategy,
@@ -21,7 +20,7 @@ export class MatxAvatarFallbackDirective {}
 @Component({
   selector: 'matx-avatar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,

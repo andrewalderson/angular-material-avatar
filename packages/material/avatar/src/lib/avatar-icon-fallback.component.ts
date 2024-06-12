@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,7 +7,7 @@ import {
 @Component({
   selector: 'matx-avatar-icon-fallback',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `<ng-content />`,
   styles: [
     `

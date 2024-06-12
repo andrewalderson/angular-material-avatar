@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -40,7 +39,7 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
 @Component({
   selector: 'matx-avatar-initials-fallback',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `<span>{{ initials() }}</span> `,
   styles: [
     `
