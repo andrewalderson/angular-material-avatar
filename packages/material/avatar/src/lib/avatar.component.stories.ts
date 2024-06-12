@@ -17,7 +17,7 @@ export type StoryArgTypes = MatxAvatarComponent &
     content: string;
   };
 
-type Story = StoryObj<StoryArgTypes>;
+export type Story = StoryObj<StoryArgTypes>;
 
 const calculateStyles = (args: any) => {
   let style = '';

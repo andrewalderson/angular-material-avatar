@@ -3,12 +3,12 @@ import {
   Directive,
   ElementRef,
   HostBinding,
-  Input,
   OnChanges,
   OnInit,
   Renderer2,
   SimpleChanges,
   inject,
+  input,
   isDevMode,
 } from '@angular/core';
 import { MatxAvatarComponent } from './avatar.component';
@@ -27,11 +27,11 @@ export class MatxAvatarImageDirective
   @HostBinding('style') style =
     `position: absolute; display: block; inset: 0; width: 100%; height: 100%; object-fit: cover;`;
 
-  @Input({ required: true }) src!: string;
+  src = input.required<string>();
 
-  @Input() width?: string;
+  width = input<string>();
 
-  @Input() height?: string;
+  height = input<string>();
 
   ngOnInit(): void {
     if (isDevMode()) {
@@ -55,7 +55,7 @@ export class MatxAvatarImageDirective
   }
 
   #updateSrc() {
-    this.#setHostAttribute('src', this.src);
+    this.#setHostAttribute('src', this.src());
   }
 
   #listenForImageEvents() {
@@ -77,7 +77,7 @@ export class MatxAvatarImageDirective
 }
 
 function assertEmptyWidthAndHeight(dir: MatxAvatarImageDirective) {
-  if (dir.width || dir.height) {
+  if (dir.width() || dir.height()) {
     throw new Error(
       `the attributes \`height\` and/or \`width\` are present and should not be. The image directive will handle setting its dimensions`,
     );

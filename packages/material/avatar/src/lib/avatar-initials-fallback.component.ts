@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   InjectionToken,
-  Input,
   OnChanges,
   SimpleChanges,
   inject,
+  input,
   isDevMode,
   signal,
 } from '@angular/core';
@@ -63,12 +63,12 @@ export class MatxAvatarInitialsFallbackComponent implements OnChanges {
   /**
    * Name (usually persons first and last name) used to render the initials
    */
-  @Input({ required: true }) initialsName!: string;
+  initialsName = input.required<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     const initialsName = changes['initialsName'];
     if (initialsName) {
-      this.#setInitials(this.initialsName);
+      this.#setInitials(this.initialsName());
     }
   }
 

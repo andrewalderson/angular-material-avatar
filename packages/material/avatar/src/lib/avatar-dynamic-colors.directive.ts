@@ -2,10 +2,10 @@ import {
   Directive,
   ElementRef,
   InjectionToken,
-  Input,
   OnChanges,
   OnDestroy,
   inject,
+  input,
   isDevMode,
 } from '@angular/core';
 import { MatxAvatarComponent } from './avatar.component';
@@ -84,12 +84,12 @@ export class MatxAvatarDynamicColorsDirective implements OnChanges, OnDestroy {
    * Name (usually persons email address) used to render the colors
    * If not set the colors will be rendered from the initialsName
    */
-  @Input() colorsName?: string;
+  colorsName = input.required<string>();
 
   ngOnChanges(): void {
     this.clearColors();
     if (this.colorsName) {
-      this.setColors(this.colorsName);
+      this.setColors(this.colorsName());
     }
   }
 
