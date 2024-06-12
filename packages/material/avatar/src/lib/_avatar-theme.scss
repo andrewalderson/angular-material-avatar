@@ -1,99 +1,58 @@
 @use '@angular/material' as mat;
-@use 'sass:map';
 
-@mixin color($config-or-theme) {
-  $config: mat.get-color-config($config-or-theme);
-  $foreground: map.get($config, 'foreground');
-  $background: map.get($config, 'background');
-  $primary: map.get($config, primary);
-  $accent: map.get($config, accent);
-  $warn: map.get($config, warn);
-
+@mixin color($theme) {
   :root {
-    --matx-avatar-color: #{mat.get-color-from-palette($foreground, 'icon')};
-    --matx-avatar-background-color: #{mat.get-color-from-palette(
-        $background,
-        'background'
+    --matx-avatar-color: #{mat.get-theme-color($theme, outline)};
+    --matx-avatar-background-color: #{mat.get-theme-color(
+        $theme,
+        surface-container-high
       )};
-
-    --matx-avatar-border-color: #{mat.get-color-from-palette(
-        $foreground,
-        'icon'
-      )};
+    --matx-avatar-border-color: #{mat.get-theme-color($theme, outline)};
   }
 
   matx-avatar {
     &.mat-primary {
-      --matx-avatar-color: #{mat.get-color-from-palette(
-          $primary,
-          'default-contrast'
-        )};
-
-      --matx-avatar-background-color: #{mat.get-color-from-palette(
-          $primary,
-          'default'
-        )};
-
-      --matx-avatar-border-color: #{mat.get-color-from-palette(
-          $primary,
-          'default-contrast'
-        )};
+      --matx-avatar-color: #{mat.get-theme-color($theme, on-primary)};
+      --matx-avatar-background-color: #{mat.get-theme-color($theme, primary, 50)};
+      --matx-avatar-border-color: #{mat.get-theme-color($theme, on-primary)};
     }
 
     &.mat-accent {
-      --matx-avatar-color: #{mat.get-color-from-palette(
-          $accent,
-          'default-contrast'
+      --matx-avatar-color: #{mat.get-theme-color($theme, on-tertiary)};
+      --matx-avatar-background-color: #{mat.get-theme-color(
+          $theme,
+          tertiary,
+          50
         )};
-
-      --matx-avatar-background-color: #{mat.get-color-from-palette(
-          $accent,
-          'default'
-        )};
-
-      --matx-avatar-border-color: #{mat.get-color-from-palette(
-          $accent,
-          'default-contrast'
-        )};
+      --matx-avatar-border-color: #{mat.get-theme-color($theme, on-tertiary)};
     }
 
     &.mat-warn {
-      --matx-avatar-color: #{mat.get-color-from-palette(
-          $warn,
-          'default-contrast'
-        )};
-
-      --matx-avatar-background-color: #{mat.get-color-from-palette(
-          $warn,
-          'default'
-        )};
-
-      --matx-avatar-border-color: #{mat.get-color-from-palette(
-          $warn,
-          'default-contrast'
-        )};
+      --matx-avatar-color: #{mat.get-theme-color($theme, on-error)};
+      --matx-avatar-background-color: #{mat.get-theme-color($theme, error, 50)};
+      --matx-avatar-border-color: #{mat.get-theme-color($theme, on-error)};
     }
   }
 }
 
-@mixin typography($config-or-theme) {
-  $config: mat.get-typography-config($config-or-theme);
-
+@mixin typography($theme) {
   :root {
-    font-family: mat.font-family($config);
+    --matx-avatar-font-family: #{mat.get-theme-typography(
+        $theme,
+        body-medium,
+        font-family
+      )};
     --matx-avatar-font-size: 45cqw;
     --matx-avatar-font-weight: 300;
   }
 }
 
 @mixin theme($theme) {
-  $color: mat.get-color-config($theme);
-  $typography: mat.get-typography-config($theme);
-  @if $color != null {
+  @if mat.theme-has($theme, color) {
     @include color($theme);
   }
 
-  @if $typography != null {
+  @if mat.theme-has($theme, typography) {
     @include typography($theme);
   }
 }

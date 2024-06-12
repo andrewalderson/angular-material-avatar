@@ -17,7 +17,7 @@ export type StoryArgTypes = MatxAvatarComponent &
 
 type Story = StoryObj<StoryArgTypes>;
 
-const calculateStyles = (args: StoryArgTypes) => {
+const calculateStyles = (args: any) => {
   let style = '';
   if (args.borderWidth) {
     style += `--matx-avatar-border-width: ${args.borderWidth}px`;
@@ -97,7 +97,7 @@ const meta: Meta<StoryArgTypes> = {
       control: { type: 'number', min: 0 },
       table: {
         category: 'CSS',
-        defaultValue: 0,
+        defaultValue: { summary: '0' },
         type: { summary: 'number' },
       },
     },

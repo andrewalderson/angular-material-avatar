@@ -3,17 +3,15 @@ import { dirname, join } from 'path';
 
 const config: StorybookConfig = {
   core: {},
-  stories: ['../../../packages/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-  addons: [getAbsolutePath('@storybook/addon-essentials')],
+  stories: ['../../../packages/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
+  addons: [getAbsolutePath('@storybook/addon-essentials'), '@chromatic-com/storybook'],
 
   framework: {
     name: getAbsolutePath('@storybook/angular'),
     options: {},
   },
 
-  docs: {
-    autodocs: true,
-  },
+  docs: {},
 
   staticDirs: ['../src/assets'],
 };
