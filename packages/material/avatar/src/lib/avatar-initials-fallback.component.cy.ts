@@ -47,33 +47,17 @@ describe(MatxAvatarInitialsFallbackComponent.name, () => {
     });
   });
   describe('styling', () => {
-    context('given a theme palette (color) is undefined', () => {
-      beforeEach(() => {
-        const { component, applicationConfig } = createMountable(
-          initialsStory({}),
-        );
-        cy.mount(component, applicationConfig);
-      });
-      it('should set the custom colors on the avatar', () => {
-        cy.get('matx-avatar')
-          .should('have.css', 'color', expectedColors.foreground)
-          .and('have.css', 'background-color', expectedColors.background)
-          .and('have.css', 'border-color', expectedColors.border);
-      });
+    beforeEach(() => {
+      const { component, applicationConfig } = createMountable(
+        initialsStory({}),
+      );
+      cy.mount(component, applicationConfig);
     });
-    context('given a theme palette (color) is defined', () => {
-      beforeEach(() => {
-        const { component, applicationConfig } = createMountable(
-          initialsStory({ color: 'primary' }),
-        );
-        cy.mount(component, applicationConfig);
-      });
-      it('should not set the custom colors on the avatar', () => {
-        cy.get('matx-avatar')
-          .should('not.have.css', 'color', expectedColors.foreground)
-          .and('not.have.css', 'background-color', expectedColors.background)
-          .and('not.have.css', 'border-color', expectedColors.border);
-      });
+    it('should set the custom colors on the avatar', () => {
+      cy.get('matx-avatar')
+        .should('have.css', 'color', expectedColors.foreground)
+        .and('have.css', 'background-color', expectedColors.background)
+        .and('have.css', 'border-color', expectedColors.border);
     });
   });
 });

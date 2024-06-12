@@ -145,7 +145,7 @@ export class MatxAvatarInitialsFallbackComponent
   }
 
   ngOnDestroy(): void {
-    this.#avatar._removeCustomColors(true);
+    this.#avatar._removeCustomColors();
   }
 
   #setInitials(name?: string) {

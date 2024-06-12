@@ -1,4 +1,3 @@
-import { ThemePalette } from '@angular/material/core';
 import { composeStories, createMountable } from '@storybook/testing-angular';
 import { MatxAvatarComponent } from './avatar.component';
 import * as stories from './avatar.component.stories';
@@ -160,40 +159,6 @@ describe(MatxAvatarComponent.name, () => {
               includeShadowDom: true,
             })
             .should('exist');
-        });
-      });
-    });
-  });
-  describe('styling', () => {
-    context('given a theme color is not specified', () => {
-      beforeEach(() => {
-        const { component, applicationConfig } = createMountable(
-          WithIconFallback({}),
-        );
-        cy.mount(component, applicationConfig);
-      });
-      it("should add the class 'mat-unthemed'", () => {
-        cy.get('matx-avatar').should('have.class', `mat-unthemed`);
-      });
-    });
-    context('given a theme color is specified', () => {
-      const colors: ThemePalette[] = ['primary', 'accent', 'warn'];
-      colors.forEach((color) => {
-        context(`and the theme color is ${color}`, () => {
-          beforeEach(() => {
-            const { component, applicationConfig } = createMountable(
-              WithIconFallback({
-                color,
-              }),
-            );
-            cy.mount(component, applicationConfig);
-          });
-          it(`should have the class 'mat-${color}'`, () => {
-            cy.get('matx-avatar').should('have.class', `mat-${color}`);
-          });
-          it(`should not add the class 'mat-unthemed'`, () => {
-            cy.get('matx-avatar').should('not.have.class', `mat-unthemed`);
-          });
         });
       });
     });

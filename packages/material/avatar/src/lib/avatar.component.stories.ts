@@ -78,20 +78,6 @@ const meta: Meta<StoryArgTypes> = {
     },
   },
   argTypes: {
-    color: {
-      name: 'color (Material Theme Palette)',
-      description: 'Sets the background, border and font colors where used',
-      control: {
-        type: 'select',
-        labels: {
-          undefined: 'None',
-          primary: 'Primary',
-          accent: 'Accent',
-          warn: 'warn',
-        },
-      },
-      options: [undefined, 'primary', 'accent', 'warn'],
-    },
     borderWidth: {
       name: '--matx-avatar-border-width',
       control: { type: 'number', min: 0 },
@@ -122,14 +108,14 @@ const meta: Meta<StoryArgTypes> = {
     },
   },
   args: {
-    color: undefined,
     borderWidth: 0,
     content: '',
   },
   render: (args) => ({
     props: args,
-    template: `<matx-avatar ${calculateStyles(args)} 
-    ${args.color ? '[color]="color"' : ''}>${args.content}</matx-avatar>`,
+    template: `<matx-avatar ${calculateStyles(args)}>${
+      args.content
+    }</matx-avatar>`,
   }),
 };
 
