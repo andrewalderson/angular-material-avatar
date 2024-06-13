@@ -10,11 +10,11 @@ import meta, {
 // 'composeStories' is throwing an error when using signal inputs in components
 // so we are composing each story individually below for now
 // const {
-//   WithIconFallback,
+//   WithIconFallback: stories.Story,
 //   WithCustomFallback,
 //   WithImage,
 //   WithInitialsFallback,
-// } = composeStories(stories);
+// } = composeStories<stories.StoryArgTypes>(stories);
 
 const initialsFalbackStory = composeStory(WithInitialsFallback, meta);
 const imageStory = composeStory(WithImage, meta);
