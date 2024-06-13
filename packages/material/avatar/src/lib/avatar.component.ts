@@ -1,14 +1,21 @@
 /* eslint-disable @angular-eslint/no-inputs-metadata-property */
-import { coerceElement } from '@angular/cdk/coercion';
 import {
   Attribute,
   ChangeDetectionStrategy,
   Component,
   Directive,
   ElementRef,
+  InjectionToken,
   computed,
   signal,
 } from '@angular/core';
+
+export interface MatxAvatar {
+  _elementRef: ElementRef<HTMLElement>;
+  _setUseImage: (value: boolean) => void;
+}
+
+export const MATX_AVATAR = new InjectionToken<MatxAvatar>('matxAvatar');
 
 @Directive({
   selector: '[matxAvatarFallback]',
@@ -23,8 +30,9 @@ export class MatxAvatarFallbackDirective {}
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: MATX_AVATAR, useExisting: MatxAvatarComponent }],
 })
-export class MatxAvatarComponent {
+export class MatxAvatarComponent implements MatxAvatar {
   protected readonly useImage = computed(() => this.#useImage() === true);
 
   #useImage = signal(false);

@@ -1,6 +1,5 @@
 import {
   Directive,
-  ElementRef,
   InjectionToken,
   OnChanges,
   OnDestroy,
@@ -8,7 +7,7 @@ import {
   input,
   isDevMode,
 } from '@angular/core';
-import { MatxAvatarComponent } from './avatar.component';
+import { MATX_AVATAR } from './avatar.component';
 
 // these colors are the 700 values from the material color spec
 // the default contrast for all is white
@@ -75,8 +74,7 @@ export const MATX_AVATAR_DYNAMIC_COLORS_FUNCTION =
 })
 export class MatxAvatarDynamicColorsDirective implements OnChanges, OnDestroy {
   // the css properties need to be set on the avatar
-  #elementRef: ElementRef<HTMLElement> =
-    inject(MatxAvatarComponent)._elementRef;
+  #avatarElement = inject(MATX_AVATAR)._elementRef.nativeElement;
 
   #colorsFn = inject(MATX_AVATAR_DYNAMIC_COLORS_FUNCTION);
 
@@ -99,7 +97,7 @@ export class MatxAvatarDynamicColorsDirective implements OnChanges, OnDestroy {
 
   setColors(name: string) {
     const colors = this.#getAvatarColors(name);
-    const style = this.#elementRef.nativeElement.style;
+    const style = this.#avatarElement.style;
     style.setProperty('--matx-avatar-color', colors.foreground);
     style.setProperty('--matx-avatar-background-color', colors.background);
     style.setProperty(
@@ -109,7 +107,7 @@ export class MatxAvatarDynamicColorsDirective implements OnChanges, OnDestroy {
   }
 
   clearColors() {
-    const style = this.#elementRef.nativeElement.style;
+    const style = this.#avatarElement.style;
     style.removeProperty('--matx-avatar-color');
     style.removeProperty('--matx-avatar-background-color');
     style.removeProperty('--matx-avatar-border-color');

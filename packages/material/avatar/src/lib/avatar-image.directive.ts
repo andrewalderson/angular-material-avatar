@@ -11,7 +11,7 @@ import {
   input,
   isDevMode,
 } from '@angular/core';
-import { MatxAvatarComponent } from './avatar.component';
+import { MATX_AVATAR } from './avatar.component';
 
 @Directive({
   selector: 'img[matxAvatarImage]',
@@ -20,7 +20,7 @@ import { MatxAvatarComponent } from './avatar.component';
 export class MatxAvatarImageDirective
   implements AfterViewInit, OnChanges, OnInit
 {
-  #avatar = inject(MatxAvatarComponent);
+  #avatar = inject(MATX_AVATAR);
   #element: HTMLImageElement = inject(ElementRef).nativeElement;
   #renderer = inject(Renderer2);
 
