@@ -42,7 +42,7 @@ export class MatxAvatarComponent implements MatxAvatar {
     @Attribute('aria-hidden') ariaHidden: string,
   ) {
     if (!ariaHidden) {
-      coerceElement(this._elementRef).setAttribute('aria-hidden', 'true');
+      this._elementRef.nativeElement.setAttribute('aria-hidden', 'true');
     }
   }
 
