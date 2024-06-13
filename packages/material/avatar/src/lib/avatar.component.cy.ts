@@ -7,10 +7,12 @@ import meta, {
   WithInitialsFallback,
 } from './avatar.component.stories';
 
+//import * as stories from './avatar.component.stories';
+
 // 'composeStories' is throwing an error when using signal inputs in components
 // so we are composing each story individually below for now
 // const {
-//   WithIconFallback: stories.Story,
+//   WithIconFallback,
 //   WithCustomFallback,
 //   WithImage,
 //   WithInitialsFallback,
