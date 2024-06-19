@@ -36,7 +36,7 @@
     "@storybook/core-server": "^8.1.7",
     "@storybook/test": "^8.1.7",
     "@storybook/test-runner": "^0.18.2",
-    "@storybook/testing-angular": "^1.0.3-next.0",
+    "@storybook/testing-angular": "^1.0.3-next.1",
     "@swc-node/register": "1.9.2",
     "@swc/core": "1.5.7",
     "@types/jest": "^29.5.11",

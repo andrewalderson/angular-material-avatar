@@ -1,27 +1,14 @@
-import { composeStory, createMountable } from '@storybook/testing-angular';
+import { composeStories, createMountable } from '@storybook/testing-angular';
 import { MatxAvatarComponent } from './avatar.component';
-import meta, {
-  WithCustomFallback,
+
+import * as stories from './avatar.component.stories';
+
+const {
   WithIconFallback,
+  WithCustomFallback,
   WithImage,
   WithInitialsFallback,
-} from './avatar.component.stories';
-
-//import * as stories from './avatar.component.stories';
-
-// 'composeStories' is throwing an error when using signal inputs in components
-// so we are composing each story individually below for now
-// const {
-//   WithIconFallback,
-//   WithCustomFallback,
-//   WithImage,
-//   WithInitialsFallback,
-// } = composeStories<stories.StoryArgTypes>(stories);
-
-const initialsFalbackStory = composeStory(WithInitialsFallback, meta);
-const imageStory = composeStory(WithImage, meta);
-const customFallbackStory = composeStory(WithCustomFallback, meta);
-const iconFallbackStory = composeStory(WithIconFallback, meta);
+} = composeStories(stories);
 
 describe(MatxAvatarComponent.name, () => {
   describe('rendering', () => {
@@ -29,7 +16,7 @@ describe(MatxAvatarComponent.name, () => {
       context('and an icon fallback is defined', () => {
         it('should render the icon fallback', () => {
           const { component, applicationConfig } = createMountable(
-            iconFallbackStory({}),
+            WithIconFallback({}),
           );
           cy.mount(component, applicationConfig);
 
@@ -39,7 +26,7 @@ describe(MatxAvatarComponent.name, () => {
       context('and an initials fallback is defined', () => {
         beforeEach(() => {
           const { component, applicationConfig } = createMountable(
-            initialsFalbackStory({}),
+            WithInitialsFallback({}),
           );
           cy.mount(component, applicationConfig);
         });
@@ -52,7 +39,7 @@ describe(MatxAvatarComponent.name, () => {
       context('and a custom fallback is defined', () => {
         beforeEach(() => {
           const { component, applicationConfig } = createMountable(
-            customFallbackStory({}),
+            WithCustomFallback({}),
           );
           cy.mount(component, applicationConfig);
         });
@@ -75,7 +62,7 @@ describe(MatxAvatarComponent.name, () => {
           ).as('imageRequest');
 
           const { component, applicationConfig } = createMountable(
-            imageStory({
+            WithImage({
               src,
               content: `<img matxAvatarImage [src]="src"/>
               <matx-avatar-icon-fallback>
@@ -124,7 +111,7 @@ describe(MatxAvatarComponent.name, () => {
           ).as('imageRequest');
 
           const { component, applicationConfig } = createMountable(
-            imageStory({
+            WithImage({
               src,
               content: `<img matxAvatarImage [src]="src"/>
               <matx-avatar-icon-fallback>
