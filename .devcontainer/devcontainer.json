@@ -17,7 +17,7 @@
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "npm install && npx cypress install && npx playwright install",
+  "postCreateCommand": "npm install && npx cypress install",
 
   // Configure tool-specific properties.
   "customizations": {
