@@ -65,6 +65,15 @@ export class MatxAvatarInitialsFallbackComponent implements OnChanges {
    */
   initialsName = input.required<string>();
 
+  /**
+   *
+   */
+  constructor() {
+    if (isDevMode()) {
+      this.#validateInitialsFunction();
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     const initialsName = changes['initialsName'];
     if (initialsName) {
@@ -73,9 +82,19 @@ export class MatxAvatarInitialsFallbackComponent implements OnChanges {
   }
 
   #setInitials(name?: string) {
-    if (isDevMode() && !this.#initialsFn) {
-      throw new Error('An initials function must be provided');
-    }
     this.initials.set(this.#initialsFn(name));
+  }
+
+  #validateInitialsFunction() {
+    if (!this.#initialsFn) {
+      throw new Error(
+        "The 'MATX_AVATAR_INITIALS_INITIALS_FUNCTION' must be provided",
+      );
+    }
+    if (!(this.#initialsFn instanceof Function)) {
+      throw new Error(
+        "The 'MATX_AVATAR_INITIALS_INITIALS_FUNCTION' must be a function",
+      );
+    }
   }
 }
