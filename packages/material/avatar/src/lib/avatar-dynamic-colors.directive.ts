@@ -84,6 +84,12 @@ export class MatxAvatarDynamicColorsDirective implements OnChanges, OnDestroy {
    */
   colorsName = input.required<string>();
 
+  constructor() {
+    if (isDevMode()) {
+      this.#assertColorsFunction();
+    }
+  }
+
   ngOnChanges(): void {
     this.clearColors();
     if (this.colorsName) {
@@ -114,9 +120,19 @@ export class MatxAvatarDynamicColorsDirective implements OnChanges, OnDestroy {
   }
 
   #getAvatarColors(name?: string) {
-    if (isDevMode() && !this.#colorsFn) {
-      throw new Error('A colors function must be provided');
-    }
     return this.#colorsFn(name);
+  }
+
+  #assertColorsFunction() {
+    if (!this.#colorsFn) {
+      throw new Error(
+        "The 'MATX_AVATAR_DYNAMIC_COLORS_FUNCTION' must be provided",
+      );
+    }
+    if (!(this.#colorsFn instanceof Function)) {
+      throw new Error(
+        "The 'MATX_AVATAR_DYNAMIC_COLORS_FUNCTION' must be a function",
+      );
+    }
   }
 }
