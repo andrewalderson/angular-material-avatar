@@ -2,12 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   InjectionToken,
-  OnChanges,
-  SimpleChanges,
+  computed,
   inject,
   input,
   isDevMode,
-  signal,
 } from '@angular/core';
 
 export type MatxAvatarInitialsInitialsFn = (name?: string) => string;
@@ -55,10 +53,12 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatxAvatarInitialsFallbackComponent implements OnChanges {
+export class MatxAvatarInitialsFallbackComponent {
   #initialsFn = inject(MATX_AVATAR_INITIALS_INITIALS_FUNCTION);
 
-  protected readonly initials = signal<string>('');
+  protected readonly initials = computed(() =>
+    this.#initialsFn(this.initialsName()),
+  );
 
   /**
    * Name (usually persons first and last name) used to render the initials
@@ -72,17 +72,6 @@ export class MatxAvatarInitialsFallbackComponent implements OnChanges {
     if (isDevMode()) {
       this.#validateInitialsFunction();
     }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    const initialsName = changes['initialsName'];
-    if (initialsName) {
-      this.#setInitials(this.initialsName());
-    }
-  }
-
-  #setInitials(name?: string) {
-    this.initials.set(this.#initialsFn(name));
   }
 
   #validateInitialsFunction() {
