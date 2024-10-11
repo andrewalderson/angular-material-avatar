@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
-  HostBinding,
   OnChanges,
   OnInit,
   Renderer2,
@@ -16,6 +15,9 @@ import { MATX_AVATAR } from './avatar.component';
 @Directive({
   selector: 'img[matxAvatarImage]',
   standalone: true,
+  host: {
+    style: `position: absolute; display: block; inset: 0; width: 100%; height: 100%; object-fit: cover;`,
+  },
 })
 export class MatxAvatarImageDirective
   implements AfterViewInit, OnChanges, OnInit
@@ -23,9 +25,6 @@ export class MatxAvatarImageDirective
   #avatar = inject(MATX_AVATAR);
   #element: HTMLImageElement = inject(ElementRef).nativeElement;
   #renderer = inject(Renderer2);
-
-  @HostBinding('style') style =
-    `position: absolute; display: block; inset: 0; width: 100%; height: 100%; object-fit: cover;`;
 
   src = input.required<string>();
 
