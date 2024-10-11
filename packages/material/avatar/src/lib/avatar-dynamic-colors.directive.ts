@@ -1,8 +1,8 @@
 import {
   Directive,
   InjectionToken,
-  OnChanges,
   OnDestroy,
+  effect,
   inject,
   input,
   isDevMode,
@@ -72,7 +72,7 @@ export const MATX_AVATAR_DYNAMIC_COLORS_FUNCTION =
   selector: '[matxAvatarDynamicColors]',
   standalone: true,
 })
-export class MatxAvatarDynamicColorsDirective implements OnChanges, OnDestroy {
+export class MatxAvatarDynamicColorsDirective implements OnDestroy {
   // the css properties need to be set on the avatar
   #avatarElement = inject(MATX_AVATAR)._elementRef.nativeElement;
 
@@ -88,21 +88,22 @@ export class MatxAvatarDynamicColorsDirective implements OnChanges, OnDestroy {
     if (isDevMode()) {
       this.#assertColorsFunction();
     }
-  }
 
-  ngOnChanges(): void {
-    this.clearColors();
-    if (this.colorsName) {
-      this.setColors(this.colorsName());
-    }
+    effect(() => {
+      this.#clearAvatarColorProperties();
+      const name = this.colorsName();
+      if (name) {
+        const colors = this.#colorsFn(name);
+        this.#setAvatarColorProperties(colors);
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    this.clearColors();
+    this.#clearAvatarColorProperties();
   }
 
-  setColors(name: string) {
-    const colors = this.#getAvatarColors(name);
+  #setAvatarColorProperties(colors: MatxAvatarColors) {
     const style = this.#avatarElement.style;
     style.setProperty('--matx-avatar-color', colors.foreground);
     style.setProperty('--matx-avatar-background-color', colors.background);
@@ -112,15 +113,11 @@ export class MatxAvatarDynamicColorsDirective implements OnChanges, OnDestroy {
     );
   }
 
-  clearColors() {
+  #clearAvatarColorProperties() {
     const style = this.#avatarElement.style;
     style.removeProperty('--matx-avatar-color');
     style.removeProperty('--matx-avatar-background-color');
     style.removeProperty('--matx-avatar-border-color');
-  }
-
-  #getAvatarColors(name?: string) {
-    return this.#colorsFn(name);
   }
 
   #assertColorsFunction() {
