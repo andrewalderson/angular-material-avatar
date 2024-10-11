@@ -70,11 +70,11 @@ export class MatxAvatarInitialsFallbackComponent {
    */
   constructor() {
     if (isDevMode()) {
-      this.#validateInitialsFunction();
+      this.#assertInitialsFunction();
     }
   }
 
-  #validateInitialsFunction() {
+  #assertInitialsFunction() {
     if (!this.#initialsFn) {
       throw new Error(
         "The 'MATX_AVATAR_INITIALS_INITIALS_FUNCTION' must be provided",
