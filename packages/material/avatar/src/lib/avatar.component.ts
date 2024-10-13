@@ -1,12 +1,13 @@
 /* eslint-disable @angular-eslint/no-inputs-metadata-property */
 import {
-  Attribute,
   ChangeDetectionStrategy,
   Component,
   Directive,
   ElementRef,
+  HostAttributeToken,
   InjectionToken,
   computed,
+  inject,
   signal,
 } from '@angular/core';
 
@@ -33,14 +34,17 @@ export class MatxAvatarFallbackDirective {}
   providers: [{ provide: MATX_AVATAR, useExisting: MatxAvatarComponent }],
 })
 export class MatxAvatarComponent implements MatxAvatar {
+  public _elementRef: ElementRef<HTMLElement> = inject(ElementRef);
+
   protected readonly useImage = computed(() => this.#useImage() === true);
 
   #useImage = signal(false);
 
-  constructor(
-    public _elementRef: ElementRef<HTMLElement>,
-    @Attribute('aria-hidden') ariaHidden: string,
-  ) {
+  constructor() {
+    const ariaHidden = inject(new HostAttributeToken('aria-hidden'), {
+      optional: true,
+    });
+
     if (!ariaHidden) {
       this._elementRef.nativeElement.setAttribute('aria-hidden', 'true');
     }
