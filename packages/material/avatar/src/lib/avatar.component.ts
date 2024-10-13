@@ -45,6 +45,17 @@ export class MatxAvatarComponent implements MatxAvatar {
       optional: true,
     });
 
+    /**
+     * By default we will set the aria-hidden to true if it is not explicitly set
+     * For most use cases an avatar is a decorative element
+     * and if a label or description is needed, it's containing element should supply it
+     * eg. If it is used as a menu trigger for a profile menu that it should be wrapped in a button
+     * and an appropriate label or aria-label should be added to the button
+     * If it is used as a decoration in a list of users, contacts, etc... then the list element
+     * should supply the associated label and the avatar is simply a design element
+     * and has no sematics ike a css background image
+     *
+     */
     if (!ariaHidden) {
       this._elementRef.nativeElement.setAttribute('aria-hidden', 'true');
     }
