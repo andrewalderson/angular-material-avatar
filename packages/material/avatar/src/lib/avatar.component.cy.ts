@@ -32,7 +32,7 @@ describe(MatxAvatarComponent.name, () => {
         });
         it('should render the initials fallback', () => {
           cy.get('matx-avatar')
-            .find('matx-avatar-initials-fallback')
+            .find('matx-avatar-initials-fallback', { includeShadowDom: true })
             .should('exist');
         });
       });
@@ -44,7 +44,9 @@ describe(MatxAvatarComponent.name, () => {
           cy.mount(component, applicationConfig);
         });
         it('should render the custom fallback', () => {
-          cy.get('matx-avatar').find('[matxAvatarFallback]').should('exist');
+          cy.get('matx-avatar')
+            .find('[matxAvatarFallback]', { includeShadowDom: true })
+            .should('exist');
         });
       });
     });
@@ -90,14 +92,14 @@ describe(MatxAvatarComponent.name, () => {
         });
         it('should render the image', () => {
           cy.get('matx-avatar')
-            .find('img[matxAvatarImage]')
+            .find('img[matxAvatarImage]', { includeShadowDom: true })
             .should('exist')
             .and('have.attr', 'src', src);
         });
 
         it('should not render the fallback', () => {
           cy.get('matx-avatar')
-            .find('matx-avatar-icon-fallback')
+            .find('matx-avatar-icon-fallback', { includeShadowDom: true })
             .should('not.exist');
         });
       });
@@ -139,13 +141,13 @@ describe(MatxAvatarComponent.name, () => {
         });
         it('should not render the image', () => {
           cy.get('matx-avatar')
-            .find('img[matxAvatarImage]')
+            .find('img[matxAvatarImage]', { includeShadowDom: true })
             .should('not.exist');
         });
 
         it('should render the fallback', () => {
           cy.get('matx-avatar')
-            .find('matx-avatar-icon-fallback')
+            .find('matx-avatar-icon-fallback', { includeShadowDom: true })
             .should('exist');
         });
       });

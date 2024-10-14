@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   InjectionToken,
+  ViewEncapsulation,
   computed,
   inject,
   input,
@@ -52,6 +53,7 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class MatxAvatarInitialsFallbackComponent {
   #initialsFn = inject(MATX_AVATAR_INITIALS_INITIALS_FUNCTION);

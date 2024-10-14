@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 
 @Component({
   selector: 'matx-avatar-icon-fallback',
@@ -16,5 +20,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class MatxAvatarIconFallbackComponent {}

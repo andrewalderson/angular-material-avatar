@@ -6,6 +6,7 @@ import {
   ElementRef,
   HostAttributeToken,
   InjectionToken,
+  ViewEncapsulation,
   computed,
   inject,
   signal,
@@ -31,6 +32,7 @@ export class MatxAvatarFallbackDirective {}
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.ShadowDom,
   providers: [{ provide: MATX_AVATAR, useExisting: MatxAvatarComponent }],
 })
 export class MatxAvatarComponent implements MatxAvatar {
