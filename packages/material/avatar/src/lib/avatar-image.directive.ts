@@ -15,9 +15,6 @@ import { MATX_AVATAR } from './avatar.component';
 @Directive({
   selector: 'img[matxAvatarImage]',
   standalone: true,
-  host: {
-    style: `position: absolute; display: block; inset: 0; width: 100%; height: 100%; object-fit: cover;`,
-  },
 })
 export class MatxAvatarImageDirective
   implements AfterViewInit, OnChanges, OnInit

@@ -45,8 +45,6 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100%;
-        width: 100%;
         font-size: var(--matx-avatar-font-size);
         font-weight: var(--matx-avatar-font-weight);
       }

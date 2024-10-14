@@ -33,8 +33,6 @@ const calculateStyles = (args: any) => {
   template: ` <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 448 512"
-    height="100%"
-    width="100%"
     fill="currentColor"
   >
     <path
@@ -44,10 +42,14 @@ const calculateStyles = (args: any) => {
   styles: [
     `
       :host {
-        display: block;
-        height: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      svg {
         width: 80%;
-        overflow: hidden;
+        height: 80%;
         border-width: 1px;
         border-style: solid;
         border-color: transparent;

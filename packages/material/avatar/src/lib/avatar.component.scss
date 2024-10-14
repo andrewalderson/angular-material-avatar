@@ -15,4 +15,15 @@
   border-color: var(--matx-avatar-border-color);
   background-color: var(--matx-avatar-background-color);
   color: var(--matx-avatar-color);
+
+  > * {
+    position: absolute;
+    inset: 0;
+  }
+
+  > img {
+    object-fit: cover;
+    width: inherit;
+    height: inherit;
+  }
 }
