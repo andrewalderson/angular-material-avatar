@@ -6,7 +6,6 @@ import {
   computed,
   inject,
   input,
-  isDevMode,
 } from '@angular/core';
 
 export type MatxAvatarInitialsInitialsFn = (name?: string) => string;
@@ -69,26 +68,4 @@ export class MatxAvatarInitialsFallbackComponent {
    * Name (usually persons first and last name) used to render the initials
    */
   initialsName = input.required<string>();
-
-  /**
-   *
-   */
-  constructor() {
-    if (isDevMode()) {
-      this.#assertInitialsFunction();
-    }
-  }
-
-  #assertInitialsFunction() {
-    if (!this.#initialsFn) {
-      throw new Error(
-        "The 'MATX_AVATAR_INITIALS_INITIALS_FUNCTION' must be provided",
-      );
-    }
-    if (!(this.#initialsFn instanceof Function)) {
-      throw new Error(
-        "The 'MATX_AVATAR_INITIALS_INITIALS_FUNCTION' must be a function",
-      );
-    }
-  }
 }

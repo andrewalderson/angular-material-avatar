@@ -5,7 +5,6 @@ import {
   effect,
   inject,
   input,
-  isDevMode,
 } from '@angular/core';
 import { MATX_AVATAR } from './avatar.component';
 
@@ -85,10 +84,6 @@ export class MatxAvatarDynamicColorsDirective implements OnDestroy {
   colorsName = input.required<string>();
 
   constructor() {
-    if (isDevMode()) {
-      this.#assertColorsFunction();
-    }
-
     effect(() => {
       this.#clearAvatarColorProperties();
       const name = this.colorsName();
@@ -118,18 +113,5 @@ export class MatxAvatarDynamicColorsDirective implements OnDestroy {
     style.removeProperty('--matx-avatar-color');
     style.removeProperty('--matx-avatar-background-color');
     style.removeProperty('--matx-avatar-border-color');
-  }
-
-  #assertColorsFunction() {
-    if (!this.#colorsFn) {
-      throw new Error(
-        "The 'MATX_AVATAR_DYNAMIC_COLORS_FUNCTION' must be provided",
-      );
-    }
-    if (!(this.#colorsFn instanceof Function)) {
-      throw new Error(
-        "The 'MATX_AVATAR_DYNAMIC_COLORS_FUNCTION' must be a function",
-      );
-    }
   }
 }
