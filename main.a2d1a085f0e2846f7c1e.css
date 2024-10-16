@@ -230,12 +230,6 @@ matx-avatar.mat-warn {
   --matx-avatar-border-color: #ffffff;
 }
 
-:root {
-  --matx-avatar-font-family: Roboto, sans-serif;
-  --matx-avatar-font-size: 45cqw;
-  --matx-avatar-font-weight: 300;
-}
-
 .mat-primary {
   --mat-stepper-header-selected-state-icon-background-color: #005cbb;
   --mat-stepper-header-selected-state-icon-foreground-color: #ffffff;
