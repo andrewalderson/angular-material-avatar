@@ -84,13 +84,14 @@ export class MatxAvatarDynamicColorsDirective implements OnDestroy {
   colorsName = input.required<string>();
 
   constructor() {
-    effect(() => {
-      this.#clearAvatarColorProperties();
+    effect((onCleanup) => {
       const name = this.colorsName();
       if (name) {
         const colors = this.#colorsFn(name);
         this.#setAvatarColorProperties(colors);
       }
+
+      onCleanup(() => this.#clearAvatarColorProperties());
     });
   }
 
