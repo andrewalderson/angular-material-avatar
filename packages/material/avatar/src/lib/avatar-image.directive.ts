@@ -3,7 +3,6 @@ import {
   Directive,
   ElementRef,
   OnChanges,
-  OnInit,
   Renderer2,
   SimpleChanges,
   inject,
@@ -16,22 +15,16 @@ import { MATX_AVATAR } from './avatar.component';
   selector: 'img[matxAvatarImage]',
   standalone: true,
 })
-export class MatxAvatarImageDirective
-  implements AfterViewInit, OnChanges, OnInit
-{
+export class MatxAvatarImageDirective implements AfterViewInit, OnChanges {
   #avatar = inject(MATX_AVATAR);
   #element: HTMLImageElement = inject(ElementRef).nativeElement;
   #renderer = inject(Renderer2);
 
   src = input.required<string>();
 
-  width = input<string>();
-
-  height = input<string>();
-
-  ngOnInit(): void {
+  constructor() {
     if (isDevMode()) {
-      assertEmptyWidthAndHeight(this);
+      assertImageWidthAndHeightNotSet(this.#element);
     }
   }
 
@@ -72,10 +65,19 @@ export class MatxAvatarImageDirective
   }
 }
 
-function assertEmptyWidthAndHeight(dir: MatxAvatarImageDirective) {
-  if (dir.width() || dir.height()) {
+function assertImageWidthAndHeightNotSet(img: HTMLImageElement) {
+  if (
+    !(
+      assertElementAttributeIsNull(img, 'width') &&
+      assertElementAttributeIsNull(img, 'height')
+    )
+  ) {
     throw new Error(
-      `the attributes \`height\` and/or \`width\` are present and should not be. The image directive will handle setting its dimensions`,
+      "the attributes `height` and/or `width` are present and should not be. The image directive will fill it's parent container so these attributes have no effect and should be removed.",
     );
   }
+}
+
+function assertElementAttributeIsNull(element: HTMLElement, attr: string) {
+  return element.getAttribute(attr) === null;
 }
