@@ -35,24 +35,8 @@
   }
 }
 
-@mixin typography($theme) {
-  :root {
-    --matx-avatar-font-family: #{mat.get-theme-typography(
-        $theme,
-        body-medium,
-        font-family
-      )};
-    --matx-avatar-font-size: 45cqw;
-    --matx-avatar-font-weight: 300;
-  }
-}
-
 @mixin theme($theme) {
   @if mat.theme-has($theme, color) {
     @include color($theme);
-  }
-
-  @if mat.theme-has($theme, typography) {
-    @include typography($theme);
   }
 }

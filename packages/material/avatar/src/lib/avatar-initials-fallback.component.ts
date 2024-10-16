@@ -45,8 +45,13 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: var(--matx-avatar-font-size);
-        font-weight: var(--matx-avatar-font-weight);
+        container-type: inline-size;
+      }
+
+      span {
+        font-family: var(--matx-avatar-font-family, inherit);
+        font-size: var(--matx-avatar-font-size, 45cqw);
+        font-weight: var(--matx-avatar-font-weight, 300);
       }
     `,
   ],
