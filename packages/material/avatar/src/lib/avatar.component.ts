@@ -7,7 +7,6 @@ import {
   HostAttributeToken,
   InjectionToken,
   ViewEncapsulation,
-  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -38,9 +37,7 @@ export class MatxAvatarFallbackDirective {}
 export class MatxAvatarComponent implements MatxAvatar {
   public _elementRef: ElementRef<HTMLElement> = inject(ElementRef);
 
-  protected readonly useImage = computed(() => this.#useImage() === true);
-
-  #useImage = signal(false);
+  protected readonly useImage = signal(false);
 
   constructor() {
     const ariaHidden = inject(new HostAttributeToken('aria-hidden'), {
@@ -64,6 +61,6 @@ export class MatxAvatarComponent implements MatxAvatar {
   }
 
   _setUseImage(value: boolean) {
-    this.#useImage.set(value);
+    this.useImage.set(value);
   }
 }
