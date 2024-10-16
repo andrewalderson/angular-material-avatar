@@ -1,21 +1,21 @@
 import {
-  AfterViewInit,
   Directive,
   ElementRef,
-  OnChanges,
   Renderer2,
-  SimpleChanges,
+  effect,
   inject,
   input,
   isDevMode,
 } from '@angular/core';
 import { MATX_AVATAR } from './avatar.component';
 
+type ImageEventTypeCallbackFn = (event: { type: 'load' | 'error' }) => void;
+
 @Directive({
   selector: 'img[matxAvatarImage]',
   standalone: true,
 })
-export class MatxAvatarImageDirective implements AfterViewInit, OnChanges {
+export class MatxAvatarImageDirective {
   #avatar = inject(MATX_AVATAR);
   #element: HTMLImageElement = inject(ElementRef).nativeElement;
   #renderer = inject(Renderer2);
@@ -26,42 +26,47 @@ export class MatxAvatarImageDirective implements AfterViewInit, OnChanges {
     if (isDevMode()) {
       assertImageWidthAndHeightNotSet(this.#element);
     }
+    this.notifyAvatarOfImage();
   }
 
-  ngAfterViewInit(): void {
-    this.#avatar._setUseImage(true);
-  }
+  notifyAvatarOfImage() {
+    effect(() => {
+      const src = this.src();
+      const callback: ImageEventTypeCallbackFn = (event) => {
+        removeLoadListenerFn();
+        removeErrorListenerFn();
+        this.#avatar._setUseImage(event.type === 'load');
+      };
+      const removeLoadListenerFn = this.#renderer.listen(
+        this.#element,
+        'load',
+        callback,
+      );
+      const removeErrorListenerFn = this.#renderer.listen(
+        this.#element,
+        'error',
+        callback,
+      );
+      this.#renderer.setAttribute(this.#element, 'src', src);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['src']) {
-      this.#listenForImageEvents();
-      this.#updateSrc();
-    }
-  }
-
-  #setHostAttribute(name: string, value: string): void {
-    this.#renderer.setAttribute(this.#element, name, value);
-  }
-
-  #updateSrc() {
-    this.#setHostAttribute('src', this.src());
-  }
-
-  #listenForImageEvents() {
-    const unlistenLoadFn = this.#renderer.listen(this.#element, 'load', () => {
-      this.#avatar._setUseImage(true);
-      unlistenLoadFn();
-      unlistenErrorFn();
+      this.#callOnLoadIfImageAvailable(callback);
     });
-    const unlistenErrorFn = this.#renderer.listen(
-      this.#element,
-      'error',
-      () => {
-        this.#avatar._setUseImage(false);
-        unlistenLoadFn();
-        unlistenErrorFn();
-      },
-    );
+  }
+
+  #callOnLoadIfImageAvailable(callback: ImageEventTypeCallbackFn) {
+    // https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-complete
+    // The spec defines that `complete` is truthy once its request state is fully available.
+    // The image may already be available if it’s loaded from the browser cache.
+    // In that case, the `load` event will not fire at all, meaning that all setup
+    // callbacks listening for the `load` event will not be invoked.
+    // In Safari, there is a known behavior where the `complete` property of an
+    // `HTMLImageElement` may sometimes return `true` even when the image is not fully loaded.
+    // Checking both `img.complete` and `img.naturalWidth` is the most reliable way to
+    // determine if an image has been fully loaded, especially in browsers where the
+    // `complete` property may return `true` prematurely.
+    if (this.#element.complete && this.#element.naturalWidth) {
+      callback({ type: 'load' });
+    }
   }
 }
 
