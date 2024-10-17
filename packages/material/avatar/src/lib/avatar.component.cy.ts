@@ -3,6 +3,14 @@ import { MatxAvatarComponent } from './avatar.component';
 
 import * as stories from './avatar.component.stories';
 
+function getAvatarElement() {
+  return cy.get('matx-avatar');
+}
+
+function findAvatarChildElement(element: string) {
+  return getAvatarElement().shadow().find(element);
+}
+
 const {
   WithIconFallback,
   WithCustomFallback,
@@ -20,7 +28,7 @@ describe(MatxAvatarComponent.name, () => {
           );
           cy.mount(component, applicationConfig);
 
-          cy.get('matx-avatar-icon-fallback').should('exist');
+          findAvatarChildElement('matx-avatar-icon-fallback').should('exist');
         });
       });
       context('and an initials fallback is defined', () => {
@@ -31,9 +39,9 @@ describe(MatxAvatarComponent.name, () => {
           cy.mount(component, applicationConfig);
         });
         it('should render the initials fallback', () => {
-          cy.get('matx-avatar')
-            .find('matx-avatar-initials-fallback', { includeShadowDom: true })
-            .should('exist');
+          findAvatarChildElement('matx-avatar-initials-fallback').should(
+            'exist',
+          );
         });
       });
       context('and a custom fallback is defined', () => {
@@ -44,9 +52,7 @@ describe(MatxAvatarComponent.name, () => {
           cy.mount(component, applicationConfig);
         });
         it('should render the custom fallback', () => {
-          cy.get('matx-avatar')
-            .find('[matxAvatarFallback]', { includeShadowDom: true })
-            .should('exist');
+          findAvatarChildElement('[matxAvatarFallback]').should('exist');
         });
       });
     });
@@ -75,16 +81,15 @@ describe(MatxAvatarComponent.name, () => {
           cy.wait('@imageRequest');
         });
         it('should render the image', () => {
-          cy.get('matx-avatar')
-            .find('img[matxAvatarImage]', { includeShadowDom: true })
+          findAvatarChildElement('img[matxAvatarImage]')
             .should('exist')
             .and('have.attr', 'src', src);
         });
 
         it('should not render the fallback', () => {
-          cy.get('matx-avatar')
-            .find('matx-avatar-icon-fallback', { includeShadowDom: true })
-            .should('not.exist');
+          findAvatarChildElement('matx-avatar-icon-fallback').should(
+            'not.exist',
+          );
         });
       });
       context('and the image fails to load', () => {
@@ -108,15 +113,11 @@ describe(MatxAvatarComponent.name, () => {
           cy.wait('@imageRequest');
         });
         it('should not render the image', () => {
-          cy.get('matx-avatar')
-            .find('img[matxAvatarImage]', { includeShadowDom: true })
-            .should('not.exist');
+          findAvatarChildElement('img[matxAvatarImage]').should('not.exist');
         });
 
         it('should render the fallback', () => {
-          cy.get('matx-avatar')
-            .find('matx-avatar-icon-fallback', { includeShadowDom: true })
-            .should('exist');
+          findAvatarChildElement('matx-avatar-icon-fallback').should('exist');
         });
       });
     });
@@ -128,7 +129,7 @@ describe(MatxAvatarComponent.name, () => {
           imports: [MatxAvatarComponent],
         });
 
-        cy.get('matx-avatar').should('have.attr', 'aria-hidden', 'true');
+        getAvatarElement().should('have.attr', 'aria-hidden', 'true');
       });
     });
     context('given an aria-hidden attribute is defined', () => {
@@ -137,7 +138,7 @@ describe(MatxAvatarComponent.name, () => {
           imports: [MatxAvatarComponent],
         });
 
-        cy.get('matx-avatar').should('have.attr', 'aria-hidden', 'false');
+        getAvatarElement().should('have.attr', 'aria-hidden', 'false');
       });
     });
   });
