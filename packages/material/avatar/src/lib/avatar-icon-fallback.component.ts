@@ -28,6 +28,9 @@ import {
         display: block;
       }
     `,
+  host: {
+    '[attr.aria-hidden]': 'true',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.ShadowDom,
 })

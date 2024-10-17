@@ -21,6 +21,9 @@ export const MATX_AVATAR = new InjectionToken<MatxAvatar>('matxAvatar');
 @Directive({
   selector: '[matxAvatarFallback]',
   standalone: true,
+  host: {
+    '[attr.aria-hidden]': 'true',
+  },
 })
 export class MatxAvatarFallbackDirective {}
 
@@ -30,6 +33,9 @@ export class MatxAvatarFallbackDirective {}
   imports: [],
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
+  host: {
+    role: 'img',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.ShadowDom,
   providers: [{ provide: MATX_AVATAR, useExisting: MatxAvatarComponent }],

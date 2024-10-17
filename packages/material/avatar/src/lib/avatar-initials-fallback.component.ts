@@ -54,6 +54,9 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
       }
     `,
   ],
+  host: {
+    '[attr.aria-hidden]': 'true',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.ShadowDom,
 })

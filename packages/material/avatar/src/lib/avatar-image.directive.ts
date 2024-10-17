@@ -14,6 +14,9 @@ type ImageEventTypeCallbackFn = (event: { type: 'load' | 'error' }) => void;
 @Directive({
   selector: 'img[matxAvatarImage]',
   standalone: true,
+  host: {
+    '[attr.aria-hidden]': 'true',
+  },
 })
 export class MatxAvatarImageDirective {
   #avatar = inject(MATX_AVATAR);
