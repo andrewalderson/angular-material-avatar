@@ -10,8 +10,6 @@ import {
 } from '@angular/core';
 import { MATX_AVATAR } from './avatar.component';
 
-type ImageEventTypeCallbackFn = (event: { type: 'load' | 'error' }) => void;
-
 @Directive({
   selector: 'img[matxAvatarImage]',
   standalone: true,
@@ -36,7 +34,11 @@ export class MatxAvatarImageDirective {
   #notifyAvatarOfImage() {
     effect(() => {
       const src = this.src();
-      const callback: ImageEventTypeCallbackFn = (event) => {
+      // we are setting a defualt value here because we are actually expecting a 'load' event
+      // An 'error' event is extraordinary
+      // we also don't want the 'callOnLoadIfImageAvailable' helper to know about event types
+      // and have it just call the callback without any arguments
+      const callback = (event = { type: 'load' }) => {
         removeLoadListenerFn();
         removeErrorListenerFn();
         untracked(() => this.#avatar._setUseImage(event.type === 'load'));
@@ -79,7 +81,7 @@ function assertElementAttributeIsNull(element: HTMLElement, attr: string) {
 
 function callOnLoadIfImageAvailable(
   img: HTMLImageElement,
-  callback: ImageEventTypeCallbackFn,
+  callback: VoidFunction,
 ) {
   // https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-complete
   // The spec defines that `complete` is truthy once its request state is fully available.
@@ -92,6 +94,6 @@ function callOnLoadIfImageAvailable(
   // determine if an image has been fully loaded, especially in browsers where the
   // `complete` property may return `true` prematurely.
   if (img.complete && img.naturalWidth) {
-    callback({ type: 'load' });
+    callback();
   }
 }
