@@ -29,10 +29,10 @@ export class MatxAvatarImageDirective {
     if (isDevMode()) {
       assertImageWidthAndHeightNotSet(this.#element);
     }
-    this.notifyAvatarOfImage();
+    this.#notifyAvatarOfImage();
   }
 
-  notifyAvatarOfImage() {
+  #notifyAvatarOfImage() {
     effect(() => {
       const src = this.src();
       const callback: ImageEventTypeCallbackFn = (event) => {
