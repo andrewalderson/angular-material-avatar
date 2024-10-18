@@ -52,26 +52,12 @@ export class MatxAvatarImageDirective {
       );
       this.#renderer.setAttribute(this.#element, 'src', src);
 
-      this.#callOnLoadIfImageAvailable(callback);
+      callOnLoadIfImageAvailable(this.#element, callback);
     });
   }
-
-  #callOnLoadIfImageAvailable(callback: ImageEventTypeCallbackFn) {
-    // https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-complete
-    // The spec defines that `complete` is truthy once its request state is fully available.
-    // The image may already be available if it’s loaded from the browser cache.
-    // In that case, the `load` event will not fire at all, meaning that all setup
-    // callbacks listening for the `load` event will not be invoked.
-    // In Safari, there is a known behavior where the `complete` property of an
-    // `HTMLImageElement` may sometimes return `true` even when the image is not fully loaded.
-    // Checking both `img.complete` and `img.naturalWidth` is the most reliable way to
-    // determine if an image has been fully loaded, especially in browsers where the
-    // `complete` property may return `true` prematurely.
-    if (this.#element.complete && this.#element.naturalWidth) {
-      callback({ type: 'load' });
-    }
-  }
 }
+
+/*** Helpers ***/
 
 function assertImageWidthAndHeightNotSet(img: HTMLImageElement) {
   if (
@@ -88,4 +74,23 @@ function assertImageWidthAndHeightNotSet(img: HTMLImageElement) {
 
 function assertElementAttributeIsNull(element: HTMLElement, attr: string) {
   return element.getAttribute(attr) === null;
+}
+
+function callOnLoadIfImageAvailable(
+  img: HTMLImageElement,
+  callback: ImageEventTypeCallbackFn,
+) {
+  // https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-complete
+  // The spec defines that `complete` is truthy once its request state is fully available.
+  // The image may already be available if it’s loaded from the browser cache.
+  // In that case, the `load` event will not fire at all, meaning that all setup
+  // callbacks listening for the `load` event will not be invoked.
+  // In Safari, there is a known behavior where the `complete` property of an
+  // `HTMLImageElement` may sometimes return `true` even when the image is not fully loaded.
+  // Checking both `img.complete` and `img.naturalWidth` is the most reliable way to
+  // determine if an image has been fully loaded, especially in browsers where the
+  // `complete` property may return `true` prematurely.
+  if (img.complete && img.naturalWidth) {
+    callback({ type: 'load' });
+  }
 }
