@@ -6,6 +6,7 @@ import {
   inject,
   input,
   isDevMode,
+  untracked,
 } from '@angular/core';
 import { MATX_AVATAR } from './avatar.component';
 
@@ -38,7 +39,7 @@ export class MatxAvatarImageDirective {
       const callback: ImageEventTypeCallbackFn = (event) => {
         removeLoadListenerFn();
         removeErrorListenerFn();
-        this.#avatar._setUseImage(event.type === 'load');
+        untracked(() => this.#avatar._setUseImage(event.type === 'load'));
       };
       const removeLoadListenerFn = this.#renderer.listen(
         this.#element,
