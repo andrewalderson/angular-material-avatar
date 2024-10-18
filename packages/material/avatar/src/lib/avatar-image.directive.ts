@@ -10,8 +10,6 @@ import {
 } from '@angular/core';
 import { MATX_AVATAR } from './avatar.component';
 
-type ImageEventTypeCallbackFn = (event: { type: 'load' | 'error' }) => void;
-
 @Directive({
   selector: 'img[matxAvatarImage]',
   standalone: true,
@@ -36,10 +34,12 @@ export class MatxAvatarImageDirective {
   #notifyAvatarOfImage() {
     effect(() => {
       const src = this.src();
-      const callback: ImageEventTypeCallbackFn = (event) => {
+
+      const callback = () => {
         removeLoadListenerFn();
         removeErrorListenerFn();
-        untracked(() => this.#avatar._setUseImage(event.type === 'load'));
+        const useImage = isImageAvailable(this.#element);
+        untracked(() => this.#avatar._setUseImage(useImage));
       };
       const removeLoadListenerFn = this.#renderer.listen(
         this.#element,
@@ -77,10 +77,7 @@ function assertElementAttributeIsNull(element: HTMLElement, attr: string) {
   return element.getAttribute(attr) === null;
 }
 
-function callOnLoadIfImageAvailable(
-  img: HTMLImageElement,
-  callback: ImageEventTypeCallbackFn,
-) {
+function isImageAvailable(img: HTMLImageElement) {
   // https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-complete
   // The spec defines that `complete` is truthy once its request state is fully available.
   // The image may already be available if it’s loaded from the browser cache.
@@ -91,7 +88,14 @@ function callOnLoadIfImageAvailable(
   // Checking both `img.complete` and `img.naturalWidth` is the most reliable way to
   // determine if an image has been fully loaded, especially in browsers where the
   // `complete` property may return `true` prematurely.
-  if (img.complete && img.naturalWidth) {
-    callback({ type: 'load' });
+  return img.complete && img.naturalWidth > 0;
+}
+
+function callOnLoadIfImageAvailable(
+  img: HTMLImageElement,
+  callback: VoidFunction,
+) {
+  if (isImageAvailable(img)) {
+    callback();
   }
 }
