@@ -48,7 +48,7 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
 
       div {
         font-family: var(--matx-avatar-font-family, inherit);
-        font-size: var(--matx-avatar-font-size, 45cqw);
+        font-size: var(--matx-avatar-font-size, 45cqi);
         font-weight: var(--matx-avatar-font-weight, 300);
         text-align: center;
       }
