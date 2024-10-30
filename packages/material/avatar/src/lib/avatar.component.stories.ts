@@ -102,8 +102,7 @@ const meta: Meta<StoryArgTypes> = {
       if: { arg: 'initialsName', exists: true },
     },
     colorsName: {
-      description:
-        'The string (usually username) to create avatar color from - falls back to initialsName if undefined',
+      description: 'The string (usually username) to create avatar color from',
       if: { arg: 'colorsName', exists: true },
     },
     src: {
