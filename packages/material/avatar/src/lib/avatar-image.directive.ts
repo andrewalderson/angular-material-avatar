@@ -28,7 +28,7 @@ export class MatxAvatarImageDirective {
    * and that it isn't used for art direction (doesn't have different versions for different viewport sizes)
    * It can have different versions for different pixel density screens though.
    * Because of this it is expected that only the 'src' attribute is set with the 'srcset' attribute optionally set.
-   * If the srcset attribute is set it should pixel density syntax (with a 1.5x, 2x, etc... suffix on the url)
+   * If the srcset attribute is set it should use pixel density syntax (with a 1.5x, 2x, etc... suffix on the url)
    * When the srcset attribute is set the src attribute participates in the selection of the appropriate image
    * with the src attribute acting as the 1x version of the image.
    */
