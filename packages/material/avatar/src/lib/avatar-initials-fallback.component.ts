@@ -50,7 +50,13 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
         font-family: var(--matx-avatar-font-family, inherit);
         font-size: var(--matx-avatar-font-size, 45cqi);
         font-weight: var(--matx-avatar-font-weight, 300);
+        letter-spacing: var(--matx-avatar-letter-spacing, normal);
+        line-height: 1;
+        overflow-wrap: normal;
+        white-space: nowrap;
         text-align: center;
+        text-transform: none;
+        user-select: none;
       }
     `,
   ],
