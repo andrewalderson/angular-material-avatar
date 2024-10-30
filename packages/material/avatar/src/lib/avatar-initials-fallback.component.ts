@@ -37,20 +37,20 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
   selector: 'matx-avatar-initials-fallback',
   standalone: true,
   imports: [],
-  template: `<span>{{ initials() }}</span> `,
+  template: `<div>{{ initials() }}</div>`,
   styles: [
     `
       :host {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: block;
+        align-content: center;
         container-type: inline-size;
       }
 
-      span {
+      div {
         font-family: var(--matx-avatar-font-family, inherit);
         font-size: var(--matx-avatar-font-size, 45cqw);
         font-weight: var(--matx-avatar-font-weight, 300);
+        text-align: center;
       }
     `,
   ],
