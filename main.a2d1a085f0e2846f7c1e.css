@@ -1,0 +1,577 @@
+.mat-ripple {
+  overflow: hidden;
+  position: relative;
+}
+.mat-ripple:not(:empty) {
+  transform: translateZ(0);
+}
+
+.mat-ripple.mat-ripple-unbounded {
+  overflow: visible;
+}
+
+.mat-ripple-element {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
+  transform: scale3d(0, 0, 0);
+  background-color: var(--mat-ripple-color, rgba(0, 0, 0, 0.1));
+}
+.cdk-high-contrast-active .mat-ripple-element {
+  display: none;
+}
+
+.cdk-drag-preview .mat-ripple-element, .cdk-drag-placeholder .mat-ripple-element {
+  display: none;
+}
+
+.cdk-visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+  outline: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  left: 0;
+}
+[dir=rtl] .cdk-visually-hidden {
+  left: auto;
+  right: 0;
+}
+
+.cdk-overlay-container, .cdk-global-overlay-wrapper {
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 1000;
+}
+.cdk-overlay-container:empty {
+  display: none;
+}
+
+.cdk-global-overlay-wrapper {
+  display: flex;
+  position: absolute;
+  z-index: 1000;
+}
+
+.cdk-overlay-pane {
+  position: absolute;
+  pointer-events: auto;
+  box-sizing: border-box;
+  z-index: 1000;
+  display: flex;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.cdk-overlay-backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0;
+}
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 1;
+}
+.cdk-high-contrast-active .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 0.6;
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.cdk-overlay-transparent-backdrop {
+  transition: visibility 1ms linear, opacity 1ms linear;
+  visibility: hidden;
+  opacity: 1;
+}
+.cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 0;
+  visibility: visible;
+}
+
+.cdk-overlay-backdrop-noop-animation {
+  transition: none;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 1px;
+  min-height: 1px;
+}
+
+.cdk-global-scrollblock {
+  position: fixed;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+textarea.cdk-textarea-autosize {
+  resize: none;
+}
+
+textarea.cdk-textarea-autosize-measuring {
+  padding: 2px 0 !important;
+  box-sizing: content-box !important;
+  height: auto !important;
+  overflow: hidden !important;
+}
+
+textarea.cdk-textarea-autosize-measuring-firefox {
+  padding: 2px 0 !important;
+  box-sizing: content-box !important;
+  height: 0 !important;
+}
+
+@keyframes cdk-text-field-autofill-start { /*!*/ }
+@keyframes cdk-text-field-autofill-end { /*!*/ }
+.cdk-text-field-autofill-monitored:-webkit-autofill {
+  animation: cdk-text-field-autofill-start 0s 1ms;
+}
+
+.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
+  animation: cdk-text-field-autofill-end 0s 1ms;
+}
+
+.mat-focus-indicator {
+  position: relative;
+}
+.mat-focus-indicator::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  display: var(--mat-focus-indicator-display, none);
+  border: var(--mat-focus-indicator-border-width, 3px) var(--mat-focus-indicator-border-style, solid) var(--mat-focus-indicator-border-color, transparent);
+  border-radius: var(--mat-focus-indicator-border-radius, 4px);
+}
+.mat-focus-indicator:focus::before {
+  content: "";
+}
+
+.cdk-high-contrast-active {
+  --mat-focus-indicator-display: block;
+}
+
+.mat-mdc-focus-indicator {
+  position: relative;
+}
+.mat-mdc-focus-indicator::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  display: var(--mat-mdc-focus-indicator-display, none);
+  border: var(--mat-mdc-focus-indicator-border-width, 3px) var(--mat-mdc-focus-indicator-border-style, solid) var(--mat-mdc-focus-indicator-border-color, transparent);
+  border-radius: var(--mat-mdc-focus-indicator-border-radius, 4px);
+}
+.mat-mdc-focus-indicator:focus::before {
+  content: "";
+}
+
+.cdk-high-contrast-active {
+  --mat-mdc-focus-indicator-display: block;
+}
+
+.mat-app-background {
+  background-color: var(--mat-app-background-color, transparent);
+  color: var(--mat-app-text-color, inherit);
+}
+
+:root {
+  --matx-avatar-color: #74777f;
+  --matx-avatar-background-color: #e9e8ec;
+  --matx-avatar-border-color: #74777f;
+}
+
+matx-avatar.mat-primary {
+  --matx-avatar-color: #ffffff;
+  --matx-avatar-background-color: #0074e9;
+  --matx-avatar-border-color: #ffffff;
+}
+matx-avatar.mat-accent {
+  --matx-avatar-color: #ffffff;
+  --matx-avatar-background-color: #5a64ff;
+  --matx-avatar-border-color: #ffffff;
+}
+matx-avatar.mat-warn {
+  --matx-avatar-color: #ffffff;
+  --matx-avatar-background-color: #de3730;
+  --matx-avatar-border-color: #ffffff;
+}
+
+.mat-primary {
+  --mat-stepper-header-selected-state-icon-background-color: #005cbb;
+  --mat-stepper-header-selected-state-icon-foreground-color: #ffffff;
+  --mat-stepper-header-edit-state-icon-background-color: #005cbb;
+  --mat-stepper-header-edit-state-icon-foreground-color: #ffffff;
+}
+.mat-primary.mat-icon {
+  --mat-icon-color: #005cbb;
+}
+.mat-primary.mat-mdc-checkbox {
+  --mat-checkbox-disabled-label-color: rgba(26, 27, 31, 0.38);
+  --mat-checkbox-label-text-color: #1a1b1f;
+}
+.mat-primary.mat-mdc-slide-toggle {
+  --mat-switch-track-outline-color: #74777f;
+  --mat-switch-disabled-unselected-track-outline-color: #1a1b1f;
+  --mat-switch-label-text-color: #1a1b1f;
+}
+.mat-primary .mdc-list-item__start,
+.mat-primary .mdc-list-item__end {
+  --mat-checkbox-disabled-label-color: rgba(26, 27, 31, 0.38);
+  --mat-checkbox-label-text-color: #1a1b1f;
+}
+.mat-badge {
+  --mat-badge-background-color: #005cbb;
+  --mat-badge-text-color: #ffffff;
+  --mat-badge-disabled-state-background-color: rgba(0, 92, 187, 0.38);
+  --mat-badge-disabled-state-text-color: #ffffff;
+}
+
+.mat-accent {
+  --mat-option-selected-state-label-text-color: #00006e;
+  --mat-option-selected-state-layer-color: #e0e0ff;
+  --mdc-circular-progress-active-indicator-color: #343dff;
+  --mat-full-pseudo-checkbox-selected-icon-color: #343dff;
+  --mat-full-pseudo-checkbox-selected-checkmark-color: #ffffff;
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: #343dff;
+  --mat-stepper-header-selected-state-icon-background-color: #343dff;
+  --mat-stepper-header-selected-state-icon-foreground-color: #ffffff;
+  --mat-stepper-header-edit-state-icon-background-color: #343dff;
+  --mat-stepper-header-edit-state-icon-foreground-color: #ffffff;
+}
+.mat-accent.mat-icon {
+  --mat-icon-color: #343dff;
+}
+.mat-accent.mat-mdc-checkbox {
+  --mdc-checkbox-selected-checkmark-color: #ffffff;
+  --mdc-checkbox-selected-focus-icon-color: #343dff;
+  --mdc-checkbox-selected-hover-icon-color: #343dff;
+  --mdc-checkbox-selected-icon-color: #343dff;
+  --mdc-checkbox-selected-focus-state-layer-color: #343dff;
+  --mdc-checkbox-selected-hover-state-layer-color: #343dff;
+  --mdc-checkbox-unselected-pressed-state-layer-color: #343dff;
+  --mat-checkbox-disabled-label-color: rgba(26, 27, 31, 0.38);
+  --mat-checkbox-label-text-color: #1a1b1f;
+}
+.mat-accent.mat-mdc-slider {
+  --mdc-slider-handle-color: #343dff;
+  --mdc-slider-focus-handle-color: #343dff;
+  --mdc-slider-hover-handle-color: #343dff;
+  --mdc-slider-active-track-color: #343dff;
+  --mdc-slider-with-tick-marks-active-container-color: #ffffff;
+  --mdc-slider-label-container-color: #343dff;
+  --mdc-slider-label-label-text-color: #ffffff;
+  --mdc-slider-with-overlap-handle-outline-color: #ffffff;
+  --mat-slider-ripple-color: #343dff;
+  --mat-slider-hover-state-layer-color: rgba(52, 61, 255, 0.05);
+  --mat-slider-focus-state-layer-color: rgba(52, 61, 255, 0.2);
+}
+.mat-accent.mat-mdc-tab-group, .mat-accent.mat-mdc-tab-nav-bar {
+  --mdc-tab-indicator-active-indicator-color: #343dff;
+  --mat-tab-header-active-focus-indicator-color: #343dff;
+  --mat-tab-header-active-hover-indicator-color: #343dff;
+}
+.mat-accent.mat-mdc-slide-toggle {
+  --mdc-switch-selected-focus-state-layer-color: #343dff;
+  --mdc-switch-selected-handle-color: #ffffff;
+  --mdc-switch-selected-hover-state-layer-color: #343dff;
+  --mdc-switch-selected-pressed-state-layer-color: #343dff;
+  --mdc-switch-selected-focus-handle-color: #e0e0ff;
+  --mdc-switch-selected-hover-handle-color: #e0e0ff;
+  --mdc-switch-selected-pressed-handle-color: #e0e0ff;
+  --mdc-switch-selected-focus-track-color: #343dff;
+  --mdc-switch-selected-hover-track-color: #343dff;
+  --mdc-switch-selected-pressed-track-color: #343dff;
+  --mdc-switch-selected-track-color: #343dff;
+  --mdc-switch-selected-icon-color: #00006e;
+  --mat-switch-track-outline-color: #74777f;
+  --mat-switch-disabled-unselected-track-outline-color: #1a1b1f;
+  --mat-switch-label-text-color: #1a1b1f;
+}
+.mat-accent.mat-mdc-form-field {
+  --mat-select-focused-arrow-color: #343dff;
+}
+.mat-accent.mat-mdc-radio-button {
+  --mdc-radio-selected-focus-icon-color: #343dff;
+  --mdc-radio-selected-hover-icon-color: #343dff;
+  --mdc-radio-selected-icon-color: #343dff;
+  --mdc-radio-selected-pressed-icon-color: #343dff;
+  --mat-radio-checked-ripple-color: #343dff;
+}
+.mat-accent.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #343dff;
+  --mdc-linear-progress-track-color: #e0e0ff;
+}
+.mat-accent.mat-mdc-form-field {
+  --mdc-filled-text-field-caret-color: #343dff;
+  --mdc-filled-text-field-focus-active-indicator-color: #343dff;
+  --mdc-filled-text-field-focus-label-text-color: #343dff;
+  --mdc-outlined-text-field-caret-color: #343dff;
+  --mdc-outlined-text-field-focus-outline-color: #343dff;
+  --mdc-outlined-text-field-focus-label-text-color: #343dff;
+  --mat-form-field-focus-select-arrow-color: #343dff;
+}
+.mat-accent.mat-datepicker-content {
+  --mat-datepicker-calendar-date-selected-state-text-color: #ffffff;
+  --mat-datepicker-calendar-date-selected-state-background-color: #343dff;
+  --mat-datepicker-calendar-date-today-selected-state-outline-color: #343dff;
+  --mat-datepicker-calendar-date-in-range-state-background-color: #e0e0ff;
+  --mat-datepicker-calendar-date-in-comparison-range-state-background-color: #d7e3ff;
+  --mat-datepicker-calendar-date-today-outline-color: #343dff;
+  --mat-datepicker-calendar-date-preview-state-outline-color: #343dff;
+}
+.mat-accent.mat-mdc-button-base {
+  --mdc-text-button-label-text-color: #343dff;
+  --mdc-protected-button-label-text-color: #343dff;
+  --mdc-filled-button-container-color: #343dff;
+  --mdc-filled-button-label-text-color: #ffffff;
+  --mdc-outlined-button-label-text-color: #343dff;
+  --mat-text-button-state-layer-color: #343dff;
+  --mat-text-button-ripple-color: rgba(52, 61, 255, 0.12);
+  --mat-protected-button-state-layer-color: #343dff;
+  --mat-protected-button-ripple-color: rgba(52, 61, 255, 0.12);
+  --mat-filled-button-state-layer-color: #ffffff;
+  --mat-filled-button-ripple-color: rgba(255, 255, 255, 0.12);
+  --mat-outlined-button-state-layer-color: #343dff;
+  --mat-outlined-button-ripple-color: rgba(52, 61, 255, 0.12);
+}
+.mat-accent.mat-mdc-standard-chip {
+  --mdc-chip-elevated-selected-container-color: #e0e0ff;
+  --mdc-chip-selected-hover-state-layer-color: #00006e;
+  --mdc-chip-selected-focus-state-layer-color: #00006e;
+  --mdc-chip-selected-label-text-color: #00006e;
+  --mdc-chip-with-icon-selected-icon-color: #00006e;
+  --mat-chip-selected-trailing-action-state-layer-color: #00006e;
+  --mat-chip-selected-trailing-icon-color: #00006e;
+}
+.mat-accent .mdc-list-item__start,
+.mat-accent .mdc-list-item__end {
+  --mdc-checkbox-selected-checkmark-color: #ffffff;
+  --mdc-checkbox-selected-focus-icon-color: #343dff;
+  --mdc-checkbox-selected-hover-icon-color: #343dff;
+  --mdc-checkbox-selected-icon-color: #343dff;
+  --mdc-checkbox-selected-focus-state-layer-color: #343dff;
+  --mdc-checkbox-selected-hover-state-layer-color: #343dff;
+  --mdc-checkbox-unselected-pressed-state-layer-color: #343dff;
+  --mat-checkbox-disabled-label-color: rgba(26, 27, 31, 0.38);
+  --mat-checkbox-label-text-color: #1a1b1f;
+  --mdc-radio-selected-focus-icon-color: #343dff;
+  --mdc-radio-selected-hover-icon-color: #343dff;
+  --mdc-radio-selected-icon-color: #343dff;
+  --mdc-radio-selected-pressed-icon-color: #343dff;
+  --mat-radio-checked-ripple-color: #343dff;
+}
+.mat-accent.mat-mdc-fab, .mat-accent.mat-mdc-mini-fab {
+  --mdc-extended-fab-container-elevation-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  --mdc-extended-fab-focus-container-elevation-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  --mdc-extended-fab-hover-container-elevation-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  --mdc-extended-fab-pressed-container-elevation-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  --mdc-extended-fab-container-shadow-color: #000000;
+  --mdc-fab-container-color: #e0e0ff;
+  --mdc-fab-container-elevation-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  --mdc-fab-focus-container-elevation-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  --mdc-fab-hover-container-elevation-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  --mdc-fab-pressed-container-elevation-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  --mdc-fab-container-shadow-color: #000000;
+  --mdc-fab-small-container-color: #e0e0ff;
+  --mdc-fab-small-container-elevation-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  --mdc-fab-small-focus-container-elevation-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  --mdc-fab-small-hover-container-elevation-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  --mdc-fab-small-pressed-container-elevation-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  --mdc-fab-small-container-shadow-color: #000000;
+  --mat-fab-foreground-color: #00006e;
+  --mat-fab-state-layer-color: #00006e;
+  --mat-fab-ripple-color: rgba(0, 0, 110, 0.12);
+  --mat-fab-small-foreground-color: #00006e;
+  --mat-fab-small-state-layer-color: #00006e;
+  --mat-fab-small-ripple-color: rgba(0, 0, 110, 0.12);
+}
+
+.mat-badge-accent {
+  --mat-badge-background-color: #343dff;
+  --mat-badge-text-color: #ffffff;
+  --mat-badge-disabled-state-background-color: rgba(52, 61, 255, 0.38);
+  --mat-badge-disabled-state-text-color: #ffffff;
+}
+
+.mat-warn {
+  --mat-option-selected-state-label-text-color: #410002;
+  --mat-option-selected-state-layer-color: #ffdad6;
+  --mdc-circular-progress-active-indicator-color: #ba1a1a;
+  --mat-full-pseudo-checkbox-selected-icon-color: #ba1a1a;
+  --mat-full-pseudo-checkbox-selected-checkmark-color: #ffffff;
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: #ba1a1a;
+  --mat-stepper-header-selected-state-icon-background-color: #ba1a1a;
+  --mat-stepper-header-selected-state-icon-foreground-color: #ffffff;
+  --mat-stepper-header-edit-state-icon-background-color: #ba1a1a;
+  --mat-stepper-header-edit-state-icon-foreground-color: #ffffff;
+}
+.mat-warn.mat-icon {
+  --mat-icon-color: #ba1a1a;
+}
+.mat-warn.mat-mdc-checkbox {
+  --mdc-checkbox-selected-checkmark-color: #ffffff;
+  --mdc-checkbox-selected-focus-icon-color: #ba1a1a;
+  --mdc-checkbox-selected-hover-icon-color: #ba1a1a;
+  --mdc-checkbox-selected-icon-color: #ba1a1a;
+  --mdc-checkbox-selected-focus-state-layer-color: #ba1a1a;
+  --mdc-checkbox-selected-hover-state-layer-color: #ba1a1a;
+  --mdc-checkbox-unselected-pressed-state-layer-color: #ba1a1a;
+  --mat-checkbox-disabled-label-color: rgba(26, 27, 31, 0.38);
+  --mat-checkbox-label-text-color: #1a1b1f;
+}
+.mat-warn.mat-mdc-slider {
+  --mdc-slider-handle-color: #ba1a1a;
+  --mdc-slider-focus-handle-color: #ba1a1a;
+  --mdc-slider-hover-handle-color: #ba1a1a;
+  --mdc-slider-active-track-color: #ba1a1a;
+  --mdc-slider-with-tick-marks-active-container-color: #ffffff;
+  --mdc-slider-label-container-color: #ba1a1a;
+  --mdc-slider-label-label-text-color: #ffffff;
+  --mdc-slider-with-overlap-handle-outline-color: #ffffff;
+  --mat-slider-ripple-color: #ba1a1a;
+  --mat-slider-hover-state-layer-color: rgba(186, 26, 26, 0.05);
+  --mat-slider-focus-state-layer-color: rgba(186, 26, 26, 0.2);
+}
+.mat-warn.mat-mdc-tab-group, .mat-warn.mat-mdc-tab-nav-bar {
+  --mdc-tab-indicator-active-indicator-color: #ba1a1a;
+  --mat-tab-header-active-focus-indicator-color: #ba1a1a;
+  --mat-tab-header-active-hover-indicator-color: #ba1a1a;
+}
+.mat-warn.mat-mdc-slide-toggle {
+  --mdc-switch-selected-focus-state-layer-color: #ba1a1a;
+  --mdc-switch-selected-handle-color: #ffffff;
+  --mdc-switch-selected-hover-state-layer-color: #ba1a1a;
+  --mdc-switch-selected-pressed-state-layer-color: #ba1a1a;
+  --mdc-switch-selected-focus-handle-color: #ffdad6;
+  --mdc-switch-selected-hover-handle-color: #ffdad6;
+  --mdc-switch-selected-pressed-handle-color: #ffdad6;
+  --mdc-switch-selected-focus-track-color: #ba1a1a;
+  --mdc-switch-selected-hover-track-color: #ba1a1a;
+  --mdc-switch-selected-pressed-track-color: #ba1a1a;
+  --mdc-switch-selected-track-color: #ba1a1a;
+  --mdc-switch-selected-icon-color: #410002;
+  --mat-switch-track-outline-color: #74777f;
+  --mat-switch-disabled-unselected-track-outline-color: #1a1b1f;
+  --mat-switch-label-text-color: #1a1b1f;
+}
+.mat-warn.mat-mdc-form-field {
+  --mat-select-focused-arrow-color: #ba1a1a;
+}
+.mat-warn.mat-mdc-radio-button {
+  --mdc-radio-selected-focus-icon-color: #ba1a1a;
+  --mdc-radio-selected-hover-icon-color: #ba1a1a;
+  --mdc-radio-selected-icon-color: #ba1a1a;
+  --mdc-radio-selected-pressed-icon-color: #ba1a1a;
+  --mat-radio-checked-ripple-color: #ba1a1a;
+}
+.mat-warn.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #ba1a1a;
+  --mdc-linear-progress-track-color: #ffdad6;
+}
+.mat-warn.mat-mdc-form-field {
+  --mdc-filled-text-field-caret-color: #ba1a1a;
+  --mdc-filled-text-field-focus-active-indicator-color: #ba1a1a;
+  --mdc-filled-text-field-focus-label-text-color: #ba1a1a;
+  --mdc-outlined-text-field-caret-color: #ba1a1a;
+  --mdc-outlined-text-field-focus-outline-color: #ba1a1a;
+  --mdc-outlined-text-field-focus-label-text-color: #ba1a1a;
+  --mat-form-field-focus-select-arrow-color: #ba1a1a;
+}
+.mat-warn.mat-datepicker-content {
+  --mat-datepicker-calendar-date-selected-state-text-color: #ffffff;
+  --mat-datepicker-calendar-date-selected-state-background-color: #ba1a1a;
+  --mat-datepicker-calendar-date-today-selected-state-outline-color: #ba1a1a;
+  --mat-datepicker-calendar-date-in-range-state-background-color: #ffdad6;
+  --mat-datepicker-calendar-date-today-outline-color: #ba1a1a;
+  --mat-datepicker-calendar-date-preview-state-outline-color: #ba1a1a;
+}
+.mat-warn.mat-mdc-button-base {
+  --mdc-text-button-label-text-color: #ba1a1a;
+  --mdc-protected-button-label-text-color: #ba1a1a;
+  --mdc-filled-button-container-color: #ba1a1a;
+  --mdc-filled-button-label-text-color: #ffffff;
+  --mdc-outlined-button-label-text-color: #ba1a1a;
+  --mat-text-button-state-layer-color: #ba1a1a;
+  --mat-text-button-ripple-color: rgba(186, 26, 26, 0.12);
+  --mat-protected-button-state-layer-color: #ba1a1a;
+  --mat-protected-button-ripple-color: rgba(186, 26, 26, 0.12);
+  --mat-filled-button-state-layer-color: #ffffff;
+  --mat-filled-button-ripple-color: rgba(255, 255, 255, 0.12);
+  --mat-outlined-button-state-layer-color: #ba1a1a;
+  --mat-outlined-button-ripple-color: rgba(186, 26, 26, 0.12);
+}
+.mat-warn.mat-mdc-standard-chip {
+  --mdc-chip-elevated-selected-container-color: #ffdad6;
+  --mdc-chip-selected-hover-state-layer-color: #410002;
+  --mdc-chip-selected-focus-state-layer-color: #410002;
+  --mdc-chip-selected-label-text-color: #410002;
+  --mdc-chip-with-icon-selected-icon-color: #410002;
+  --mat-chip-selected-trailing-action-state-layer-color: #410002;
+  --mat-chip-selected-trailing-icon-color: #410002;
+}
+.mat-warn .mdc-list-item__start,
+.mat-warn .mdc-list-item__end {
+  --mdc-checkbox-selected-checkmark-color: #ffffff;
+  --mdc-checkbox-selected-focus-icon-color: #ba1a1a;
+  --mdc-checkbox-selected-hover-icon-color: #ba1a1a;
+  --mdc-checkbox-selected-icon-color: #ba1a1a;
+  --mdc-checkbox-selected-focus-state-layer-color: #ba1a1a;
+  --mdc-checkbox-selected-hover-state-layer-color: #ba1a1a;
+  --mdc-checkbox-unselected-pressed-state-layer-color: #ba1a1a;
+  --mat-checkbox-disabled-label-color: rgba(26, 27, 31, 0.38);
+  --mat-checkbox-label-text-color: #1a1b1f;
+  --mdc-radio-selected-focus-icon-color: #ba1a1a;
+  --mdc-radio-selected-hover-icon-color: #ba1a1a;
+  --mdc-radio-selected-icon-color: #ba1a1a;
+  --mdc-radio-selected-pressed-icon-color: #ba1a1a;
+  --mat-radio-checked-ripple-color: #ba1a1a;
+}
+
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+  --matx-avatar-size: 96px;
+}
