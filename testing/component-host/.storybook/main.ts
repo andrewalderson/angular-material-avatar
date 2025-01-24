@@ -4,7 +4,7 @@ import { dirname, join } from 'path';
 const config: StorybookConfig = {
   core: {},
   stories: ['../../../packages/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
-  addons: [getAbsolutePath('@storybook/addon-essentials'), '@chromatic-com/storybook'],
+  addons: [getAbsolutePath('@storybook/addon-essentials'), getAbsolutePath("@chromatic-com/storybook")],
 
   framework: {
     name: getAbsolutePath('@storybook/angular'),

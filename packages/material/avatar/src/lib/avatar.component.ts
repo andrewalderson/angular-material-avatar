@@ -28,17 +28,16 @@ export const MATX_AVATAR = new InjectionToken<MatxAvatar>('matxAvatar');
 export class MatxAvatarFallbackDirective {}
 
 @Component({
-  selector: 'matx-avatar',
-  standalone: true,
-  imports: [],
-  templateUrl: './avatar.component.html',
-  styleUrls: ['./avatar.component.scss'],
-  host: {
-    role: 'img',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  providers: [{ provide: MATX_AVATAR, useExisting: MatxAvatarComponent }],
+    selector: 'matx-avatar',
+    imports: [],
+    templateUrl: './avatar.component.html',
+    styleUrls: ['./avatar.component.scss'],
+    host: {
+        role: 'img',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    providers: [{ provide: MATX_AVATAR, useExisting: MatxAvatarComponent }]
 })
 export class MatxAvatarComponent implements MatxAvatar {
   public _elementRef: ElementRef<HTMLElement> = inject(ElementRef);

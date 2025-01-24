@@ -1,12 +1,14 @@
+import { Component } from '@angular/core';
 import { faker } from '@faker-js/faker';
-import { moduleMetadata } from '@storybook/angular';
-import { composeStory, createMountable } from '@storybook/testing-angular';
-import { MATX_AVATAR_DYNAMIC_COLORS_FUNCTION } from './avatar-dynamic-colors.directive';
+import {
+  MATX_AVATAR_DYNAMIC_COLORS_FUNCTION,
+  MatxAvatarDynamicColorsDirective,
+} from './avatar-dynamic-colors.directive';
 import {
   MATX_AVATAR_INITIALS_INITIALS_FUNCTION,
   MatxAvatarInitialsFallbackComponent,
 } from './avatar-initials-fallback.component';
-import meta, { WithInitialsFallback } from './avatar.component.stories';
+import { MatxAvatarComponent } from './avatar.component';
 
 const expectedInitials = 'AD';
 const expectedColors = {
@@ -15,49 +17,71 @@ const expectedColors = {
   border: faker.color.rgb({ format: 'css' }),
 };
 
-const initialsStory = composeStory(WithInitialsFallback, meta, {
-  decorators: [
-    moduleMetadata({
-      providers: [
-        {
-          provide: MATX_AVATAR_INITIALS_INITIALS_FUNCTION,
-          useValue: () => expectedInitials,
-        },
-        {
-          provide: MATX_AVATAR_DYNAMIC_COLORS_FUNCTION,
-          useValue: () => expectedColors,
-        },
-      ],
-    }),
+@Component({
+  selector: 'matx-basic',
+  template: `<matx-avatar>
+    <matx-avatar-initials-fallback [initialsName]="initialsName" />
+  </matx-avatar>`,
+  imports: [MatxAvatarComponent, MatxAvatarInitialsFallbackComponent],
+})
+class BasicComponent {
+  initialsName = faker.person.fullName();
+}
+
+@Component({
+  selector: 'matx-with-dynamic-colors',
+  template: `<matx-avatar>
+    <matx-avatar-initials-fallback
+      matxAvatarDynamicColors
+      [initialsName]="initialsName"
+      [colorsName]="colorsName"
+    />
+  </matx-avatar>`,
+  imports: [
+    MatxAvatarComponent,
+    MatxAvatarInitialsFallbackComponent,
+    MatxAvatarDynamicColorsDirective,
   ],
-});
+})
+class WithDynamicColorsComponent {
+  initialsName = faker.person.fullName();
+  colorsName = faker.internet.email();
+}
 
 describe(MatxAvatarInitialsFallbackComponent.name, () => {
   describe('rendering', () => {
     beforeEach(() => {
-      const { component, applicationConfig } = createMountable(
-        initialsStory({}),
-      );
-      cy.mount(component, applicationConfig);
+      cy.mount(BasicComponent, {
+        providers: [
+          {
+            provide: MATX_AVATAR_INITIALS_INITIALS_FUNCTION,
+            useValue: () => expectedInitials,
+          },
+        ],
+      });
     });
-    it('should render the initials from the initialsName', () => {
-      cy.get('matx-avatar')
-        .contains(expectedInitials, { includeShadowDom: true })
-        .should('exist');
+    it('should render the expected initials', () => {
+      cy.get('matx-avatar').contains(expectedInitials).should('exist');
     });
   });
   describe('styling', () => {
-    beforeEach(() => {
-      const { component, applicationConfig } = createMountable(
-        initialsStory({}),
-      );
-      cy.mount(component, applicationConfig);
-    });
-    it('should set the custom colors on the avatar', () => {
-      cy.get('matx-avatar')
-        .should('have.css', 'color', expectedColors.foreground)
-        .and('have.css', 'background-color', expectedColors.background)
-        .and('have.css', 'border-color', expectedColors.border);
+    describe('given the dynamic colors directive is added', () => {
+      beforeEach(() => {
+        cy.mount(WithDynamicColorsComponent, {
+          providers: [
+            {
+              provide: MATX_AVATAR_DYNAMIC_COLORS_FUNCTION,
+              useValue: () => expectedColors,
+            },
+          ],
+        });
+      });
+      it('should set the expected colors on the avatar', () => {
+        cy.get('matx-avatar')
+          .should('have.css', 'color', expectedColors.foreground)
+          .and('have.css', 'background-color', expectedColors.background)
+          .and('have.css', 'border-color', expectedColors.border);
+      });
     });
   });
 });

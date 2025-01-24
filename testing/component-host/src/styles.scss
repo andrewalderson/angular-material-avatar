@@ -4,29 +4,28 @@
 // Plus imports for other components in your app.
 @use '../../../packages/material/avatar/src/lib/avatar-theme' as avatar;
 
-@include mat.core();
-
 // Define the theme object.
-$testing-component-host-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: (),
-    density: (
-      scale: 0,
-    ),
-  )
+$testing-component-host-theme: (
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: Roboto,
+  density: 0,
 );
+
+html {
+  @include mat.theme($testing-component-host-theme);
+  @include avatar.theme($testing-component-host-theme);
+
+  --matx-avatar-size: 96px;
+}
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 //@include mat.all-component-themes($testing-component-host-theme);
-
-@include avatar.theme($testing-component-host-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -37,8 +36,4 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
-
-:root {
-  --matx-avatar-size: 96px;
 }

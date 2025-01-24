@@ -5,7 +5,7 @@ const preview: Preview = {
     controls: { expanded: true },
   },
 
-  tags: ['autodocs']
+  tags: ['autodocs', 'autodocs']
 };
 
 export default preview;

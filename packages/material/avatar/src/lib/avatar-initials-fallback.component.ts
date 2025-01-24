@@ -34,12 +34,11 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
   );
 
 @Component({
-  selector: 'matx-avatar-initials-fallback',
-  standalone: true,
-  imports: [],
-  template: `<div>{{ initials() }}</div>`,
-  styles: [
-    `
+    selector: 'matx-avatar-initials-fallback',
+    imports: [],
+    template: `<div>{{ initials() }}</div>`,
+    styles: [
+        `
       matx-avatar-initials-fallback {
         display: block;
         align-content: center;
@@ -59,12 +58,12 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
         }
       }
     `,
-  ],
-  host: {
-    '[attr.aria-hidden]': 'true',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+    ],
+    host: {
+        '[attr.aria-hidden]': 'true',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None
 })
 export class MatxAvatarInitialsFallbackComponent {
   #initialsFn = inject(MATX_AVATAR_INITIALS_INITIALS_FUNCTION);

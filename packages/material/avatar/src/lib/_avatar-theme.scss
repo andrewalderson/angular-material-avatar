@@ -1,13 +1,21 @@
 @use '@angular/material' as mat;
 
+// copied from Material sass utils
+@mixin current-selector-or-root($root: html) {
+  @if & {
+    @content;
+  } @else {
+    #{$root} {
+      @content;
+    }
+  }
+}
+
 @mixin color($theme) {
-  :root {
-    --matx-avatar-color: #{mat.get-theme-color($theme, outline)};
-    --matx-avatar-background-color: #{mat.get-theme-color(
-        $theme,
-        surface-container-high
-      )};
-    --matx-avatar-border-color: #{mat.get-theme-color($theme, outline)};
+  @include current-selector-or-root() {
+    --matx-avatar-color: var(--mat-sys-outline);
+    --matx-avatar-background-color: var(--mat-sys-surface-container-high);
+    --matx-avatar-border-color: var(--mat-sys-outline);
   }
 }
 
