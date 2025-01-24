@@ -9,30 +9,6 @@
       )};
     --matx-avatar-border-color: #{mat.get-theme-color($theme, outline)};
   }
-
-  matx-avatar {
-    &.mat-primary {
-      --matx-avatar-color: #{mat.get-theme-color($theme, on-primary)};
-      --matx-avatar-background-color: #{mat.get-theme-color($theme, primary, 50)};
-      --matx-avatar-border-color: #{mat.get-theme-color($theme, on-primary)};
-    }
-
-    &.mat-accent {
-      --matx-avatar-color: #{mat.get-theme-color($theme, on-tertiary)};
-      --matx-avatar-background-color: #{mat.get-theme-color(
-          $theme,
-          tertiary,
-          50
-        )};
-      --matx-avatar-border-color: #{mat.get-theme-color($theme, on-tertiary)};
-    }
-
-    &.mat-warn {
-      --matx-avatar-color: #{mat.get-theme-color($theme, on-error)};
-      --matx-avatar-background-color: #{mat.get-theme-color($theme, error, 50)};
-      --matx-avatar-border-color: #{mat.get-theme-color($theme, on-error)};
-    }
-  }
 }
 
 @mixin theme($theme) {
