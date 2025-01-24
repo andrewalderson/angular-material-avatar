@@ -37,7 +37,7 @@ export class MatxAvatarFallbackDirective {}
     role: 'img',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.None,
   providers: [{ provide: MATX_AVATAR, useExisting: MatxAvatarComponent }],
 })
 export class MatxAvatarComponent implements MatxAvatar {

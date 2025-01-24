@@ -1,4 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Meta, moduleMetadata, type StoryObj } from '@storybook/angular';
 import { MatxAvatarDynamicColorsDirective } from './avatar-dynamic-colors.directive';
 import { MatxAvatarIconFallbackComponent } from './avatar-icon-fallback.component';
@@ -41,23 +45,24 @@ const calculateStyles = (args: any) => {
   </svg>`,
   styles: [
     `
-      :host {
+      matx-avatar-custom-fallback {
         display: flex;
         align-items: center;
         justify-content: center;
-      }
 
-      svg {
-        width: 80%;
-        height: 80%;
-        border-width: 1px;
-        border-style: solid;
-        border-color: transparent;
-        border-radius: 50%;
+        > svg {
+          width: 80%;
+          height: 80%;
+          border-width: 1px;
+          border-style: solid;
+          border-color: transparent;
+          border-radius: 50%;
+        }
       }
     `,
   ],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class MatxAvatarCustomIconComponent {}
 

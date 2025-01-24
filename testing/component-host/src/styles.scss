@@ -28,10 +28,6 @@ $testing-component-host-theme: mat.define-theme(
 
 @include avatar.theme($testing-component-host-theme);
 
-@include mat.color-variants-backwards-compatibility(
-  $testing-component-host-theme
-);
-
 /* You can add global styles to this file, and also import other style files */
 
 html,
