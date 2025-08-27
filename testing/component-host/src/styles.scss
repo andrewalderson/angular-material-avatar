@@ -2,7 +2,6 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 // Plus imports for other components in your app.
-@use '../../../packages/material/avatar/src/lib/avatar-theme' as avatar;
 
 // Define the theme object.
 $testing-component-host-theme: (
@@ -17,7 +16,6 @@ $testing-component-host-theme: (
 
 html {
   @include mat.theme($testing-component-host-theme);
-  @include avatar.theme($testing-component-host-theme);
 
   --matx-avatar-size: 96px;
 }
