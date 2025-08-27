@@ -1,7 +1,4 @@
 html {
-  --matx-avatar-color: var(--mat-sys-outline);
-  --matx-avatar-background-color: var(--mat-sys-surface-container-high);
-  --matx-avatar-border-color: var(--mat-sys-outline);
   --matx-avatar-size: 96px;
 }
 html {
