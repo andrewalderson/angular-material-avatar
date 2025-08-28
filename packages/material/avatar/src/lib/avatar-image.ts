@@ -8,7 +8,7 @@ import {
   isDevMode,
   untracked,
 } from '@angular/core';
-import { MATX_AVATAR } from './avatar.component';
+import { MATX_AVATAR } from './avatar';
 
 @Directive({
   selector: 'img[matxAvatarImage]',
@@ -17,10 +17,11 @@ import { MATX_AVATAR } from './avatar.component';
     '[attr.aria-hidden]': 'true',
   },
 })
-export class MatxAvatarImageDirective {
-  #avatar = inject(MATX_AVATAR);
-  #element: HTMLImageElement = inject(ElementRef).nativeElement;
-  #renderer = inject(Renderer2);
+export class MatxAvatarImage {
+  private readonly _avatar = inject(MATX_AVATAR);
+  private readonly _element: HTMLImageElement =
+    inject(ElementRef).nativeElement;
+  private readonly _renderer = inject(Renderer2);
 
   /**
    * https://html.spec.whatwg.org/multipage/images.html#device-pixel-ratio
@@ -32,38 +33,38 @@ export class MatxAvatarImageDirective {
    * When the srcset attribute is set the src attribute participates in the selection of the appropriate image
    * with the src attribute acting as the 1x version of the image.
    */
-  src = input.required<string>();
+  readonly src = input.required<string>();
 
   constructor() {
     if (isDevMode()) {
-      assertImageWidthAndHeightNotSet(this.#element);
+      assertImageWidthAndHeightNotSet(this._element);
     }
-    this.#notifyAvatarOfImage();
+    this._notifyAvatarOfImage();
   }
 
-  #notifyAvatarOfImage() {
+  private _notifyAvatarOfImage() {
     effect(() => {
       const src = this.src();
 
       const callback = () => {
         removeLoadListenerFn();
         removeErrorListenerFn();
-        const useImage = isImageAvailable(this.#element);
-        untracked(() => this.#avatar._setUseImage(useImage));
+        const useImage = isImageAvailable(this._element);
+        untracked(() => this._avatar._setUseImage(useImage));
       };
-      const removeLoadListenerFn = this.#renderer.listen(
-        this.#element,
+      const removeLoadListenerFn = this._renderer.listen(
+        this._element,
         'load',
         callback,
       );
-      const removeErrorListenerFn = this.#renderer.listen(
-        this.#element,
+      const removeErrorListenerFn = this._renderer.listen(
+        this._element,
         'error',
         callback,
       );
-      this.#renderer.setAttribute(this.#element, 'src', src);
+      this._renderer.setAttribute(this._element, 'src', src);
 
-      callOnLoadIfImageAvailable(this.#element, callback);
+      callOnLoadIfImageAvailable(this._element, callback);
     });
   }
 }

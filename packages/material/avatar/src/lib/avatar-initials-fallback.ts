@@ -34,11 +34,11 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
   );
 
 @Component({
-    selector: 'matx-avatar-initials-fallback',
-    imports: [],
-    template: `<div>{{ initials() }}</div>`,
-    styles: [
-        `
+  selector: 'matx-avatar-initials-fallback',
+  imports: [],
+  template: `<div>{{ initials() }}</div>`,
+  styles: [
+    `
       matx-avatar-initials-fallback {
         display: block;
         align-content: center;
@@ -58,22 +58,22 @@ export const MATX_AVATAR_INITIALS_INITIALS_FUNCTION =
         }
       }
     `,
-    ],
-    host: {
-        '[attr.aria-hidden]': 'true',
-    },
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None
+  ],
+  host: {
+    '[attr.aria-hidden]': 'true',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
-export class MatxAvatarInitialsFallbackComponent {
-  #initialsFn = inject(MATX_AVATAR_INITIALS_INITIALS_FUNCTION);
+export class MatxAvatarInitialsFallback {
+  private readonly _initialsFn = inject(MATX_AVATAR_INITIALS_INITIALS_FUNCTION);
 
   protected readonly initials = computed(() =>
-    this.#initialsFn(this.initialsName()),
+    this._initialsFn(this.initialsName()),
   );
 
   /**
    * Name (usually persons first and last name) used to render the initials
    */
-  initialsName = input.required<string>();
+  readonly initialsName = input.required<string>();
 }

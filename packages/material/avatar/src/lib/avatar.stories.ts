@@ -4,19 +4,16 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Meta, moduleMetadata, type StoryObj } from '@storybook/angular';
-import { MatxAvatarDynamicColorsDirective } from './avatar-dynamic-colors.directive';
-import { MatxAvatarIconFallbackComponent } from './avatar-icon-fallback.component';
-import { MatxAvatarImageDirective } from './avatar-image.directive';
-import { MatxAvatarInitialsFallbackComponent } from './avatar-initials-fallback.component';
-import {
-  MatxAvatarComponent,
-  MatxAvatarFallbackDirective,
-} from './avatar.component';
+import { MatxAvatar, MatxAvatarFallbackDirective } from './avatar';
+import { MatxAvatarDynamicColors } from './avatar-dynamic-colors';
+import { MatxAvatarIconFallback } from './avatar-icon-fallback';
+import { MatxAvatarImage } from './avatar-image';
+import { MatxAvatarInitialsFallback } from './avatar-initials-fallback';
 
-export type StoryArgTypes = MatxAvatarComponent &
+export type StoryArgTypes = MatxAvatar &
   HTMLImageElement &
-  MatxAvatarInitialsFallbackComponent &
-  MatxAvatarDynamicColorsDirective & {
+  MatxAvatarInitialsFallback &
+  MatxAvatarDynamicColors & {
     borderWidth: number;
     content: string;
   };
@@ -68,16 +65,16 @@ class MatxAvatarCustomIconComponent {}
 
 const meta: Meta<StoryArgTypes> = {
   title: 'Components/Avatar',
-  component: MatxAvatarComponent,
+  component: MatxAvatar,
   decorators: [
     moduleMetadata({
       imports: [
         MatxAvatarCustomIconComponent,
         MatxAvatarFallbackDirective,
-        MatxAvatarImageDirective,
-        MatxAvatarInitialsFallbackComponent,
-        MatxAvatarIconFallbackComponent,
-        MatxAvatarDynamicColorsDirective,
+        MatxAvatarImage,
+        MatxAvatarInitialsFallback,
+        MatxAvatarIconFallback,
+        MatxAvatarDynamicColors,
       ],
     }),
   ],

@@ -5,9 +5,9 @@ import {
 } from '@angular/core';
 
 @Component({
-    selector: 'matx-avatar-icon-fallback',
-    imports: [],
-    template: `<svg
+  selector: 'matx-avatar-icon-fallback',
+  imports: [],
+  template: `<svg
     xmlns="http://www.w3.org/2000/svg"
     role="img"
     viewBox="0 0 128 128"
@@ -20,20 +20,20 @@ import {
       d="M63.9961647,24 C51.2938136,24 41,34.2938136 41,46.9961647 C41,59.7061864 51.2938136,70 63.9961647,70 C76.6985159,70 87,59.7061864 87,46.9961647 C87,34.2938136 76.6985159,24 63.9961647,24"
     />
   </svg>`,
-    styles: `
-      matx-avatar-icon-fallback {
-        display: block;
+  styles: `
+    matx-avatar-icon-fallback {
+      display: block;
 
-        > svg {
-          width: 100%;
-          height: 100%;
-        }
+      > svg {
+        width: 100%;
+        height: 100%;
       }
-    `,
-    host: {
-        '[attr.aria-hidden]': 'true',
-    },
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None
+    }
+  `,
+  host: {
+    '[attr.aria-hidden]': 'true',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
-export class MatxAvatarIconFallbackComponent {}
+export class MatxAvatarIconFallback {}

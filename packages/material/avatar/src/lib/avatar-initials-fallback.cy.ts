@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { faker } from '@faker-js/faker';
+import { MatxAvatar } from './avatar';
 import {
   MATX_AVATAR_DYNAMIC_COLORS_FUNCTION,
-  MatxAvatarDynamicColorsDirective,
-} from './avatar-dynamic-colors.directive';
+  MatxAvatarDynamicColors,
+} from './avatar-dynamic-colors';
 import {
   MATX_AVATAR_INITIALS_INITIALS_FUNCTION,
-  MatxAvatarInitialsFallbackComponent,
-} from './avatar-initials-fallback.component';
-import { MatxAvatarComponent } from './avatar.component';
+  MatxAvatarInitialsFallback,
+} from './avatar-initials-fallback';
 
 const expectedInitials = 'AD';
 const expectedColors = {
@@ -22,7 +22,7 @@ const expectedColors = {
   template: `<matx-avatar>
     <matx-avatar-initials-fallback [initialsName]="initialsName" />
   </matx-avatar>`,
-  imports: [MatxAvatarComponent, MatxAvatarInitialsFallbackComponent],
+  imports: [MatxAvatar, MatxAvatarInitialsFallback],
 })
 class BasicComponent {
   initialsName = faker.person.fullName();
@@ -37,18 +37,14 @@ class BasicComponent {
       [colorsName]="colorsName"
     />
   </matx-avatar>`,
-  imports: [
-    MatxAvatarComponent,
-    MatxAvatarInitialsFallbackComponent,
-    MatxAvatarDynamicColorsDirective,
-  ],
+  imports: [MatxAvatar, MatxAvatarInitialsFallback, MatxAvatarDynamicColors],
 })
 class WithDynamicColorsComponent {
   initialsName = faker.person.fullName();
   colorsName = faker.internet.email();
 }
 
-describe(MatxAvatarInitialsFallbackComponent.name, () => {
+describe(MatxAvatarInitialsFallback.name, () => {
   describe('rendering', () => {
     beforeEach(() => {
       cy.mount(BasicComponent, {

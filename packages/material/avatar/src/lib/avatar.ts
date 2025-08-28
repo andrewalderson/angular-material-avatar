@@ -11,12 +11,12 @@ import {
   signal,
 } from '@angular/core';
 
-export interface MatxAvatar {
+export interface Avatar {
   _elementRef: ElementRef<HTMLElement>;
   _setUseImage: (value: boolean) => void;
 }
 
-export const MATX_AVATAR = new InjectionToken<MatxAvatar>('matxAvatar');
+export const MATX_AVATAR = new InjectionToken<Avatar>('matxAvatar');
 
 @Directive({
   selector: '[matxAvatarFallback]',
@@ -28,18 +28,18 @@ export const MATX_AVATAR = new InjectionToken<MatxAvatar>('matxAvatar');
 export class MatxAvatarFallbackDirective {}
 
 @Component({
-    selector: 'matx-avatar',
-    imports: [],
-    templateUrl: './avatar.component.html',
-    styleUrls: ['./avatar.component.scss'],
-    host: {
-        role: 'img',
-    },
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    providers: [{ provide: MATX_AVATAR, useExisting: MatxAvatarComponent }]
+  selector: 'matx-avatar',
+  imports: [],
+  templateUrl: './avatar.html',
+  styleUrls: ['./avatar.scss'],
+  host: {
+    role: 'img',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  providers: [{ provide: MATX_AVATAR, useExisting: MatxAvatar }],
 })
-export class MatxAvatarComponent implements MatxAvatar {
+export class MatxAvatar implements Avatar {
   public _elementRef: ElementRef<HTMLElement> = inject(ElementRef);
 
   protected readonly useImage = signal(false);

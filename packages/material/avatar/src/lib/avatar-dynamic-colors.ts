@@ -6,7 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { MATX_AVATAR } from './avatar.component';
+import { MATX_AVATAR } from './avatar';
 
 // these colors are the 700 values from the material color spec
 // the default contrast for all is white
@@ -71,36 +71,36 @@ export const MATX_AVATAR_DYNAMIC_COLORS_FUNCTION =
   selector: '[matxAvatarDynamicColors]',
   standalone: true,
 })
-export class MatxAvatarDynamicColorsDirective implements OnDestroy {
+export class MatxAvatarDynamicColors implements OnDestroy {
   // the css properties need to be set on the avatar
-  #avatarElement = inject(MATX_AVATAR)._elementRef.nativeElement;
+  private readonly _avatarElement =
+    inject(MATX_AVATAR)._elementRef.nativeElement;
 
-  #colorsFn = inject(MATX_AVATAR_DYNAMIC_COLORS_FUNCTION);
+  private readonly _colorsFn = inject(MATX_AVATAR_DYNAMIC_COLORS_FUNCTION);
 
   /**
    * Name (usually persons email address) used to render the colors
-   * If not set the colors will be rendered from the initialsName
    */
-  colorsName = input.required<string>();
+  readonly colorsName = input.required<string>();
 
   constructor() {
     effect((onCleanup) => {
       const name = this.colorsName();
       if (name) {
-        const colors = this.#colorsFn(name);
-        this.#setAvatarColorProperties(colors);
+        const colors = this._colorsFn(name);
+        this._setAvatarColorProperties(colors);
       }
 
-      onCleanup(() => this.#clearAvatarColorProperties());
+      onCleanup(() => this._clearAvatarColorProperties());
     });
   }
 
   ngOnDestroy(): void {
-    this.#clearAvatarColorProperties();
+    this._clearAvatarColorProperties();
   }
 
-  #setAvatarColorProperties(colors: MatxAvatarColors) {
-    const style = this.#avatarElement.style;
+  private _setAvatarColorProperties(colors: MatxAvatarColors) {
+    const style = this._avatarElement.style;
     style.setProperty('--matx-avatar-color', colors.foreground);
     style.setProperty('--matx-avatar-background-color', colors.background);
     style.setProperty(
@@ -109,8 +109,8 @@ export class MatxAvatarDynamicColorsDirective implements OnDestroy {
     );
   }
 
-  #clearAvatarColorProperties() {
-    const style = this.#avatarElement.style;
+  private _clearAvatarColorProperties() {
+    const style = this._avatarElement.style;
     style.removeProperty('--matx-avatar-color');
     style.removeProperty('--matx-avatar-background-color');
     style.removeProperty('--matx-avatar-border-color');

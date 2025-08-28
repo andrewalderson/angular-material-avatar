@@ -1,7 +1,4 @@
-import {
-  MatxAvatarComponent,
-  MatxAvatarFallbackDirective,
-} from './avatar.component';
+import { MatxAvatar, MatxAvatarFallbackDirective } from './avatar';
 
 import {
   ChangeDetectionStrategy,
@@ -11,9 +8,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { faker } from '@faker-js/faker';
-import { MatxAvatarIconFallbackComponent } from './avatar-icon-fallback.component';
-import { MatxAvatarImageDirective } from './avatar-image.directive';
-import { MatxAvatarInitialsFallbackComponent } from './avatar-initials-fallback.component';
+import { MatxAvatarIconFallback } from './avatar-icon-fallback';
+import { MatxAvatarImage } from './avatar-image';
+import { MatxAvatarInitialsFallback } from './avatar-initials-fallback';
 
 function getAvatarElement() {
   return cy.get('matx-avatar');
@@ -61,14 +58,14 @@ class MatxAvatarCustomIconComponent {}
 @Component({
   selector: 'matx-avatar-with-icon-fallback',
   template: `<matx-avatar><matx-avatar-icon-fallback /></matx-avatar>`,
-  imports: [MatxAvatarComponent, MatxAvatarIconFallbackComponent],
+  imports: [MatxAvatar, MatxAvatarIconFallback],
 })
 class AvatarWithIconFallbackComponent {}
 
 @Component({
   selector: 'matx-avatar-with-image',
   template: `<matx-avatar><img matxAvatarImage [src]="src()" /></matx-avatar>`,
-  imports: [MatxAvatarComponent, MatxAvatarImageDirective],
+  imports: [MatxAvatar, MatxAvatarImage],
 })
 class AvatarWithImageComponent {
   src = input<string>(faker.image.avatar());
@@ -79,11 +76,7 @@ class AvatarWithImageComponent {
   template: `<matx-avatar
     ><img matxAvatarImage [src]="src()" /><matx-avatar-icon-fallback
   /></matx-avatar>`,
-  imports: [
-    MatxAvatarComponent,
-    MatxAvatarImageDirective,
-    MatxAvatarIconFallbackComponent,
-  ],
+  imports: [MatxAvatar, MatxAvatarImage, MatxAvatarIconFallback],
 })
 class AvatarWithImageAndIconFallbackComponent {
   src = input<string>(faker.image.avatar());
@@ -95,7 +88,7 @@ class AvatarWithImageAndIconFallbackComponent {
     ><matx-avatar-custom-fallback matxAvatarFallback
   /></matx-avatar>`,
   imports: [
-    MatxAvatarComponent,
+    MatxAvatar,
     MatxAvatarCustomIconComponent,
     MatxAvatarFallbackDirective,
   ],
@@ -107,7 +100,7 @@ class AvatarWithCustomFallbackComponent {}
   template: `<matx-avatar>
     <matx-avatar-initials-fallback [initialsName]="initialsName()" />
   </matx-avatar>`,
-  imports: [MatxAvatarComponent, MatxAvatarInitialsFallbackComponent],
+  imports: [MatxAvatar, MatxAvatarInitialsFallback],
 })
 class AvatarWithInitialsComponent {
   initialsName = input<string>(faker.person.fullName());
@@ -118,18 +111,18 @@ class AvatarWithInitialsComponent {
 @Component({
   selector: 'matx-avatar-without-aria-hidden',
   template: `<matx-avatar />`,
-  imports: [MatxAvatarComponent],
+  imports: [MatxAvatar],
 })
 class AvatarWithoutAriaHiddenComponent {}
 
 @Component({
   selector: 'matx-basic-avatar',
   template: `<matx-avatar aria-hidden="false" />`,
-  imports: [MatxAvatarComponent],
+  imports: [MatxAvatar],
 })
 class AvatarWithAriaHiddenFalseComponent {}
 
-describe(MatxAvatarComponent.name, () => {
+describe(MatxAvatar.name, () => {
   describe('rendering', () => {
     context('given an image is not added', () => {
       context('and an icon fallback is defined', () => {
