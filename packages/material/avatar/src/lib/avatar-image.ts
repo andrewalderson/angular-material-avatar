@@ -23,6 +23,8 @@ export class MatxAvatarImage {
     inject(ElementRef).nativeElement;
   private readonly _renderer = inject(Renderer2);
 
+  private _unlistenFns: VoidFunction[] = [];
+
   /**
    * https://html.spec.whatwg.org/multipage/images.html#device-pixel-ratio
    * The expection for an avatar is that it is not responsive (is not dependent on viewport size)
@@ -39,29 +41,32 @@ export class MatxAvatarImage {
     if (isDevMode()) {
       assertImageWidthAndHeightNotSet(this._element);
     }
-    this._notifyAvatarOfImage();
+    this._listenForSrcChanges();
   }
 
-  private _notifyAvatarOfImage() {
-    effect(() => {
+  private _cleanUp() {
+    this._unlistenFns.forEach((fn) => fn());
+    this._unlistenFns = [];
+  }
+
+  private _cleanUpAndNotifyAvatarOfImage() {
+    this._cleanUp();
+    const useImage = isImageAvailable(this._element);
+    untracked(() => this._avatar._setUseImage(useImage));
+  }
+
+  private _listenForSrcChanges() {
+    effect((onCleanup) => {
       const src = this.src();
 
-      const callback = () => {
-        removeLoadListenerFn();
-        removeErrorListenerFn();
-        const useImage = isImageAvailable(this._element);
-        untracked(() => this._avatar._setUseImage(useImage));
-      };
-      const removeLoadListenerFn = this._renderer.listen(
-        this._element,
-        'load',
-        callback,
-      );
-      const removeErrorListenerFn = this._renderer.listen(
-        this._element,
-        'error',
-        callback,
-      );
+      onCleanup(() => this._cleanUp());
+
+      const callback = this._cleanUpAndNotifyAvatarOfImage.bind(this);
+
+      this._unlistenFns = [
+        this._renderer.listen(this._element, 'load', callback),
+        this._renderer.listen(this._element, 'error', callback),
+      ];
       this._renderer.setAttribute(this._element, 'src', src);
 
       callOnLoadIfImageAvailable(this._element, callback);
