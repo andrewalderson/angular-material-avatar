@@ -1,6 +1,7 @@
 import {
   Directive,
   ElementRef,
+  NgZone,
   Renderer2,
   effect,
   inject,
@@ -22,6 +23,7 @@ export class MatxAvatarImage {
   private readonly _element: HTMLImageElement =
     inject(ElementRef).nativeElement;
   private readonly _renderer = inject(Renderer2);
+  private readonly _ngZone = inject(NgZone);
 
   private _unlistenFns: VoidFunction[] = [];
 
@@ -52,7 +54,9 @@ export class MatxAvatarImage {
   private _cleanUpAndNotifyAvatarOfImage() {
     this._cleanUp();
     const useImage = isImageAvailable(this._element);
-    untracked(() => this._avatar._setUseImage(useImage));
+    this._ngZone.run(() =>
+      untracked(() => this._avatar._setUseImage(useImage)),
+    );
   }
 
   private _listenForSrcChanges() {
@@ -63,10 +67,12 @@ export class MatxAvatarImage {
 
       const callback = this._cleanUpAndNotifyAvatarOfImage.bind(this);
 
-      this._unlistenFns = [
-        this._renderer.listen(this._element, 'load', callback),
-        this._renderer.listen(this._element, 'error', callback),
-      ];
+      this._ngZone.runOutsideAngular(() => {
+        this._unlistenFns = [
+          this._renderer.listen(this._element, 'load', callback),
+          this._renderer.listen(this._element, 'error', callback),
+        ];
+      });
       this._renderer.setAttribute(this._element, 'src', src);
 
       callOnLoadIfImageAvailable(this._element, callback);
