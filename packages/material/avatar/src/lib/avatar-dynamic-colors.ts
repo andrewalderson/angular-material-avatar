@@ -8,30 +8,6 @@ import {
 } from '@angular/core';
 import { MATX_AVATAR } from './avatar';
 
-// these colors are the 700 values from the material color spec
-// the default contrast for all is white
-const COLOR_TABLE = [
-  '#D32F2F',
-  '#C2185B',
-  '#7B1FA2',
-  '#512DA8',
-  '#303F9F',
-  '#1976D2',
-  '#0288D1',
-  '#0097A7',
-  '#00796B',
-  '#388E3C',
-  '#689F38',
-  '#AFB42B',
-  '#FBC02D',
-  '#FFA000',
-  '#F57C00',
-  '#E64A19',
-  '#5D4037',
-  '#616161',
-  '#455A64',
-];
-
 export type MatxAvatarColors = {
   foreground: string;
   background: string;
@@ -40,21 +16,31 @@ export type MatxAvatarColors = {
 
 export type MatxAvatarDynamicColorFn = (name?: string) => MatxAvatarColors;
 
+function hashStringToHue(str: string): number {
+  let hash = 5381;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) + hash + str.charCodeAt(i);
+  }
+  return Math.abs(hash) % 360;
+}
+
 function MATX_AVATAR_DYNAMIC_COLORS_FUNCTION_FACTORY(): MatxAvatarDynamicColorFn {
   return (name?: string) => {
     if (!name) {
       return { background: 'transparent', foreground: '#ffffff' };
     }
-    let hashCode = 0;
-    for (let i = name.length - 1; i >= 0; i--) {
-      const ch = name.charCodeAt(i);
-      const shift = i % 8;
-      hashCode ^= (ch << shift) + (ch >> (8 - shift));
-    }
-    return {
-      background: COLOR_TABLE[hashCode % COLOR_TABLE.length],
-      foreground: '#ffffff',
-    };
+    /**
+     * This is a default implementation for generating a color with at least 4.5:1 (WCAG guidelines)
+     * contrast with white (desired text color)
+     * The colors produced may not match the style of the design system used by your app.
+     * There are many different implementations that can be used to do this same task
+     * and this one is choosen for simplicity and performance.
+     * You are free to provide an different implementaion based on your apps needs
+     * and characteristics.
+     */
+    const hue = hashStringToHue(name);
+    const background = `hsl(${hue}, 70%, 30%)`;
+    return { background, foreground: '#ffffff' };
   };
 }
 
